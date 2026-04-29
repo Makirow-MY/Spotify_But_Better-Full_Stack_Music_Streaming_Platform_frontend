@@ -1,6 +1,6 @@
 // HomePage.tsx
 import { useEffect, useState } from "react";
-import { Menu, X, Bell, Sun, Moon, ChevronDown, LogIn, SearchIcon } from "lucide-react";
+import { Menu,Bell, Sun, Moon,SearchIcon } from "lucide-react";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { useMusicStore } from "@/stores/useMusicStore";
 import { usePlayerStore } from "@/stores/usePlayerStore";
@@ -14,9 +14,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import LeftSidebar from "@/layout/components/LeftSidebar";
 import AudioPlayer from "@/layout/components/AudioPlayer";
 import UserDropdown from "@/layout/components/UserDropdown";
-import FriendsActivity from "@/layout/components/FriendsActivity";
 import RightSidebar from "@/layout/components/RightSidebar";
-import FeaturedGridSkeleton from "@/components/skeletons/FeaturedGridSkeleton";
+
 
 const HomePage = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);

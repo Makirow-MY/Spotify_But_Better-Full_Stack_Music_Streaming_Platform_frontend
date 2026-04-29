@@ -1,18 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useAuthStore } from "@/stores/useAuthStore";
 import { useChatStore } from "@/stores/useChatStore";
-import { useUser } from "@clerk/clerk-react";
 import { Send } from "lucide-react";
 import { useState } from "react";
 
 const MessageInput = () => {
 	const [newMessage, setNewMessage] = useState("");
-	const { user } = useUser();
+	const {authUser } = useAuthStore();
 	const { selectedUser, sendMessage } = useChatStore();
 
 	const handleSend = () => {
-		if (!selectedUser || !user || !newMessage) return;
-		sendMessage(selectedUser.clerkId, user.id, newMessage.trim());
+		if (!selectedUser || !authUser || !newMessage) return;
+		sendMessage(selectedUser._id, authUser._id, newMessage.trim());
 		setNewMessage("");
 	};
 

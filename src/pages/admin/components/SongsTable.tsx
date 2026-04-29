@@ -25,7 +25,7 @@ const SongsTable = () => {
 	return (
 		<Table>
 			<TableHeader>
-				<TableRow className='hover:bg-zinc-800/50'>
+				<TableRow>
 					<TableHead className='text-primary w-[50px]'></TableHead>
 					<TableHead className='text-primary'>Title</TableHead>
 					<TableHead className='text-primary'>Artist</TableHead>
@@ -36,7 +36,7 @@ const SongsTable = () => {
 
 			<TableBody>
 				{songs.map((song) => (
-					<TableRow key={song._id} className='hover:bg-zinc-800/50'>
+					<TableRow key={song._id} className='hover:bg-primary/50'>
 						<TableCell>
 							<img src={song.imageUrl} alt={song.title} className='size-10 rounded object-cover' />
 						</TableCell>

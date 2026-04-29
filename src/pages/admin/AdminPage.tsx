@@ -7,6 +7,7 @@ import AlbumsTabContent from "./components/AlbumsTabContent";
 import { useEffect } from "react";
 import { useMusicStore } from "@/stores/useMusicStore";
 import AdminHeader from "./components/Header";
+import { redirect } from "next/navigation";
 
 const AdminPage = () => {
 	const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -21,6 +22,7 @@ const AdminPage = () => {
 	}, [fetchAlbums, fetchSongs,checkAuth, fetchStats]);
 
 	if (!authUser && !isCheckingAuth) return <div>Unauthorized</div>;
+//	if (!authUser && isCheckingAuth) return redirect("/");
 
 	return (
 		<div

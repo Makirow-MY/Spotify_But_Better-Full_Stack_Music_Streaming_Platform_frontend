@@ -14,7 +14,7 @@ const AlbumsTable = () => {
 	return (
 		<Table>
 			<TableHeader>
-				<TableRow className='hover:bg-zinc-800/50'>
+				<TableRow>
 					<TableHead className='w-[50px]'></TableHead>
 					<TableHead className='text-primary'>Title</TableHead>
 					<TableHead className='text-primary'>Artist</TableHead>
@@ -25,7 +25,7 @@ const AlbumsTable = () => {
 			</TableHeader>
 			<TableBody>
 				{albums.map((album) => (
-					<TableRow key={album._id} className='hover:bg-zinc-800/50'>
+					<TableRow key={album._id} className='hover:bg-primary/50'>
 						<TableCell>
 							<img src={album.imageUrl} alt={album.title} className='w-10 h-10 rounded object-cover' />
 						</TableCell>

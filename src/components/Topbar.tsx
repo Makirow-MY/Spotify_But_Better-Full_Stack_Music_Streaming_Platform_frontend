@@ -7,8 +7,8 @@ import { cn } from "@/lib/utils";
 import { buttonVariants } from "./ui/button";
 
 const Topbar = () => {
-	const { isAdmin } = useAuthStore();
-	console.log({ isAdmin });
+	const { authUser } = useAuthStore();
+	//console.log({ isAdmin });
 
 	return (
 		<div
@@ -21,18 +21,18 @@ const Topbar = () => {
 				Spotify
 			</div>
 			<div className='flex items-center gap-4'>
-				{isAdmin && (
+				{authUser && (
 					<Link to={"/admin"} className={cn(buttonVariants({ variant: "outline" }))}>
 						<LayoutDashboardIcon className='size-4  mr-2' />
 						Admin Dashboard
 					</Link>
 				)}
 
-				<SignedOut>
+				{/* <SignedOut>
 					<SignInOAuthButtons />
 				</SignedOut>
 
-				<UserButton />
+				<UserButton /> */}
 			</div>
 		</div>
 	);

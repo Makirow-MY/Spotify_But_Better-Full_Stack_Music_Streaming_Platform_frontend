@@ -28,7 +28,7 @@ const AddSongDialog = () => {
 	const { albums } = useMusicStore();
 	const [songDialogOpen, setSongDialogOpen] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
-const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
+const {checkAuth} = useAuthStore();
 
 	const { fetchAlbums, fetchSongs, fetchStats } = useMusicStore();
 
@@ -52,7 +52,7 @@ const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
 		fetchSongs();
 		fetchStats();
 		checkAuth();
-	}, [fetchAlbums, fetchSongs,checkAuth, fetchStats, albums.length, newSong, songDialogOpen, files]);
+	}, [fetchAlbums, fetchSongs,checkAuth, fetchStats, albums.length, songDialogOpen, files]);
 
 	const handleSubmit = async () => {
 		setIsLoading(true);
@@ -109,7 +109,7 @@ const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
 				</Button>
 			</DialogTrigger>
 
-			<DialogContent className='bg-zinc-900 border-zinc-700 max-h-[80vh] overflow-auto'>
+			<DialogContent className='bg-secondary shadow-sm border-zinc-700 max-h-[80vh] overflow-auto'>
 				<DialogHeader>
 					<DialogTitle>Add New Song</DialogTitle>
 					<DialogDescription>Add a new song to your music library</DialogDescription>
@@ -141,14 +141,14 @@ const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
 							{files.image ? (
 								<div className='space-y-2'>
 									<div className='text-sm text-emerald-500'>Image selected:</div>
-									<div className='text-xs text-zinc-400'>{files.image.name.slice(0, 20)}</div>
+									<div className='text-xs text-muted-foreground'>{files.image.name.slice(0, 20)}</div>
 								</div>
 							) : (
 								<>
-									<div className='p-3 bg-zinc-800 rounded-full inline-block mb-2'>
-										<Upload className='h-6 w-6 text-zinc-400' />
+									<div className='p-3 bg-white/20 rounded-full inline-block mb-2'>
+										<Upload className='h-6 w-6 text-muted-foreground' />
 									</div>
-									<div className='text-sm text-zinc-400 mb-2'>Upload artwork</div>
+									<div className='text-sm text-muted-foreground mb-2'>Upload artwork</div>
 									<Button variant='outline' size='sm' className='text-xs'>
 										Choose File
 									</Button>
@@ -173,7 +173,7 @@ const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
 						<Input
 							value={newSong.title}
 							onChange={(e) => setNewSong({ ...newSong, title: e.target.value })}
-							className='bg-zinc-800 border-zinc-700'
+							className='bg-white/20 border-zinc-700'
 						/>
 					</div>
 
@@ -182,7 +182,7 @@ const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
 						<Input
 							value={newSong.artist}
 							onChange={(e) => setNewSong({ ...newSong, artist: e.target.value })}
-							className='bg-zinc-800 border-zinc-700'
+							className='bg-white/20 border-zinc-700'
 						/>
 					</div>
 
@@ -193,7 +193,7 @@ const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
 							min='0'
 							value={newSong.duration}
 							onChange={(e) => setNewSong({ ...newSong, duration: e.target.value || "0" })}
-							className='bg-zinc-800 border-zinc-700'
+							className='bg-white/20 border-zinc-700'
 						/>
 					</div>
 
@@ -203,10 +203,10 @@ const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
 							value={newSong.album}
 							onValueChange={(value) => setNewSong({ ...newSong, album: value })}
 						>
-							<SelectTrigger className='bg-zinc-800 border-zinc-700'>
+							<SelectTrigger className='bg-white/20 border-zinc-700'>
 								<SelectValue placeholder='Select album' />
 							</SelectTrigger>
-							<SelectContent className='bg-zinc-800 border-zinc-700'>
+							<SelectContent className='bg-white/20 border-zinc-700'>
 								<SelectItem value='none'>No Album (Single)</SelectItem>
 								{albums.map((album) => (
 									<SelectItem key={album._id} value={album._id}>
@@ -219,9 +219,6 @@ const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
 				</div>
 
 				<DialogFooter>
-					<Button variant='outline' onClick={() => setSongDialogOpen(false)} disabled={isLoading}>
-						Cancel
-					</Button>
 					<Button onClick={handleSubmit} disabled={isLoading}>
 						{isLoading ? "Uploading..." : "Add Song"}
 					</Button>

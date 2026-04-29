@@ -1,7 +1,8 @@
 // components/LeftSidebar.tsx
-import { useState } from "react";
-import { Home, Search, Library, PlusCircle, Heart, X, ChevronLeft, ChevronRight, MenuIcon } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Home, Search, Library, PlusCircle,  X, ChevronLeft, ChevronRight, } from "lucide-react";
 import { useThemeStore } from "@/stores/useThemeStore";
+import { useMusicStore } from "@/stores/useMusicStore";
 
 interface LeftSidebarProps {
   isOpen: boolean;           // For mobile drawer
@@ -11,8 +12,14 @@ interface LeftSidebarProps {
 }
 
 const LeftSidebar = ({ isOpen, onClose, isCollapsed, toggleCollapse }: LeftSidebarProps) => {
-  const [playlists] = useState(Array.from({ length: 6 }, (_, i) => `My Playlist ${i + 1}`));
-const { isDark, toggleTheme } = useThemeStore();
+  	const { albums, deleteAlbum, fetchAlbums } = useMusicStore();
+  
+
+	const [playlists] = useState(Array.from({ length: 6 }, (_, i) => `My Playlist ${i + 1}`));
+const { isDark } = useThemeStore();
+	useEffect(() => {
+		fetchAlbums();
+	}, [fetchAlbums]);
   return (
 	<>
 	  {/* Mobile Overlay */}
@@ -80,23 +87,23 @@ const { isDark, toggleTheme } = useThemeStore();
 		  <div className={`flex items-center justify-between mb-4 px-4 ${isCollapsed ? 'justify-center' : ''}`}>
 			{!isCollapsed && (
 			  <h3 className="text-xs font-semibold text-primary uppercase tracking-widest">
-				Playlists
+				My Albums
 			  </h3>
 			)}
 			<PlusCircle size={20} className="text-primary cursor-pointer" />
 		  </div>
 
 		  <div className={`flex-1 ${isCollapsed ? "overflow-hidden" : "overflow-y-auto"}  space-y-1 pr-2`}>
-			{playlists.map((playlist, index) => (
+			{albums.map((playlist, index) => (
 			  <a
 				key={index}
-				href="#"
-				className={`flex items-center gap-3 py-2.5 rounded-xl hover:bg-white/10 transition-all
+				href={`/album/${playlist._id}`}
+				className={`flex items-center gap-3 py-2.5 rounded-xl hover:bg-secondary-foreground/20 transition-all
 				  ${isCollapsed ? 'justify-center px-2' : 'px-4'}`}
 			  >
-				<img src="/placeholder.svg" className="w-10 h-10 bg-neutral-700 object-cover rounded flex-shrink-0" />
+				<img src={playlist.imageUrl} className="w-10 h-10 bg-neutral-700 object-cover rounded flex-shrink-0" />
 				{!isCollapsed && (
-				  <span className="text-sm truncate">{playlist}</span>
+				  <span className="text-sm truncate">{playlist.title}</span>
 				)}
 			  </a>
 			))}
