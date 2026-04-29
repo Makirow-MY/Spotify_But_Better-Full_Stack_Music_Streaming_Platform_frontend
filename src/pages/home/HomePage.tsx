@@ -15,6 +15,8 @@ import LeftSidebar from "@/layout/components/LeftSidebar";
 import AudioPlayer from "@/layout/components/AudioPlayer";
 import UserDropdown from "@/layout/components/UserDropdown";
 import RightSidebar from "@/layout/components/RightSidebar";
+import AlbumBanner from "../album/albumBanner";
+import InfiniteScroll from "@/layout/components/InfiniteScroll";
 
 
 const HomePage = () => {
@@ -26,8 +28,16 @@ const HomePage = () => {
   const [isRCollapsed, setIsRCollapsed] = useState(true);
 
   const { authUser, checkAuth } = useAuthStore();
-  const { fetchFeaturedSongs, fetchMadeForYouSongs, fetchTrendingSongs, madeForYouSongs, featuredSongs, trendingSongs } = useMusicStore();
-  const { initializeQueue } = usePlayerStore();
+  const { fetchFeaturedSongs, fetchMadeForYouSongs, 
+    allSongs,
+    isLoading,
+    isLoadingMore,
+    hasMore,
+    
+    loadMoreSongs,
+    fetchAllSongs,
+    fetchTrendingSongs, albums, currentAlbum, madeForYouSongs, featuredSongs, trendingSongs } = useMusicStore();
+  const { initializeQueue , currentSong} = usePlayerStore();
   const { isDark, toggleTheme } = useThemeStore();
 
   const toggleCollapse = () => setIsCollapsed(!isCollapsed);
@@ -38,15 +48,18 @@ const HomePage = () => {
     fetchFeaturedSongs();
     fetchMadeForYouSongs();
     fetchTrendingSongs();
-  }, [checkAuth, fetchFeaturedSongs, fetchMadeForYouSongs, fetchTrendingSongs]);
+    fetchAllSongs(true);
+  }, [checkAuth]);
 
   // Initialize player queue
   useEffect(() => {
-    if (madeForYouSongs.length > 0 && featuredSongs.length > 0 && trendingSongs.length > 0) {
+   if (currentSong || currentAlbum) {
+      if (madeForYouSongs.length > 0 && featuredSongs.length > 0 && trendingSongs.length > 0) {
       const allSongs = [...featuredSongs, ...madeForYouSongs, ...trendingSongs];
       initializeQueue(allSongs);
     }
-  }, [initializeQueue, madeForYouSongs, featuredSongs, trendingSongs]);
+   }
+  }, [currentSong, currentAlbum ]);
 
   return (
     <div className={`flex h-screen overflow-hidden ${isDark ? 'bg-black text-white' : 'bg-zinc-100 text-zinc-900'}`}>
@@ -125,21 +138,42 @@ const HomePage = () => {
         {/* Main Scrollable Content */}
         <ScrollArea className="flex-1">
           <div className="p-4 md:p-6 lg:p-8 max-w-screen-2xl mx-auto">
-            <h1 className="text-3xl md:text-4xl font-bold mb-8">Good afternoon</h1>
-            <FeaturedSection />
-            <div className="space-y-8 mt-10">
-              <SectionGrid title="Made For You" songs={madeForYouSongs || []} isLoading={false} />
-              <SectionGrid title="Trending" songs={trendingSongs || []} isLoading={false} />
-            
-               <SectionGrid title="Albums" songs={trendingSongs || []} isLoading={false} />
+            {/* {currentAlbum && <div className="h-[50vh] relative bg-white overflow-hidden rounded-sm">
+              <img src={currentAlbum?.imageUrl || "/placeholder.svg"} className="absolute top-0 left-0 z-50 w-full h-full object-cover "/>
+              <div className="absolute top-0 flex items-center justify-start left-0 bg-secondary-foreground/10 z-50 w-full h-full object-cover ">
+                   <button className="mt-auto ml-[20%] mb-5 py-2 px-3 bg-primary">Play</button>
+              </div>
+            </div>} */}
+                        {(albums.length > 0 && !currentAlbum) && <AlbumBanner album={albums[Math.floor(Math.random() * albums?.length)]} />}
+            {(albums.length > 0 && !currentAlbum) && <FeaturedSection />}
+                        {currentAlbum && <AlbumBanner album={currentAlbum} />}
+            {currentAlbum && <FeaturedSection />}
+            <div className="space-y-8">
+           <div className="mt-12">
+              <h2 className="text-3xl font-bold tracking-tight mb-6 px-2">Discover All Songs</h2>
+              
+              <InfiniteScroll
+                loadMore={loadMoreSongs}
+                hasMore={hasMore}
+                isLoadingMore={isLoadingMore}
+              >
+                <SectionGrid 
+                  title="" 
+                  songs={allSongs} 
+                  isLoading={isLoading} 
+                  columns={4}
+                  showAllLink={false}
+                />
+              </InfiniteScroll>
+            </div>
             </div>
           </div>
         </ScrollArea>
 
-        <AudioPlayer />
+       {(currentSong || currentAlbum) && <AudioPlayer />}
       </div>
 
-      <RightSidebar isCollapsed={isRCollapsed} onClose={() => setIsRSidebarOpen(false)} toggleCollapse={() => setIsRCollapsed(!isRCollapsed)} isOpen={isRSidebarOpen} />
+     {currentSong && <RightSidebar isCollapsed={isRCollapsed} onClose={() => setIsRSidebarOpen(false)} toggleCollapse={() => setIsRCollapsed(!isRCollapsed)} isOpen={isRSidebarOpen} />}
 
       {/* Auth Modal */}
       <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />

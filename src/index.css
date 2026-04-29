@@ -66,4 +66,42 @@
 	body {
 		@apply bg-background text-foreground;
 	}
+	@keyframes soundbar1 {
+  0%, 100% { height: 6px; }
+  50% { height: 18px; }
+}
+
+@keyframes soundbar2 {
+  0%, 100% { height: 10px; }
+  50% { height: 22px; }
+}
+
+@keyframes soundbar3 {
+  0%, 100% { height: 8px; }
+  50% { height: 16px; }
+}
+
+.animate-soundbar1 { animation: soundbar1 0.8s infinite ease-in-out; }
+.animate-soundbar2 { animation: soundbar2 0.7s infinite ease-in-out; }
+.animate-soundbar3 { animation: soundbar3 0.9s infinite ease-in-out; }
+
+
+@keyframes soundbar1 {
+  0%, 100% { height: 5px; }
+  50% { height: 12px; }
+}
+
+@keyframes soundbar2 {
+  0%, 100% { height: 8px; }
+  50% { height: 14px; }
+}
+
+@keyframes soundbar3 {
+  0%, 100% { height: 6px; }
+  50% { height: 11px; }
+}
+
+.animate-soundbar1 { animation: soundbar1 0.75s infinite ease-in-out; }
+.animate-soundbar2 { animation: soundbar2 0.85s infinite ease-in-out; }
+.animate-soundbar3 { animation: soundbar3 0.65s infinite ease-in-out; }
 }

@@ -1,6 +1,6 @@
 // components/UserDropdown.tsx
 import { useState } from "react";
-import { ChevronDown, User, LogOut, Mic, HomeIcon, VideoIcon } from "lucide-react";
+import { ChevronDown, User, LogOut,  HomeIcon, VideoIcon } from "lucide-react";
 //import ProfileModal from "./ProfileModal";
 import { useAuthStore } from "@/stores/useAuthStore";
 import ProfileModal from "./ProfileModal";
@@ -28,7 +28,7 @@ const UserDropdown = ({ user, admin }: {user:any; admin?:boolean}) => {
       </button>
 
       {isOpen && (
-        <div onMouseLeave={() => setIsOpen(false)} className="absolute right-0 mt-2 w-56 bg-secondary border shadow-lg rounded-xl shadow-2xl py-2 z-50">
+        <div onMouseLeave={() => setIsOpen(false)} className="absolute right-0 mt-2 w-56 bg-secondary border  rounded-xl shadow-2xl py-2 z-50">
           <div className="px-4 py-3 border-b border-neutral-700">
             <p className="font-medium truncate">{user.fullName}</p>
             <p className="text-xs text-gray-400 truncate">{user.email}</p>

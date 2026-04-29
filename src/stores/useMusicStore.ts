@@ -1,8 +1,10 @@
 import { axiosInstance } from "@/lib/axios";
 import { Album, Song, Stats } from "@/types";
-import axios from "axios";
+
 import toast from "react-hot-toast";
 import { create } from "zustand";
+import { useChatStore } from "./useChatStore";
+
 
 interface MusicStore {
 	songs: Song[];
@@ -15,7 +17,15 @@ interface MusicStore {
 	trendingSongs: Song[];
 	stats: Stats;
 
+	// Infinite scroll states
+  allSongs: Song[];           // For main "All Songs" or big grid
+  page: number;
+  hasMore: boolean;
+  isLoadingMore: boolean;
+
+
 	fetchAlbums: () => Promise<void>;
+	setCurrentAlbum: (album: Album | null) => void;
 	fetchAlbumById: (id: string) => Promise<void>;
 	fetchFeaturedSongs: () => Promise<void>;
 	fetchMadeForYouSongs: () => Promise<void>;
@@ -24,10 +34,13 @@ interface MusicStore {
 	fetchSongs: () => Promise<void>;
 	deleteSong: (id: string) => Promise<void>;
 	deleteAlbum: (id: string) => Promise<void>;
+	 // New infinite scroll functions
+  fetchAllSongs: (reset?: boolean) => Promise<void>;
+  loadMoreSongs: () => Promise<void>;
 }
 
-const SERVER_URL = "http://localhost:5000/api"
-export const useMusicStore = create<MusicStore>((set) => ({
+
+export const useMusicStore = create<MusicStore>((set, get) => ({
 	albums: [],
 	songs: [],
 	isLoading: false,
@@ -36,12 +49,35 @@ export const useMusicStore = create<MusicStore>((set) => ({
 	madeForYouSongs: [],
 	featuredSongs: [],
 	trendingSongs: [],
+	allSongs: [],
+  page: 1,
+  hasMore: true,
+  isLoadingMore: false,
 	stats: {
 		totalSongs: 0,
 		totalAlbums: 0,
 		totalUsers: 0,
 		totalArtists: 0,
 	},
+
+	setCurrentAlbum: (album: Album | null) => {
+			if (!album) return;
+	
+			const socket = useChatStore.getState().socket;
+		
+			if (socket.auth) {
+				socket.emit("update_activity", {
+					userId: socket.auth.userId,
+					activity: `Playing ${album.title} by ${album.artist}`,
+				});
+			}
+	
+			set({
+				currentAlbum: album,
+			
+			});
+		},
+	
 
 	deleteSong: async (id) => {
 		set({ isLoading: true, error: null });
@@ -59,7 +95,55 @@ export const useMusicStore = create<MusicStore>((set) => ({
 			set({ isLoading: false });
 		}
 	},
+fetchAllSongs: async (reset = false) => {
+  if (reset) {
+    set({ allSongs: [], page: 1, hasMore: true, isLoadingMore: false });
+  }
 
+  set({ isLoading: true, error: null });
+
+  try {
+    const response = await axiosInstance.get(`/songs?page=1&limit=20`);
+    const songs = response.data.songs || response.data;
+    const hasMore = response.data.hasMore ?? (songs.length === 20);
+
+    set({
+      allSongs: songs,
+      page: 2,
+      hasMore,
+    });
+  } catch (error: any) {
+    console.error(error);
+    set({ error: "Failed to load songs" });
+    toast.error("Failed to load songs");
+  } finally {
+    set({ isLoading: false });
+  }
+},
+
+loadMoreSongs: async () => {
+  const { page, hasMore, isLoadingMore } = get();
+  if (!hasMore || isLoadingMore) return;
+
+  set({ isLoadingMore: true });
+
+  try {
+    const response = await axiosInstance.get(`/songs?page=${page}&limit=20`);
+    const newSongs = response.data.songs || response.data;
+    const hasMoreNew = response.data.hasMore ?? (newSongs.length === 20);
+
+    set((state) => ({
+      allSongs: [...state.allSongs, ...newSongs],
+      page: state.page + 1,
+      hasMore: hasMoreNew,
+    }));
+  } catch (error) {
+    console.error("Error loading more songs:", error);
+    toast.error("Failed to load more songs");
+  } finally {
+    set({ isLoadingMore: false });
+  }
+},
 	deleteAlbum: async (id) => {
 		set({ isLoading: true, error: null });
 		try {
@@ -108,6 +192,7 @@ export const useMusicStore = create<MusicStore>((set) => ({
 
 		try {
 			const response = await axiosInstance.get(`/albums`);
+			//set({ currentAlbum: response.data[Math.floor(Math.random() * response.data?.length)] });
 			set({ albums: response.data });
 		} catch (error: any) {
 			set({ error: error.response.data.message });

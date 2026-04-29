@@ -1,8 +1,9 @@
 // components/LeftSidebar.tsx
-import { useEffect, useState } from "react";
-import { Home, Search, Library, PlusCircle,  X, ChevronLeft, ChevronRight, } from "lucide-react";
+import { useEffect} from "react";
+import { Home,  Library, PlusCircle,  X, ChevronLeft, ChevronRight, Volume2, } from "lucide-react";
 import { useThemeStore } from "@/stores/useThemeStore";
 import { useMusicStore } from "@/stores/useMusicStore";
+import { usePlayerStore } from "@/stores/usePlayerStore";
 
 interface LeftSidebarProps {
   isOpen: boolean;           // For mobile drawer
@@ -12,10 +13,9 @@ interface LeftSidebarProps {
 }
 
 const LeftSidebar = ({ isOpen, onClose, isCollapsed, toggleCollapse }: LeftSidebarProps) => {
-  	const { albums, deleteAlbum, fetchAlbums } = useMusicStore();
+  	const { albums,setCurrentAlbum, currentAlbum, fetchAlbums } = useMusicStore();
+	const { currentSong, isPlaying } = usePlayerStore();
   
-
-	const [playlists] = useState(Array.from({ length: 6 }, (_, i) => `My Playlist ${i + 1}`));
 const { isDark } = useThemeStore();
 	useEffect(() => {
 		fetchAlbums();
@@ -36,7 +36,7 @@ const { isDark } = useThemeStore();
 		  border-r border-neutral-800 
 		  flex flex-col h-full transition-all duration-300
 		  ${isOpen ? isDark ? 'bg-black/80 translate-x-0' : "bg-white/80 translate-x-0" : '-translate-x-full lg:translate-x-0'}
-		  ${isCollapsed ? 'w-20' : 'w-60'}
+		  ${isCollapsed ? 'w-20' : 'w-65'}
 		`}
 	  >
 		{/* Header */}
@@ -66,8 +66,8 @@ const { isDark } = useThemeStore();
 		<nav className="px-3 space-y-1 py-2">
 		  {[
 			{ icon: Home, label: "Home", active: true },
-			{ icon: Search, label: "Search" },
-			{ icon: Library, label: "Your Library" },
+			{ icon: Library, label: "Library", active: false },
+		
 		  ].map((item, i) => (
 			<a
 			  key={i}
@@ -83,32 +83,89 @@ const { isDark } = useThemeStore();
 		</nav>
 
 		{/* Playlists Section */}
-		<div className="mt-6 px-3 flex-1 flex flex-col overflow-hidden">
-		  <div className={`flex items-center justify-between mb-4 px-4 ${isCollapsed ? 'justify-center' : ''}`}>
-			{!isCollapsed && (
-			  <h3 className="text-xs font-semibold text-primary uppercase tracking-widest">
-				My Albums
-			  </h3>
-			)}
-			<PlusCircle size={20} className="text-primary cursor-pointer" />
-		  </div>
+	<div className="mt-6 px-3 flex-1 flex flex-col overflow-hidden">
+  <div className={`flex items-center justify-between mb-4 px-4 ${isCollapsed ? 'justify-center' : ''}`}>
+    {!isCollapsed && (
+      <h3 className="text-xs font-semibold text-primary uppercase tracking-widest">
+        My Albums
+      </h3>
+    )}
+    <PlusCircle size={20} className="text-primary cursor-pointer" />
+  </div>
 
-		  <div className={`flex-1 ${isCollapsed ? "overflow-hidden" : "overflow-y-auto"}  space-y-1 pr-2`}>
-			{albums.map((playlist, index) => (
-			  <a
-				key={index}
-				href={`/album/${playlist._id}`}
-				className={`flex items-center gap-3 py-2.5 rounded-xl hover:bg-secondary-foreground/20 transition-all
-				  ${isCollapsed ? 'justify-center px-2' : 'px-4'}`}
-			  >
-				<img src={playlist.imageUrl} className="w-10 h-10 bg-neutral-700 object-cover rounded flex-shrink-0" />
-				{!isCollapsed && (
-				  <span className="text-sm truncate">{playlist.title}</span>
-				)}
-			  </a>
-			))}
-		  </div>
-		</div>
+  <div className={`flex-1 ${isCollapsed ? "overflow-hidden" : "overflow-y-auto"} space-y-1 pr-2`}>
+    {albums.map((album) => {
+      const isThisAlbumPlaying = 
+        currentSong && 
+        album.songs?.some((song: any) => song._id === currentSong._id) && 
+        isPlaying;
+
+      return (
+        <button
+          type="button"
+          key={album._id}
+          onClick={() => setCurrentAlbum(album)}
+          className={`group flex items-center gap-3 py-2.5 rounded-xl transition-all relative overflow-hidden
+            ${currentAlbum?._id === album._id 
+              ? "bg-primary/10 border-l-4 border-primary" 
+              : "hover:bg-secondary-foreground/10"
+            }
+            ${isCollapsed ? 'justify-center px-2' : 'px-4'}
+          `}
+        >
+          {/* Album Art */}
+          <div className="relative flex-shrink-0">
+            <img 
+              src={album.imageUrl} 
+              className="w-10 h-10 bg-neutral-700 object-cover rounded-lg" 
+              alt={album.title}
+            />
+
+            {/* Cool Playing Indicator */}
+            {isThisAlbumPlaying && (
+              <div className="absolute -bottom-0.5 -right-0.5 bg-green-500 text-[10px] font-bold text-black px-1.5 py-0.5 rounded flex items-center gap-1 shadow-md">
+                <div className="flex gap-0.5">
+                  <div className="w-0.5 h-2 bg-black rounded-full animate-soundbar1" />
+                  <div className="w-0.5 h-3 bg-black rounded-full animate-soundbar2" />
+                  <div className="w-0.5 h-1.5 bg-black rounded-full animate-soundbar3" />
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Album Info - Only show when not collapsed */}
+          {!isCollapsed && (
+            <div className="flex-1 min-w-0 text-left">
+              <p className="text-sm font-medium truncate line-clamp-1">
+                {album.title}
+              </p>
+              
+              <div className="flex items-center gap-2">
+                <p className="text-xs text-muted-foreground truncate line-clamp-1">
+                  {album.artist}
+                </p>
+
+                {isThisAlbumPlaying && (
+                  <span className="inline-flex items-center gap-1 text-[10px] font-medium text-green-500">
+                    <Volume2 size={12} />
+                    Playing
+                  </span>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Mini playing indicator when sidebar is collapsed */}
+          {isCollapsed && isThisAlbumPlaying && (
+            <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full flex items-center justify-center ring-2 ring-black">
+              <div className="w-2 h-2 bg-black rounded-full animate-ping" />
+            </div>
+          )}
+        </button>
+      );
+    })}
+  </div>
+</div>
 	  </aside>
 	</>
   );
