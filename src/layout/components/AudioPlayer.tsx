@@ -1,17 +1,15 @@
 // components/AudioPlayer.tsx - FULLY MODIFIED WITH ALL SPOTIFY FEATURES
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { useChatStore } from "@/stores/useChatStore";
 import { useMusicStore } from "@/stores/useMusicStore";
 import { usePlayerStore } from "@/stores/usePlayerStore";
 import { useThemeStore } from "@/stores/useThemeStore";
 import { 
   Play, Pause, SkipBack, SkipForward, Volume2, VolumeX, 
-  Repeat, Repeat1, Shuffle, Heart, Mic2, ListMusic, 
-  Laptop2, Plus, ChevronUp, SkipBack as SkipBack10,
-  SkipForward as SkipForward10, FastForward, Rewind,
+  Repeat, Repeat1, Shuffle, ListMusic, 
+  Laptop2, Plus,
   PlusCircle, Music2, Trash2,
-  Volume1
+
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";

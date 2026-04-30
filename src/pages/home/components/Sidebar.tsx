@@ -1,6 +1,6 @@
 // components/Sidebar.tsx
 import { useState } from "react";
-import { Home, Search, Library, PlusCircle, Heart, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { Home, Search, Library, PlusCircle,  X, ChevronLeft, ChevronRight } from "lucide-react";
 
 interface SidebarProps {
   isOpen: boolean;           // For mobile drawer
