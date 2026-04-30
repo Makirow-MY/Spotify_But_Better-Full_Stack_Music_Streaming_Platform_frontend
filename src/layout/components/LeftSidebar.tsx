@@ -100,16 +100,7 @@ const { isDark } = useThemeStore();
    {
 	albums.length === 0 && <div className="w-full flex items-center flex-col gap-3 text-center pt-5 h-[50vh]">
   No album found yet. Visit studio to add one
-    {!authUser ? (
-                <button
-                  onClick={() => setShowAuthModal(true)}
-                  className="bg-green-500 hover:bg-green-600 text-black px-6 py-2 rounded-full font-bold text-sm transition"
-                >
-                  Sign in
-                </button>
-              ) : (
-                <UserDropdown user={authUser} />
-              )}
+
 	</div>
    }
     {albums.map((album) => {

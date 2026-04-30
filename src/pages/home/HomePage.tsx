@@ -1,6 +1,6 @@
 // HomePage.tsx
 import { useEffect, useState } from "react";
-import { Menu, Bell, SearchIcon, Moon } from "lucide-react";
+import { Menu, Bell, SearchIcon, Moon, Sun } from "lucide-react";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { useMusicStore } from "@/stores/useMusicStore";
 import { usePlayerStore } from "@/stores/usePlayerStore";
@@ -112,12 +112,12 @@ const HomePage = () => {
                 <SearchIcon size={20} />
               </button>
 
-              {!isDark  && <button
+             <button
                 onClick={toggleTheme}
                 className={`p-2 rounded-full hover:bg-secondary transition ${isDark ? 'text-gray-300' : 'text-zinc-700'}`}
               >
-                 <Moon />
-              </button>}
+                {!isDark ? <Moon /> :<Sun/>}
+              </button>
 
               {/* Bell Icon */}
 
