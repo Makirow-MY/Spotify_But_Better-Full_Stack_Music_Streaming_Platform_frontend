@@ -27,7 +27,7 @@ import FeaturedSectionSkeleton from "./components/FeaturedSectionSkeleton";
 const HomePage = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(true);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const [isRSidebarOpen, setIsRSidebarOpen] = useState(false);
   const [isRCollapsed, setIsRCollapsed] = useState(true);
