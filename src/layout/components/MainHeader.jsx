@@ -53,12 +53,12 @@ import {Bell} from "lucide-react";
                 {/* Right Side Icons */}
                 <div className="flex items-center gap-3">
                   {/* Theme Toggle */}
-                  <button
-                    onClick={toggleTheme}
-                    className={`p-2 rounded-full hover:bg-white/10 transition ${isDark ? 'text-gray-300' : 'text-zinc-700'}`}
-                  >
-                    {isDark ? <Sun size={20} /> : <Moon size={20} />}
-                  </button>
+                  {!isDark  && <button
+                                 onClick={toggleTheme}
+                                 className={`p-2 rounded-full hover:bg-secondary transition ${isDark ? 'text-gray-300' : 'text-zinc-700'}`}
+                               >
+                                  <Moon />
+                               </button>}
     
                   {/* Bell Icon */}
                   <button className={`p-2 rounded-full hover:bg-white/10 transition ${isDark ? 'text-gray-300' : 'text-zinc-700'}`}>
