@@ -15,6 +15,7 @@ type SearchResult = {
   subtitle: string;
   imageUrl?: string;
   data: Song | Album;
+  song: Song[];
   matchType?: "title" | "artist" | "album";
 };
 
@@ -24,8 +25,7 @@ const SearchBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { isDark } = useThemeStore();
-  const navigate = useNavigate();
-  const searchRef = useRef<HTMLDivElement>(null);
+ const searchRef = useRef<HTMLDivElement>(null);
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   
@@ -76,6 +76,7 @@ const SearchBar = () => {
           subtitle: song.artist || "Unknown Artist",
           imageUrl: song.imageUrl,
           data: song,
+          song:[{...song}],
           matchType: song.title?.toLowerCase().includes(lowerSearchTerm) ? "title" : "artist"
         }));
 
@@ -93,6 +94,7 @@ const SearchBar = () => {
           subtitle: album.artist || "Unknown Artist",
           imageUrl: album.imageUrl,
           data: album,
+          song:album.songs,
           matchType: album.title?.toLowerCase().includes(lowerSearchTerm) ? "title" : "artist"
         }));
 
@@ -115,16 +117,9 @@ const SearchBar = () => {
       });
 
       // Limit to top 15 results for performance
-      setResults(combinedResults.slice(0, 15));
+      setResults(combinedResults.slice(0, 10).sort(() => Math.random() * 0.5));
       
-      // Debug logging
-      if (combinedResults.length === 0) {
-        console.log(`No results found for: "${searchTerm}"`);
-      } else {
-        console.log(`Found ${combinedResults.length} results for: "${searchTerm}"`);
-      }
-      
-    } catch (error) {
+       } catch (error) {
       console.error("Search error:", error);
       setResults([]);
     } finally {
@@ -179,7 +174,7 @@ const SearchBar = () => {
     e.preventDefault();
     if (!query.trim()) return;
     setIsOpen(false);
-    navigate(`/search?q=${encodeURIComponent(query.trim())}`);
+   // navigate(`/search?q=${encodeURIComponent(query.trim())}`);
   };
 
   const clearSearch = () => {
@@ -319,10 +314,12 @@ const SearchBar = () => {
                         <p className="text-sm text-zinc-500 truncate">
                           {result.subtitle}
                         </p>
-                        <span className="text-xs text-zinc-600">•</span>
+                       {result.type === "album"  &&
+                    <><span className="text-xs text-zinc-600">•</span>
                         <p className="text-xs text-zinc-500 capitalize">
-                        {result.data?.songs?.length}  {result.type === "album" && "Songs"}
+                        {result.song.length} Songs
                         </p>
+                        </>}
                       </div>
                     </div>
                     

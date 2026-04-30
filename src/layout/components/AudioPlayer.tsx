@@ -6,8 +6,7 @@ import { usePlayerStore } from "@/stores/usePlayerStore";
 import { useThemeStore } from "@/stores/useThemeStore";
 import { 
   Play, Pause, SkipBack, SkipForward, Volume2, VolumeX, 
-  Repeat, Repeat1, Shuffle, ListMusic, 
-  Laptop2, Plus,
+  Repeat, Repeat1, Shuffle,
   PlusCircle, Music2, Trash2,
 
 } from "lucide-react";
