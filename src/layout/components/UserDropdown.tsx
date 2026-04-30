@@ -17,12 +17,12 @@ const UserDropdown = ({ user, admin }: {user:any; admin?:boolean}) => {
         className="flex items-center gap-3 hover:bg-primary px-3 py-1.5 rounded-full transition"
       >
         <img
-          src={user.imageUrl || "/default-avatar.png"}
+          src={user?.imageUrl || "/default-avatar.png"}
           alt="profile"
           className="w-8 h-8 rounded-full object-cover border border-green-500"
         />
         <div className="hidden md:block text-left">
-          <p className="text-sm font-medium truncate">{user.fullName}</p>
+          <p className="text-sm font-medium truncate">{user?.fullName}</p>
         </div>
         <ChevronDown size={18} className={`transition ${isOpen ? 'rotate-180' : ''}`} />
       </button>
@@ -30,8 +30,8 @@ const UserDropdown = ({ user, admin }: {user:any; admin?:boolean}) => {
       {isOpen && (
         <div onMouseLeave={() => setIsOpen(false)} className="absolute right-0 mt-2 w-56 bg-secondary border  rounded-xl shadow-2xl py-2 z-50">
           <div className="px-4 py-3 border-b border-neutral-700">
-            <p className="font-medium truncate">{user.fullName}</p>
-            <p className="text-xs text-gray-400 truncate">{user.email}</p>
+            <p className="font-medium truncate">{user?.fullName}</p>
+            <p className="text-xs text-gray-400 truncate">{user?.email}</p>
           </div>
 
           <div className="py-1">

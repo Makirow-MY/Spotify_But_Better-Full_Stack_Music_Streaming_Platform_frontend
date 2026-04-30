@@ -88,7 +88,7 @@ const { checkAuth} = useAuthStore();
 					Add Album
 				</Button>
 			</DialogTrigger>
-			<DialogContent className='bg-zinc-900 border-zinc-700 max-h-[80vh] overflow-auto'>
+			<DialogContent className='bg-secondary border-zinc-700 max-h-[80vh] overflow-auto'>
 				<DialogHeader>
 					<DialogTitle>Add New Album</DialogTitle>
 					<DialogDescription>Add a new album to your collection</DialogDescription>
@@ -106,7 +106,7 @@ const { checkAuth} = useAuthStore();
 						onClick={() => fileInputRef.current?.click()}
 					>
 						<div className='text-center'>
-							<div className='p-3 bg-zinc-800 rounded-full inline-block mb-2'>
+							<div className='p-3 bg-secondary-foreground/20 rounded-full inline-block mb-2'>
 								<Upload className='h-6 w-6 text-zinc-400' />
 							</div>
 							<div className='text-sm text-zinc-400 mb-2'>
@@ -122,7 +122,7 @@ const { checkAuth} = useAuthStore();
 						<Input
 							value={newAlbum.title}
 							onChange={(e) => setNewAlbum({ ...newAlbum, title: e.target.value })}
-							className='bg-zinc-800 border-zinc-700'
+							className='bg-secondary-foreground/20 border-zinc-700'
 							placeholder='Enter album title'
 						/>
 					</div>
@@ -131,7 +131,7 @@ const { checkAuth} = useAuthStore();
 						<Input
 							value={newAlbum.artist}
 							onChange={(e) => setNewAlbum({ ...newAlbum, artist: e.target.value })}
-							className='bg-zinc-800 border-zinc-700'
+							className='bg-secondary-foreground/20 border-zinc-700'
 							placeholder='Enter artist name'
 						/>
 					</div>
@@ -141,7 +141,7 @@ const { checkAuth} = useAuthStore();
 							type='number'
 							value={newAlbum.releaseYear}
 							onChange={(e) => setNewAlbum({ ...newAlbum, releaseYear: parseInt(e.target.value) })}
-							className='bg-zinc-800 border-zinc-700'
+							className='bg-secondary-foreground/20 border-zinc-700'
 							placeholder='Enter release year'
 							min={1900}
 							max={new Date().getFullYear()}

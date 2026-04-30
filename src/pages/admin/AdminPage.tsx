@@ -20,10 +20,6 @@ const AdminPage = () => {
 		fetchStats();
 		checkAuth();
 
-		if(!authUser)
-		{
-          return redirect("/")
-		}
 	}, [fetchAlbums, fetchSongs,checkAuth, fetchStats]);
 
 	if (!authUser && !isCheckingAuth) return <div>Unauthorized</div>;
