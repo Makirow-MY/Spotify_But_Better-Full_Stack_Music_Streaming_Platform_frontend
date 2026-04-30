@@ -1,4 +1,4 @@
-import Topbar from "@/components/Topbar";
+//import Topbar from "@/components/Topbar";
 import { useChatStore } from "@/stores/useChatStore";
 import { useEffect } from "react";
 import UsersList from "./components/UsersList";
@@ -32,7 +32,7 @@ const ChatPage = () => {
 
 	return (
 		<main className='h-full rounded-lg  overflow-hidden'>
-			<Topbar />
+			{/* <Topbar /> */}
 
 			<div className='grid lg:grid-cols-[300px_1fr] grid-cols-[80px_1fr] h-[calc(100vh-180px)]'>
 				<UsersList />

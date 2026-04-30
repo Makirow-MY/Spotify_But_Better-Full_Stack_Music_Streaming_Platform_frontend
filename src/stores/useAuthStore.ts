@@ -1,10 +1,8 @@
 // stores/useAuthStore.ts
 import { create } from "zustand";
 import { User } from "@/types";
-import axios from "axios";
-import { axiosInstance } from "@/lib/axios";
 
-const SERVER_URL = "http://localhost:5000/api"
+import { axiosInstance } from "@/lib/axios";
 
 interface AuthStore {
   authUser: User | null;
@@ -151,70 +149,5 @@ export const useAuthStore = create<AuthStore>((set) => ({
     }
   },
 }));
-
-
-
-
-// import { axiosInstance } from "@/lib/axios";
-// import { User } from "@/types";
-// import axios from "axios";
-// import { create } from "zustand";
-
-//  const SERVER_URL = "http://localhost:5000/api"
-
-//  interface AuthStore {
-//    isAdmin: boolean,
-// 	isLoading: boolean,
-// 	error: null,
-// 	authUser: User | null,
-// 	isCheckingAuth: boolean,
- 
-// 	checkAuth: () => void;
-// 	checkAdminStatus: () => void;
-// 	reset: () => void;
-	
-//  }
- 
-
-// export const useAuthStore = create<AuthStore>((set) => ({
-// 	isAdmin: false,
-// 	isLoading: false,
-// 	error: null,
-// 	authUser: null,
-// 	isCheckingAuth: true,
-
-// 	checkAuth: async () => {
-// 		try {
-// 			set({ isCheckingAuth: true });
-// 			const res = await axios.get(`${SERVER_URL}/auth/check`);
-// 			set({ authUser: res.data });
-
-// 			console.log(res.data)
-
-// 		} catch (error) {
-// 			console.error("Error in checkAuth:", error);
-// 			set({ authUser: null });
-
-// 		} finally {
-// 			set({ isCheckingAuth: false });
-// 		}
-// 	},
-// 	checkAdminStatus: async () => {
-// 		set({ isLoading: true, error: null });
-// 		try {
-// 			const response = await axios.get(`${SERVER_URL}/admin/check`);
-// 			set({ isAdmin: response.data.admin });
-// 		} catch (error: any) {
-// 			set({ isAdmin: false, error: error.response.data.message });
-// 		} finally {
-// 			set({ isLoading: false });
-// 		}
-// 	},
-
-// 	reset: () => {
-// 		set({ isAdmin: false, isLoading: false, error: null });
-// 	},
-// }));
-
 
 
