@@ -19,8 +19,7 @@ import AlbumBanner from "../album/albumBanner";
 //import InfiniteScroll from "@/layout/components/InfiniteScroll";
 import SearchBar from "@/layout/components/SearchBar";
 import SectionGridSkeleton from "./components/SectionGridSkeleton";
-import FeaturedGridSkeleton from "@/components/skeletons/FeaturedGridSkeleton";
-import UsersListSkeleton from "@/components/skeletons/UsersListSkeleton";
+
 import AlbumBannerSkeleton from "@/components/skeletons/BannerSkeleton";
 import FeaturedSectionSkeleton from "./components/FeaturedSectionSkeleton";
 
