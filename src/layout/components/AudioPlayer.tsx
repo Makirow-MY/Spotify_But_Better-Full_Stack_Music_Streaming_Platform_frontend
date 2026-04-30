@@ -272,29 +272,34 @@ const AudioPlayer = () => {
       <audio ref={audioRef} />
       
      
-      	<footer className={`h-20 ${isDark ? 'bg-black' : "bg-white "} border-t border-neutral-800 flex items-center px-4`}>
-	  {/* Now Playing Left */}
-	  <div className="flex items-center space-x-4 flex-1 max-w-xs">
+      	<footer className={`py-3  space-x-3 flex flex-row-reverse items-center justify-between ${isDark ? 'bg-black' : "bg-white "} border-t border-neutral-800 flex px-4`}>
+	 
+	  {/* Controls Center */}
+	  <div className='flex flex-col items-center gap-2 flex-1 max-w-full '>
+
+
+<div className="flex items-center w-full justify-between">
+
+
+	  <div className="flex items-center space-x-4 shrink-0 ">
 		<img
 		  src={currentSong?.imageUrl || "/placeholder.jpg"}
 		  alt={currentSong?.title}
-		  className="w-12 h-12 rounded object-cover"
+		  className="w-12 h-12 shadow-md rounded object-cover"
 		/>
 		<div className="min-w-0">
 		  <p className="text-sm font-medium text-primary line-clamp-1 truncate">{currentSong?.title}</p>
 		  <p className="text-xs text-muted-foreground line-clamp-1 truncate">{currentSong?.artist}</p>
 		</div>
 		{/* <Heart size={16} className="text-muted-foreground shrink-0 hover:text-primary cursor-pointer" /> */}
-    <Button size='icon' variant='ghost' onClick={() => setIsPlaylistDrawerOpen(!isPlaylistDrawerOpen)}
+    {/* <Button size='icon' variant='ghost' onClick={() => setIsPlaylistDrawerOpen(!isPlaylistDrawerOpen)}
                 >
-    <Plus   size={16} className="text-muted-foreground shrink-0 hover:text-primary cursor-pointer" />
-	  </Button>
+    <Plus   size={16} className="text-muted-foreground shrink-0 hover:text-primary cursor-pointer" /> */}
+	  {/* </Button> */}
     </div>
 
-	  {/* Controls Center */}
-	  <div className='flex flex-col items-center gap-2 flex-1 max-w-full sm:max-w-lg'>
 
-	  <div className="flex items-center flex-1 gap-1 justify-center">
+ <div className="flex items-center flex-1 gap-1 justify-center">
       <Button size='icon' variant='ghost'
                   className={` ${isShuffled && 'text-green-500'}`}
                    onClick={toggleShuffle}
@@ -306,8 +311,9 @@ const AudioPlayer = () => {
 		onClick={playPrevious}
 							disabled={!currentSong}
 	>
-		  <SkipBack size={20} className="text-muted-foreground" />
+		  <SkipBack size={20}/>
 		</Button>
+
 		<Button
 		  onClick={togglePlay}
 		  disabled={!currentSong}
@@ -315,10 +321,9 @@ const AudioPlayer = () => {
 		>
 		  {isPlaying ? <Pause size={20} /> : <Play size={20} />}
 		</Button>
-		<audio ref={audioRef} />
-		<Button onClick={playNext}  size='icon' variant='ghost'
+   <Button onClick={playNext}  size='icon' variant='ghost'
 							disabled={!currentSong}>
-		  <SkipForward size={20} className="text-muted-foreground" />
+		  <SkipForward size={20} />
 		</Button>
 		<Button  className={`${(isLooping || isLoopingOne) && 'text-green-500'}`}
   onClick={() => {
@@ -344,6 +349,26 @@ const AudioPlayer = () => {
 		</div>
 		<ChevronDown size={16} className="text-muted-foreground rotate-180" /> */}
 	  </div>
+
+ <div className="flex items-center gap-0.4">
+              	<Button size='icon'
+            onClick={handlePlaybackRateChange}
+            variant='ghost' >
+							{playbackRate}x
+						</Button>
+                             <Button variant="ghost" size="icon" onClick={toggleMute} >
+                               {isMuted || volume === 0 ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+                             </Button>
+                             <Slider
+                               value={[isMuted ? 0 : volume]}
+                               max={100}
+                               step={1}
+                               className="w-24"
+                               onValueChange={(value) => setVolume(value[0])}
+                             />
+                           </div>
+</div>
+	 
 	  <div className='hidden sm:flex items-center gap-2 w-full'>
 							<div className='text-xs text-zinc-400'>{formatTime(currentTime)}</div>
 							<Slider
@@ -357,36 +382,13 @@ const AudioPlayer = () => {
 						</div>
 
 </div>
-	  <div className='hidden sm:flex flex-col items-center  min-w-[180px] w-[30%] justify-end'>
-					
-          <div className="flex items-center gap-4">
-          	<Button size='icon'
-            onClick={handlePlaybackRateChange}
-            variant='ghost' className='hover:text-white text-zinc-400'>
-							{playbackRate}x
-						</Button>
-						<Button size='icon' variant='ghost'  onClick={() => setIsQueueDrawerOpen(!isQueueDrawerOpen)} className='hover:text-white text-zinc-400'>
-							<ListMusic className='h-4 w-4' />
-						</Button>
-						<Button onClick={() => setIsPlaylistDrawerOpen(!isPlaylistDrawerOpen)} size='icon' variant='ghost' className='hover:text-white text-zinc-400'>
-							<Laptop2 className='h-4 w-4' />
-						</Button>
-	  </div>
 
-						 <div className="flex items-center gap-2">
-                             <Button variant="ghost" size="icon" onClick={toggleMute} className="text-zinc-400 hover:text-white">
-                               {isMuted || volume === 0 ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
-                             </Button>
-                             <Slider
-                               value={[isMuted ? 0 : volume]}
-                               max={100}
-                               step={1}
-                               className="w-24"
-                               onValueChange={(value) => setVolume(value[0])}
-                             />
-                           </div>
 
-					</div>
+
+	  {/* <div className='hidden sm:flex flex-col items-center  min-w-[180px] w-[30%] justify-end'>
+						
+
+					</div> */}
 	</footer>
 
       {/* Drawers */}

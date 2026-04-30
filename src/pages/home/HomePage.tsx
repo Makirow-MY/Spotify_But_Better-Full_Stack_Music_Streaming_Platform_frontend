@@ -17,6 +17,7 @@ import UserDropdown from "@/layout/components/UserDropdown";
 import RightSidebar from "@/layout/components/RightSidebar";
 import AlbumBanner from "../album/albumBanner";
 import InfiniteScroll from "@/layout/components/InfiniteScroll";
+import SearchBar from "@/layout/components/SearchBar";
 
 
 const HomePage = () => {
@@ -36,7 +37,7 @@ const HomePage = () => {
     
     loadMoreSongs,
     fetchAllSongs,
-    fetchTrendingSongs, albums, currentAlbum, madeForYouSongs, featuredSongs, trendingSongs } = useMusicStore();
+    fetchTrendingSongs, albums, currentAlbum } = useMusicStore();
   const { initializeQueue , currentSong} = usePlayerStore();
   const { isDark, toggleTheme } = useThemeStore();
 
@@ -54,12 +55,10 @@ const HomePage = () => {
   // Initialize player queue
   useEffect(() => {
    if (currentSong || currentAlbum) {
-      if (madeForYouSongs.length > 0 && featuredSongs.length > 0 && trendingSongs.length > 0) {
-      const allSongs = [...featuredSongs, ...madeForYouSongs, ...trendingSongs];
-      initializeQueue(allSongs);
+     initializeQueue(allSongs);
     }
-   }
-  }, [currentSong, currentAlbum ]);
+   
+  }, [initializeQueue, fetchMadeForYouSongs,fetchAllSongs, currentSong, currentAlbum ]);
 
   return (
     <div className={`flex h-screen overflow-hidden ${isDark ? 'bg-black text-white' : 'bg-zinc-100 text-zinc-900'}`}>
@@ -90,16 +89,9 @@ const HomePage = () => {
               <Menu size={24} />
             </button>}
 
-            {/* Search Bar */}
-            <form className="flex-1 mx-4 sm:flex hidden">
-              <div className={`flex items-center px-4 py-2.5 flex-1 max-w-md rounded-full ${isDark ? 'bg-neutral-800' : 'bg-zinc-200'}`}>
-                <SearchIcon size={20} className="text-gray-400" />
-                <input
-                  placeholder="What do you want to play?"
-                  className={`bg-transparent outline-none ml-3 w-full text-sm ${isDark ? 'placeholder:text-gray-500' : 'placeholder:text-zinc-500'}`}
-                />
-              </div>
-            </form>
+            <div className="flex-1 mx-4 hidden sm:block">
+  <SearchBar />
+</div>
 
             {/* Right Side Icons */}
             <div className="flex items-center gap-3">
