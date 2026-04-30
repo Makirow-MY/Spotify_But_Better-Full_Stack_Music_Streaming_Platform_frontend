@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Search, X, Music, AlbumIcon} from "lucide-react";
 import { Song, Album } from "@/types";
-import { useNavigate } from "react-router-dom";
+
 import { usePlayerStore } from "@/stores/usePlayerStore";
 import { useThemeStore } from "@/stores/useThemeStore";
 import { useMusicStore } from "@/stores/useMusicStore";
