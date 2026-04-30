@@ -173,11 +173,7 @@ const HomePage = () => {
               <AlbumBannerSkeleton />
                <FeaturedSectionSkeleton />
                <SectionGridSkeleton />
-           
-              <FeaturedGridSkeleton />
-              <UsersListSkeleton />
-              <SectionGridSkeleton />
-            </div>
+             </div>
           </ScrollArea>
         }
 
