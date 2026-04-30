@@ -1,6 +1,6 @@
 // New component: Header.tsx (Minimal top bar for profile/settings)
 //import { useAuthStore } from "../stores/useAuthStore";
-import { User, Bell, Settings, ChevronDown } from "lucide-react";
+import {Bell} from "lucide-react";
 
  const MainHeader = () => {
     const [showAuthModal, setShowAuthModal] = useState(false);
@@ -57,7 +57,7 @@ import { User, Bell, Settings, ChevronDown } from "lucide-react";
                     onClick={toggleTheme}
                     className={`p-2 rounded-full hover:bg-white/10 transition ${isDark ? 'text-gray-300' : 'text-zinc-700'}`}
                   >
-                    {isDark ? <Sun size={20} /> : <Moon size={20} />}
+                
                   </button>
     
                   {/* Bell Icon */}

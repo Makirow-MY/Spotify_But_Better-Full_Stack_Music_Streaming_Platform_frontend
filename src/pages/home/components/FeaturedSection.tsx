@@ -4,7 +4,7 @@ import FeaturedGridSkeleton from "@/components/skeletons/FeaturedGridSkeleton";
 import PlayButton from "./PlayButton";
 import { useThemeStore } from "@/stores/useThemeStore";
 import { usePlayerStore } from "@/stores/usePlayerStore";
-import { ChevronLeft, ChevronRight, TrendingUp, Clock, Heart } from "lucide-react";
+import { ChevronLeft, ChevronRight,  Clock, Heart } from "lucide-react";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -18,7 +18,7 @@ const FeaturedSection = () => {
 	const [showRightArrow, setShowRightArrow] = useState(true);
 
 	if (isLoading) return <FeaturedGridSkeleton />;
-
+console.log(featuredSongs)
 	const songsToShow = currentAlbum?.songs || featuredSongs || [];
 
 	const scroll = (direction: 'left' | 'right') => {
@@ -50,13 +50,12 @@ const FeaturedSection = () => {
 			{/* Section Header */}
 			<div className="flex items-center justify-between mb-5 px-2">
 				<div className="flex items-center gap-3">
-					<TrendingUp className="h-5 w-5 text-green-500" />
 					<div>
 						<h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
 							Popular Now
 						</h2>
 						<p className={`text-sm ${isDark ? 'text-zinc-400' : 'text-zinc-600'} mt-1 hidden sm:block`}>
-							Top picks for you 🔥
+							Top picks for you 
 						</p>
 					</div>
 				</div>
@@ -67,8 +66,8 @@ const FeaturedSection = () => {
 						onClick={() => scroll('left')}
 						className={`p-2 rounded-full transition-all ${
 							showLeftArrow 
-								? `bg-zinc-800 hover:bg-zinc-700 ${isDark ? 'text-white' : 'text-black'}` 
-								: 'bg-zinc-800/30 text-zinc-600 cursor-not-allowed'
+								? `bg-primary hover:bg-primary/60 ${isDark ? 'text-white' : 'text-black'}` 
+								: `bg-secondary-foreground/30  ${isDark ? 'text-white' : 'text-black'} cursor-not-allowe '`
 						}`}
 						disabled={!showLeftArrow}
 					>
@@ -78,8 +77,8 @@ const FeaturedSection = () => {
 						onClick={() => scroll('right')}
 						className={`p-2 rounded-full transition-all ${
 							showRightArrow 
-								? `bg-zinc-800 hover:bg-zinc-700 ${isDark ? 'text-white' : 'text-black'}` 
-								: 'bg-zinc-800/30 text-zinc-600 cursor-not-allowed'
+								? `bg-primary hover:bg-primary/60 ${isDark ? 'text-white' : 'text-black'}` 
+								: `bg-secondary-foreground/30  ${isDark ? 'text-white' : 'text-black'} cursor-not-allowe '`
 						}`}
 						disabled={!showRightArrow}
 					>
@@ -106,7 +105,7 @@ const FeaturedSection = () => {
 								flex-shrink-0 w-64 sm:w-72 
 								${isDark ? 'bg-gradient-to-b from-zinc-900 to-zinc-900/50' : 'bg-white'} 
 								rounded-xl overflow-hidden
-								hover:bg-zinc-800/80 
+								hover:bg-secondary-foreground/10 
 								transition-all duration-300 
 								cursor-pointer
 								group

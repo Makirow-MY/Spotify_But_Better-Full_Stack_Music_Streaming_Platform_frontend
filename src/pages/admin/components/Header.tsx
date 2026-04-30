@@ -3,7 +3,7 @@ import UserDropdown from "@/layout/components/UserDropdown";
 import { useAuthStore } from "@/stores/useAuthStore";
 
 import { useThemeStore } from "@/stores/useThemeStore";
-import { Bell, Moon, SearchIcon, Sun } from "lucide-react";
+import { Bell, SearchIcon} from "lucide-react";
 
 const AdminHeader = () => {
 	  const { authUser } = useAuthStore();
@@ -35,7 +35,7 @@ const AdminHeader = () => {
                 onClick={toggleTheme}
                 className={`p-2 rounded-full hover:bg-secondary transition ${isDark ? 'text-gray-300' : 'text-zinc-700'}`}
               >
-                {isDark ? <Sun size={20} /> : <Moon size={20} />}
+              
               </button>
 
               {/* Bell Icon */}

@@ -2,17 +2,18 @@ import { Button } from "@/components/ui/button";
 import {
 	Dialog,
 	DialogContent,
-	DialogDescription,
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
 import { axiosInstance } from "@/lib/axios";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { useMusicStore } from "@/stores/useMusicStore";
-import { Plus, Upload } from "lucide-react";
+import { Album, ImageIcon, Plus} from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -21,11 +22,12 @@ const AddAlbumDialog = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const fileInputRef = useRef<HTMLInputElement>(null);
 const { checkAuth} = useAuthStore();
-
+ const [imagePreview, setImagePreview] = useState<string | null>(null);
 	const { fetchAlbums, fetchSongs, fetchStats } = useMusicStore();
 	const [newAlbum, setNewAlbum] = useState({
 		title: "",
 		artist: "",
+		description: "",
 		releaseYear: new Date().getFullYear(),
 	});
 
@@ -35,6 +37,7 @@ const { checkAuth} = useAuthStore();
 		const file = e.target.files?.[0];
 		if (file) {
 			setImageFile(file);
+			 setImagePreview(URL.createObjectURL(file));
 		}
 	};
 
@@ -56,6 +59,7 @@ const { checkAuth} = useAuthStore();
 			const formData = new FormData();
 			formData.append("title", newAlbum.title);
 			formData.append("artist", newAlbum.artist);
+			formData.append("description", newAlbum.description)
 			formData.append("releaseYear", newAlbum.releaseYear.toString());
 			formData.append("imageFile", imageFile);
 
@@ -68,6 +72,7 @@ const { checkAuth} = useAuthStore();
 			setNewAlbum({
 				title: "",
 				artist: "",
+				description: "",
 				releaseYear: new Date().getFullYear(),
 			});
 			setImageFile(null);
@@ -83,43 +88,41 @@ const { checkAuth} = useAuthStore();
 	return (
 		<Dialog open={albumDialogOpen} onOpenChange={setAlbumDialogOpen}>
 			<DialogTrigger asChild>
-				<Button className='bg-primary hover:bg-primary/25 text-white'>
+				<Button className='bg-primary hover:bg-primary/25 '>
 					<Plus className='mr-2 h-4 w-4' />
 					Add Album
 				</Button>
 			</DialogTrigger>
 			<DialogContent className='bg-secondary border-zinc-700 max-h-[80vh] overflow-auto'>
 				<DialogHeader>
-					<DialogTitle>Add New Album</DialogTitle>
-					<DialogDescription>Add a new album to your collection</DialogDescription>
-				</DialogHeader>
+						  <DialogTitle className="text-2xl font-bold flex items-center gap-3">
+							<Album className="h-6 w-6 text-green-500" />
+							Create New Album
+						  </DialogTitle>
+						</DialogHeader>
 				<div className='space-y-4 py-4'>
-					<input
-						type='file'
-						ref={fileInputRef}
-						onChange={handleImageSelect}
-						accept='image/*'
-						className='hidden'
-					/>
-					<div
-						className='flex items-center justify-center p-6 border-2 border-dashed border-zinc-700 rounded-lg cursor-pointer'
-						onClick={() => fileInputRef.current?.click()}
-					>
-						<div className='text-center'>
-							<div className='p-3 bg-secondary-foreground/20 rounded-full inline-block mb-2'>
-								<Upload className='h-6 w-6 text-zinc-400' />
-							</div>
-							<div className='text-sm text-zinc-400 mb-2'>
-								{imageFile ? imageFile.name : "Upload album artwork"}
-							</div>
-							<Button variant='outline' size='sm' className='text-xs'>
-								Choose File
-							</Button>
-						</div>
-					</div>
+				
+				 <div>
+								<Label className="text-sm text-zinc-400 mb-3 block">Cover Art</Label>
+								<div
+								  onClick={() => fileInputRef.current?.click()}
+								  className="border-2 border-dashed border-zinc-700 hover:border-green-500/50 rounded-2xl h-64 flex flex-col items-center justify-center cursor-pointer overflow-hidden transition"
+								>
+								  {imagePreview ? (
+									<img src={imagePreview} alt="preview" className="w-full h-full object-cover" />
+								  ) : (
+									<div className="text-center">
+									  <ImageIcon className="h-16 w-16 text-zinc-600 mx-auto mb-4" />
+									  <p className="text-zinc-400">Upload Cover Art</p>
+									</div>
+								  )}
+								</div>
+								<input type="file"disabled={isLoading} ref={fileInputRef} onChange={handleImageSelect} accept="image/*" className="hidden" />
+							  </div>
 					<div className='space-y-2'>
-						<label className='text-sm font-medium'>Album Title</label>
+						<Label className='text-sm font-medium'>Album Title</Label>
 						<Input
+						disabled={isLoading}
 							value={newAlbum.title}
 							onChange={(e) => setNewAlbum({ ...newAlbum, title: e.target.value })}
 							className='bg-secondary-foreground/20 border-zinc-700'
@@ -127,8 +130,9 @@ const { checkAuth} = useAuthStore();
 						/>
 					</div>
 					<div className='space-y-2'>
-						<label className='text-sm font-medium'>Artist</label>
+						<Label className='text-sm font-medium'>Artist</Label>
 						<Input
+						disabled={isLoading}
 							value={newAlbum.artist}
 							onChange={(e) => setNewAlbum({ ...newAlbum, artist: e.target.value })}
 							className='bg-secondary-foreground/20 border-zinc-700'
@@ -136,8 +140,9 @@ const { checkAuth} = useAuthStore();
 						/>
 					</div>
 					<div className='space-y-2'>
-						<label className='text-sm font-medium'>Release Year</label>
+						<Label className='text-sm font-medium'>Release Year</Label>
 						<Input
+						disabled={isLoading}
 							type='number'
 							value={newAlbum.releaseYear}
 							onChange={(e) => setNewAlbum({ ...newAlbum, releaseYear: parseInt(e.target.value) })}
@@ -147,14 +152,26 @@ const { checkAuth} = useAuthStore();
 							max={new Date().getFullYear()}
 						/>
 					</div>
+					 <div>
+										   <Label>Description</Label>
+										   <textarea
+											 value={newAlbum.description}
+											 onChange={(e) => setNewAlbum({ ...newAlbum, description: e.target.value })}
+											 className="bg-secondary-foreground/10 outline-none resize-none py-2 px-3 w-full h-[30vh] border-zinc-700 mt-1.5"
+                                            	 placeholder="Write a brief description about your music"
+										   />
+										 </div>
 				</div>
 				<DialogFooter>
-					<Button variant='outline' onClick={() => setAlbumDialogOpen(false)} disabled={isLoading}>
+					<Button variant='outline' onClick={() =>
+						{setNewAlbum({description: "", artist: "", releaseYear: newAlbum.releaseYear, title: ""})
+						setAlbumDialogOpen(false)}} disabled={isLoading} >
+					
 						Cancel
 					</Button>
 					<Button
 						onClick={handleSubmit}
-						className='bg-violet-500 hover:bg-violet-600'
+						className='bg-primary hover:bg-primary/50'
 						disabled={isLoading || !imageFile || !newAlbum.title || !newAlbum.artist}
 					>
 						{isLoading ? "Creating..." : "Add Album"}

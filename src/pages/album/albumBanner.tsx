@@ -1,20 +1,22 @@
 // components/AlbumBanner.tsx
-import { Play, Pause, Heart, MoreHorizontal, Clock, ChevronDown, } from "lucide-react";
+import { Play, Pause} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { usePlayerStore } from "@/stores/usePlayerStore";
 import { useThemeStore } from "@/stores/useThemeStore";
-import { useState } from "react";
+
 import toast from "react-hot-toast";
+import { useMusicStore } from "@/stores/useMusicStore";
+import { Song} from "@/types";
 
 interface AlbumBannerProps {
   album: {
-    _id: string;
+   _id: string;
     title: string;
     artist: string;
     imageUrl: string;
-    year?: number;
-    songs?: any[];
-    description?: string;
+    releaseYear: number;
+    songs: Song[];
+    description: string; 
   };
 }
 
@@ -23,15 +25,17 @@ const AlbumBanner = ({ album }: AlbumBannerProps) => {
     playAlbum, 
     currentSong, 
     isPlaying, 
-    togglePlay 
+    togglePlay ,
+    setCurrentSong,
   } = usePlayerStore();
-
+const {setCurrentAlbum} = useMusicStore()
   const { isDark } = useThemeStore();
-  const [isLiked, setIsLiked] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
 
   const handlePlayAlbum = () => {
     if (album.songs && album.songs.length > 0) {
+        setCurrentAlbum(album)
+        setCurrentSong(null)
       playAlbum(album.songs, 0);
       toast.success(`Now playing: ${album.title}`);
     }
@@ -104,23 +108,21 @@ const AlbumBanner = ({ album }: AlbumBannerProps) => {
         </div>
 
         {/* Album Info */}
-        <div className="flex-1 flex flex-col justify-end text-white pt-6 md:pt-0">
+        <div className="flex-1 flex flex-col justify-end text-secondary-foreground/50 pt-6 md:pt-0">
           <p className="text-sm uppercase tracking-[3px] font-medium text-green-400 mb-1">
-            ALBUM • {album.year || new Date().getFullYear()}
+            ALBUM • {album.songs?.length || 0} songs
           </p>
 
-          <h1 className="text-5xl md:text-6xl font-bold tracking-tighter mb-3">
+          <h1 className="text-5xl md:text-6xl text-white font-bold tracking-tighter mb-3">
             {album.title}
           </h1>
 
           <div className="flex items-center gap-3 text-zinc-300 mb-6">
-            <span className="font-semibold text-white text-xl">{album.artist}</span>
-            <span className="text-2xl text-zinc-500">•</span>
-            <span className="text-lg">{album.songs?.length || 0} songs</span>
+            <span className="font-semibold text-secondary-foreground/50 text-xl">{album.artist}</span>
           </div>
 
           {album.description && (
-            <p className="text-zinc-400 max-w-2xl leading-relaxed mb-8">
+            <p className=" line-clamp-2 max-w-2xl leading-relaxed mb-8">
               {album.description}
             </p>
           )}
@@ -141,47 +143,11 @@ const AlbumBanner = ({ album }: AlbumBannerProps) => {
                 </>
               )}
             </Button>
-
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => {
-                setIsLiked(!isLiked);
-                toast.success(isLiked ? "Removed from Liked Songs" : "Added to Liked Songs");
-              }}
-              className="w-14 h-14 hover:bg-white/10 rounded-full transition-all"
-            >
-              <Heart 
-                className={`h-7 w-7 transition-all ${isLiked ? 'fill-green-500 text-green-500 scale-110' : 'text-white'}`} 
-              />
-            </Button>
-
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="w-14 h-14 hover:bg-white/10 rounded-full transition-all"
-            >
-              <MoreHorizontal className="h-7 w-7 text-white" />
-            </Button>
-          </div>
+         </div>
         </div>
       </div>
 
-      {/* Dropdown Menu */}
-      {isMenuOpen && (
-        <div className={`absolute top-20 right-6 w-56 rounded-xl shadow-2xl ${isDark ? 'bg-zinc-900 border border-zinc-700' : 'bg-white border border-gray-200'} z-50 py-2`}>
-          <button className="w-full text-left px-5 py-3 hover:bg-white/10 flex items-center gap-3 text-sm">
-            <Heart className="h-4 w-4" /> Add to Playlist
-          </button>
-          <button className="w-full text-left px-5 py-3 hover:bg-white/10 flex items-center gap-3 text-sm">
-            <Clock className="h-4 w-4" /> Go to Artist
-          </button>
-          <button className="w-full text-left px-5 py-3 hover:bg-white/10 flex items-center gap-3 text-sm">
-            <ChevronDown className="h-4 w-4" /> Share Album
-          </button>
-        </div>
-      )}
+      
     </div>
   );
 };

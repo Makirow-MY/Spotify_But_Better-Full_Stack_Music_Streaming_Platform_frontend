@@ -28,7 +28,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 				}
 			} catch (error: any) {
 				updateApiToken(null);
-				console.log("Error in auth provider", error);
+				//console.log("Error in auth provider", error);
 			} finally {
 				setLoading(false);
 			}

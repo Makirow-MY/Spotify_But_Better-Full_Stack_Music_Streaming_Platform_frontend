@@ -120,7 +120,7 @@ const SearchBar = () => {
       setResults(combinedResults.slice(0, 10).sort(() => Math.random() * 0.5));
       
        } catch (error) {
-      console.error("Search error:", error);
+      //console.error("Search error:", error);
       setResults([]);
     } finally {
       setIsLoading(false);
@@ -250,15 +250,7 @@ const SearchBar = () => {
             </button>
           )}
         </div>
-        
-        {/* Keyboard shortcut hint */}
-        {!query && !isOpen && (
-          <div className="absolute right-4 top-1/2 -translate-y-1/2 hidden sm:flex items-center gap-1">
-            <kbd className="px-1.5 py-0.5 text-xs bg-zinc-700 text-zinc-400 rounded">⌘</kbd>
-            <kbd className="px-1.5 py-0.5 text-xs bg-zinc-700 text-zinc-400 rounded">K</kbd>
-          </div>
-        )}
-      </form>
+         </form>
 
       {/* Search Suggestions Dropdown */}
       {isOpen && (query || isLoading) && (

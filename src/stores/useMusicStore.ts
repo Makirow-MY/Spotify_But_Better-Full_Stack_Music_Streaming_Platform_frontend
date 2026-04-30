@@ -33,6 +33,7 @@ interface MusicStore {
 	fetchStats: () => Promise<void>;
 	fetchSongs: () => Promise<void>;
 	deleteSong: (id: string) => Promise<void>;
+	editSong: (id: string) => Promise<void>;
 	deleteAlbum: (id: string) => Promise<void>;
 	 // New infinite scroll functions
   fetchAllSongs: (reset?: boolean) => Promise<void>;
@@ -89,7 +90,23 @@ export const useMusicStore = create<MusicStore>((set, get) => ({
 			}));
 			toast.success("Song deleted successfully");
 		} catch (error: any) {
-			console.log("Error in deleteSong", error);
+			//console.log("Error in deleteSong", error);
+			toast.error("Error deleting song");
+		} finally {
+			set({ isLoading: false });
+		}
+	},
+	editSong: async (id) => {
+		set({ isLoading: true, error: null });
+		try {
+		const res =	await axiosInstance.delete(`/admin/songs/${id}`);
+
+			set({
+				songs: res.data,
+		});
+			toast.success("Song deleted successfully");
+		} catch (error: any) {
+			//console.log("Error in deleteSong", error);
 			toast.error("Error deleting song");
 		} finally {
 			set({ isLoading: false });
@@ -113,7 +130,7 @@ fetchAllSongs: async (reset = false) => {
       hasMore,
     });
   } catch (error: any) {
-    console.error(error);
+    //console.error(error);
     set({ error: "Failed to load songs" });
    // toast.error("Failed to load songs");
   } finally {
@@ -138,7 +155,7 @@ loadMoreSongs: async () => {
       hasMore: hasMoreNew,
     }));
   } catch (error) {
-    console.error("Error loading more songs:", error);
+    //console.error("Error loading more songs:", error);
    // toast.error("Failed to load more songs");
   } finally {
     set({ isLoadingMore: false });
@@ -168,7 +185,7 @@ loadMoreSongs: async () => {
 			const response = await axiosInstance.get(`/songs`);
 			set({ songs: response.data });
 		} catch (error: any) {
-				console.error(error)
+				//console.error(error)
 			//set({ error: error.message });
 		} finally {
 			set({ isLoading: false });
@@ -207,7 +224,7 @@ loadMoreSongs: async () => {
 			const response = await axiosInstance.get(`/albums/${id}`);
 			set({ currentAlbum: response.data });
 		} catch (error: any) {
-				console.error(error)
+				//console.error(error)
 			//set({ error: error.response.data.message });
 		} finally {
 			set({ isLoading: false });
@@ -222,7 +239,7 @@ loadMoreSongs: async () => {
 			set({ featuredSongs: response.data });
 		} catch (error: any) {
 			//toast.success(error.response.data.message)
-			console.error("Error fetching featured songs:", error);
+			//console.error("Error fetching featured songs:", error);
 			//set({ error: error.response.data.message });
 		} finally {
 			set({ isLoading: false });
@@ -233,10 +250,10 @@ loadMoreSongs: async () => {
 		set({ isLoading: true, error: null });
 		try {
 			const response = await axiosInstance.get(`/songs/made-for-you`);
-		console.log("Made for you songs:", response.data);
+		//console.log("Made for you songs:", response.data);
 			set({ madeForYouSongs: response.data });
 		} catch (error: any) {
-			console.error(error)
+			//console.error(error)
 			//set({ error: error?.response?.data?.message });
 		} finally {
 			set({ isLoading: false });
@@ -247,10 +264,10 @@ loadMoreSongs: async () => {
 		set({ isLoading: true, error: null });
 		try {
 			const response = await axiosInstance.get(`/songs/trending`);
-			console.log(response.data)
+			//console.log(response.data)
 			set({ trendingSongs: response.data });
 		} catch (error: any) {
-				console.error(error)
+				//console.error(error)
 		//	set({ error: error.response.data.message });
 		} finally {
 			set({ isLoading: false });

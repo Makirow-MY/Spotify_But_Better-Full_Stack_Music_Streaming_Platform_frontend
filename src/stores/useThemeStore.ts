@@ -15,13 +15,13 @@ export const useThemeStore = create<ThemeStore>()(
 
       toggleTheme: () => {
         set((state) => {
-          const newTheme = !state.isDark;
-          // Apply theme to document root
-          if (newTheme) {
-            document.documentElement.classList.add('dark');
-          } else {
-            document.documentElement.classList.remove('dark');
-          }
+          const newTheme = state.isDark;
+          // // Apply theme to document root
+          // if (newTheme) {
+          //   document.documentElement.classList.add('dark');
+          // } else {
+          //   document.documentElement.classList.remove('dark');
+          // }
           return { isDark: newTheme };
         });
       },

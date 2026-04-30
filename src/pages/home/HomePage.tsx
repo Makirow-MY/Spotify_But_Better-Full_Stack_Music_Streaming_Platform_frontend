@@ -1,6 +1,6 @@
 // HomePage.tsx
 import { useEffect, useState } from "react";
-import { Menu,Bell, Sun, Moon,SearchIcon } from "lucide-react";
+import { Menu, Bell, SearchIcon } from "lucide-react";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { useMusicStore } from "@/stores/useMusicStore";
 import { usePlayerStore } from "@/stores/usePlayerStore";
@@ -18,27 +18,32 @@ import RightSidebar from "@/layout/components/RightSidebar";
 import AlbumBanner from "../album/albumBanner";
 //import InfiniteScroll from "@/layout/components/InfiniteScroll";
 import SearchBar from "@/layout/components/SearchBar";
+import SectionGridSkeleton from "./components/SectionGridSkeleton";
+import FeaturedGridSkeleton from "@/components/skeletons/FeaturedGridSkeleton";
+import UsersListSkeleton from "@/components/skeletons/UsersListSkeleton";
+import AlbumBannerSkeleton from "@/components/skeletons/BannerSkeleton";
+import FeaturedSectionSkeleton from "./components/FeaturedSectionSkeleton";
 
 
 const HomePage = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
 
   const [isRSidebarOpen, setIsRSidebarOpen] = useState(false);
   const [isRCollapsed, setIsRCollapsed] = useState(true);
 
   const { authUser, checkAuth } = useAuthStore();
-  const { fetchFeaturedSongs, fetchMadeForYouSongs, 
+  const { fetchFeaturedSongs, fetchMadeForYouSongs,
     allSongs,
     isLoading,
     // isLoadingMore,
     // hasMore,
-    
+
     // loadMoreSongs,
     fetchAllSongs,
     fetchTrendingSongs, albums, currentAlbum } = useMusicStore();
-  const { initializeQueue , currentSong} = usePlayerStore();
+  const { initializeQueue, currentSong } = usePlayerStore();
   const { isDark, toggleTheme } = useThemeStore();
 
   const toggleCollapse = () => setIsCollapsed(!isCollapsed);
@@ -54,17 +59,25 @@ const HomePage = () => {
 
   // Initialize player queue
   useEffect(() => {
-   if (currentSong || currentAlbum) {
-     initializeQueue(allSongs);
+    if (currentSong || currentAlbum) {
+      if (currentAlbum) {
+         initializeQueue(currentAlbum.songs);
+      }
+      else{
+         initializeQueue(allSongs);
+      }
+     
     }
-   
-  }, [initializeQueue, fetchMadeForYouSongs,fetchAllSongs, currentSong, currentAlbum ]);
+
+  }, [initializeQueue, fetchMadeForYouSongs, fetchAllSongs, currentSong, currentAlbum]);
 
   return (
     <div className={`flex h-screen overflow-hidden ${isDark ? 'bg-black text-white' : 'bg-zinc-100 text-zinc-900'}`}>
 
       {/* Responsive Sidebar */}
-      <LeftSidebar isOpen={isSidebarOpen}
+      <LeftSidebar
+        setShowAuthModal={setShowAuthModal}
+        isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
         isCollapsed={isCollapsed}
         toggleCollapse={toggleCollapse}
@@ -90,13 +103,13 @@ const HomePage = () => {
             </button>}
 
             <div className="flex-1 mx-4 hidden sm:block">
-  <SearchBar />
-</div>
+              <SearchBar />
+            </div>
 
             {/* Right Side Icons */}
             <div className="flex items-center gap-3">
               {/* Theme Toggle */}
-                 <button className={`p-2 sm:hidden block rounded-full hover:bg-secondary transition ${isDark ? 'text-gray-300' : 'text-zinc-700'}`}>
+              <button className={`p-2 sm:hidden block rounded-full hover:bg-secondary transition ${isDark ? 'text-gray-300' : 'text-zinc-700'}`}>
                 <SearchIcon size={20} />
               </button>
 
@@ -104,11 +117,11 @@ const HomePage = () => {
                 onClick={toggleTheme}
                 className={`p-2 rounded-full hover:bg-secondary transition ${isDark ? 'text-gray-300' : 'text-zinc-700'}`}
               >
-                {isDark ? <Sun size={20} /> : <Moon size={20} />}
+            
               </button>
 
               {/* Bell Icon */}
-            
+
               <button className={`p-2 rounded-full hover:bg-secondary transition ${isDark ? 'text-gray-300' : 'text-zinc-700'}`}>
                 <Bell size={20} />
               </button>
@@ -128,39 +141,52 @@ const HomePage = () => {
         </header>
 
         {/* Main Scrollable Content */}
-        <ScrollArea className="flex-1">
+        {(!isLoading && allSongs.length > 0) && <ScrollArea className="flex-1">
           <div className="p-4 md:p-6 lg:p-8 max-w-screen-2xl mx-auto">
-            {/* {currentAlbum && <div className="h-[50vh] relative bg-white overflow-hidden rounded-sm">
-              <img src={currentAlbum?.imageUrl || "/placeholder.svg"} className="absolute top-0 left-0 z-50 w-full h-full object-cover "/>
-              <div className="absolute top-0 flex items-center justify-start left-0 bg-secondary-foreground/10 z-50 w-full h-full object-cover ">
-                   <button className="mt-auto ml-[20%] mb-5 py-2 px-3 bg-primary">Play</button>
-              </div>
-            </div>} */}
-                        {(albums.length > 0 && !currentAlbum) && <AlbumBanner album={albums[Math.floor(Math.random() * albums?.length)]} />}
+            {(albums.length > 0 && !currentAlbum) && <AlbumBanner album={albums[0]} />}
+            {currentAlbum && <AlbumBanner album={currentAlbum} />}
             {(albums.length > 0 && !currentAlbum) && <FeaturedSection />}
-                        {currentAlbum && <AlbumBanner album={currentAlbum} />}
-            {currentAlbum && <FeaturedSection />}
-            <div className="space-y-8">
-           <div className="mt-12">
-              <h2 className="text-3xl font-bold tracking-tight mb-6 px-2">Discover All Songs</h2>
-              
-               <SectionGrid 
-                  title="" 
-                  songs={allSongs} 
-                  isLoading={isLoading} 
+            {currentAlbum && albums.length === 0 && <FeaturedSection />}
+            
+            <div>
+              <div className="mt-2">
+                <h2 className="text-3xl font-bold tracking-tight px-2">Discover All Songs</h2>
+                <p className={`text-sm text-muted-foreground mt-1 hidden sm:block`}>
+                  We reserve the best musics for you
+                </p>
+                <SectionGrid
+                  title=""
+                  songs={allSongs}
+                  isLoading={isLoading}
                   columns={4}
                   showAllLink={false}
                 />
-           
-            </div>
+
+              </div>
             </div>
           </div>
-        </ScrollArea>
+        </ScrollArea>}
 
-       {(currentSong || currentAlbum) && <AudioPlayer />}
+        {(isLoading || allSongs.length === 0) &&
+          <ScrollArea className="flex-1">
+            <div className="p-4 md:p-6 lg:p-8 max-w-screen-2xl mx-auto">
+              <AlbumBannerSkeleton />
+               <FeaturedSectionSkeleton />
+               <SectionGridSkeleton />
+           
+              <FeaturedGridSkeleton />
+              <UsersListSkeleton />
+              <SectionGridSkeleton />
+            </div>
+          </ScrollArea>
+        }
+
+
+
+        {(currentSong || currentAlbum) && <AudioPlayer />}
       </div>
 
-     {currentSong && <RightSidebar isCollapsed={isRCollapsed} onClose={() => setIsRSidebarOpen(false)} toggleCollapse={() => setIsRCollapsed(!isRCollapsed)} isOpen={isRSidebarOpen} />}
+      {currentSong && <RightSidebar isCollapsed={isRCollapsed} onClose={() => setIsRSidebarOpen(false)} toggleCollapse={() => setIsRCollapsed(!isRCollapsed)} isOpen={isRSidebarOpen} />}
 
       {/* Auth Modal */}
       <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />

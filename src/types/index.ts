@@ -24,6 +24,7 @@ export interface Album {
 	imageUrl: string;
 	releaseYear: number;
 	songs: Song[];
+	description: string; 
 }
 
 export interface Stats {
@@ -48,4 +49,6 @@ export interface User {
 	fullName: string;
 	imageUrl: string;
 	email: string;
+	albumId: Album;
+	
 }

@@ -6,7 +6,7 @@ import { usePlayerStore } from "@/stores/usePlayerStore";
 import { useThemeStore } from "@/stores/useThemeStore";
 import { 
   Play, Pause, SkipBack, SkipForward, Volume2, VolumeX, 
-  Repeat, Repeat1, Shuffle,
+  Repeat, Repeat1,
   PlusCircle, Music2, Trash2,
 
 } from "lucide-react";
@@ -151,9 +151,7 @@ const AudioPlayer = () => {
   const { 
     currentSong, isPlaying, togglePlay, playNext, playPrevious,
     isLooping, isLoopingOne, toggleLoop, toggleLoopOne,
-    isShuffled, toggleShuffle,
-   // skipBackward, skipForward,
-	 playbackRate, setPlaybackRate,
+  	 playbackRate, setPlaybackRate,
     volume, setVolume, isMuted, toggleMute,
    // saveCurrentQueueAsPlaylist
   } = usePlayerStore();
@@ -190,7 +188,7 @@ const AudioPlayer = () => {
       setDuration(0);
 
       if (isPlaying) {
-        audio.play().catch(err => console.error("Play error:", err));
+        audio.play()  //console.error("Play error:", err));
       }
     }
   }, [currentSong, isPlaying, playbackRate, prevSongRef]);
@@ -208,7 +206,7 @@ const AudioPlayer = () => {
 
     if (isLoopingOne) {
       audio.currentTime = 0;
-      audio.play().catch(console.error);
+      audio.play();
     } else {
       playNext();   // This now handles Loop All + Shuffle correctly
     }
@@ -299,12 +297,17 @@ const AudioPlayer = () => {
 
 
  <div className="flex items-center flex-1 gap-1 justify-center">
-      <Button size='icon' variant='ghost'
+      {/* <Button size='icon' variant='ghost'
                   className={` ${isShuffled && 'text-green-500'}`}
                    onClick={toggleShuffle}
                  >
                    <Shuffle className="h-4 w-4" />
-                 </Button>
+                 </Button> */}
+                 	<Button size='icon'
+            onClick={handlePlaybackRateChange}
+            variant='ghost' >
+							{playbackRate}x
+						</Button>
 		<Button 
     size='icon' variant='ghost'
 		onClick={playPrevious}
@@ -350,11 +353,7 @@ const AudioPlayer = () => {
 	  </div>
 
  <div className="flex items-center gap-0.4">
-              	<Button size='icon'
-            onClick={handlePlaybackRateChange}
-            variant='ghost' >
-							{playbackRate}x
-						</Button>
+              
                              <Button variant="ghost" size="icon" onClick={toggleMute} >
                                {isMuted || volume === 0 ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
                              </Button>

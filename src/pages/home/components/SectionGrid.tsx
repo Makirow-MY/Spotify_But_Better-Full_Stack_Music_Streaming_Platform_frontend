@@ -8,6 +8,8 @@ import { usePlayerStore } from "@/stores/usePlayerStore";
 import { MoreHorizontal, Clock, Heart } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
+//import { useAuthStore } from "@/stores/useAuthStore";
+//import UserDropdown from "@/layout/components/UserDropdown";
 
 type SectionGridProps = {
 	title: string;
@@ -15,16 +17,18 @@ type SectionGridProps = {
 	isLoading: boolean;
 	showAllLink?: boolean;
 	columns?: 2 | 3 | 4 | 5;
-};
+	};
 
 const SectionGrid = ({ 
 	songs, 
 	title, 
 	isLoading, 
 	showAllLink = true,
-	columns = 4 
+	columns = 4 ,
+//	setShowAuthModal,
 }: SectionGridProps) => {
 	const { isDark } = useThemeStore();
+//	const {authUser} = useAuthStore();
 	const { currentSong, isPlaying } = usePlayerStore();
 	const [likedSongs, setLikedSongs] = useState<Set<string>>(new Set());
 
@@ -40,18 +44,10 @@ const SectionGrid = ({
 	};
 
 	return (
-		<div className='mb-12 group/section'>
+		<div className='mb-6 group/section'>
 			{/* Section Header */}
 			<div className='flex items-center justify-between mb-5 px-2'>
-				<div>
-					<h2 className='text-2xl sm:text-3xl font-bold tracking-tight hover:underline cursor-pointer transition'>
-						{title}
-					</h2>
-					<p className={`text-sm ${isDark ? 'text-zinc-400' : 'text-zinc-600'} mt-1 hidden sm:block`}>
-						{songs.length} songs • Updated weekly
-					</p>
-				</div>
-				{showAllLink && (
+						{showAllLink && (
 					<Button 
 						variant='ghost' 
 						className='text-sm text-zinc-400 hover:text-white hover:bg-white/10 rounded-full px-4 py-2 transition'

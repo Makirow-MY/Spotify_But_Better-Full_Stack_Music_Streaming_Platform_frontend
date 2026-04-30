@@ -60,8 +60,8 @@ const { isDark} = useThemeStore();
 			}
 
 			<div className='flex items-center flex-1 shrink-0 gap-2'>
-				 <h1 className={`font-bold text-center text-primary  transition-all ${isCollapsed ? 'text-2xl' : 'text-lg'}`}>
-			{isCollapsed ? "" : "Song Queue"}
+				 <h1 className={`font-bold text-center text-primary  transition-all ${isCollapsed ? 'text-2xl' : 'text-xl'}`}>
+			{isCollapsed ? "" : "My Playlist"}
 		  </h1>
 
 							</div>

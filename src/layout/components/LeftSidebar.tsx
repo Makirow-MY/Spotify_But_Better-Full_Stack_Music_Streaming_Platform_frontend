@@ -1,21 +1,24 @@
 // components/LeftSidebar.tsx
 import { useEffect} from "react";
-import { Home,  Library, PlusCircle,  X, ChevronLeft, ChevronRight, Volume2, } from "lucide-react";
+import { Home,  Library,   X, ChevronLeft, ChevronRight, Volume2, } from "lucide-react";
 import { useThemeStore } from "@/stores/useThemeStore";
 import { useMusicStore } from "@/stores/useMusicStore";
 import { usePlayerStore } from "@/stores/usePlayerStore";
+import { useAuthStore } from "@/stores/useAuthStore";
+import UserDropdown from "./UserDropdown";
 
 interface LeftSidebarProps {
   isOpen: boolean;           // For mobile drawer
   onClose: () => void;
   isCollapsed: boolean;      // For desktop collapse
   toggleCollapse: () => void;
+  setShowAuthModal:(modal: boolean) => void
 }
 
-const LeftSidebar = ({ isOpen, onClose, isCollapsed, toggleCollapse }: LeftSidebarProps) => {
-  	const { albums,setCurrentAlbum, currentAlbum, fetchAlbums } = useMusicStore();
-	const { currentSong, isPlaying } = usePlayerStore();
-  
+const LeftSidebar = ({ isOpen, setShowAuthModal, onClose, isCollapsed, toggleCollapse }: LeftSidebarProps) => {
+  	const { albums,setCurrentAlbum, currentAlbum,  fetchAlbums } = useMusicStore();
+	const { currentSong, isPlaying, setCurrentSong, playAlbum } = usePlayerStore();
+  const {authUser} = useAuthStore();
 const { isDark } = useThemeStore();
 	useEffect(() => {
 		fetchAlbums();
@@ -36,7 +39,7 @@ const { isDark } = useThemeStore();
 		  border-r border-neutral-800 
 		  flex flex-col h-full transition-all duration-300
 		  ${isOpen ? isDark ? 'bg-black/80 translate-x-0' : "bg-white/80 translate-x-0" : '-translate-x-full lg:translate-x-0'}
-		  ${isCollapsed ? 'w-20' : 'w-65'}
+		  ${isCollapsed ? 'w-20' : 'w-[18rem]'}
 		`}
 	  >
 		{/* Header */}
@@ -63,7 +66,7 @@ const { isDark } = useThemeStore();
 		</div>
 
 		{/* Navigation */}
-		<nav className="px-3 space-y-1 py-2">
+		<nav className="px-3 space-y-1 py-2 w-full">
 		  {[
 			{ icon: Home, label: "Home", active: true },
 			{ icon: Library, label: "Library", active: false },
@@ -83,17 +86,32 @@ const { isDark } = useThemeStore();
 		</nav>
 
 		{/* Playlists Section */}
-	<div className="mt-6 px-3 flex-1 flex flex-col overflow-hidden">
+	<div className="mt-6 px-3 flex-1 flex w-full flex-col overflow-hidden">
   <div className={`flex items-center justify-between mb-4 px-4 ${isCollapsed ? 'justify-center' : ''}`}>
     {!isCollapsed && (
-      <h3 className="text-xs font-semibold text-primary uppercase tracking-widest">
-        My Albums
+      <h3 className="text-md font-semibold text-primary text-nowrap uppercase tracking-widest">
+        My Albums Collections
       </h3>
     )}
-    <PlusCircle size={20} className="text-primary cursor-pointer" />
+   
   </div>
 
   <div className={`flex-1 ${isCollapsed ? "overflow-hidden" : "overflow-y-auto"} space-y-1 pr-2`}>
+   {
+	albums.length === 0 && <div className="w-full flex items-center flex-col gap-3 text-center pt-5 h-[50vh]">
+  No album found yet. Visit studio to add one
+    {!authUser ? (
+                <button
+                  onClick={() => setShowAuthModal(true)}
+                  className="bg-green-500 hover:bg-green-600 text-black px-6 py-2 rounded-full font-bold text-sm transition"
+                >
+                  Sign in
+                </button>
+              ) : (
+                <UserDropdown user={authUser} />
+              )}
+	</div>
+   }
     {albums.map((album) => {
       const isThisAlbumPlaying = 
         currentSong && 
@@ -104,8 +122,11 @@ const { isDark } = useThemeStore();
         <button
           type="button"
           key={album._id}
-          onClick={() => setCurrentAlbum(album)}
-          className={`group flex items-center gap-3 py-2.5 rounded-xl transition-all relative overflow-hidden
+          onClick={() => {setCurrentAlbum(album)
+			setCurrentSong(null)
+			playAlbum(album.songs, 0)
+		  }}
+          className={`group flex items-center gap-3 py-2.5 rounded-xl transition-all w-full relative overflow-hidden
             ${currentAlbum?._id === album._id 
               ? "bg-primary/10 border-l-4 border-primary" 
               : "hover:bg-secondary-foreground/10"

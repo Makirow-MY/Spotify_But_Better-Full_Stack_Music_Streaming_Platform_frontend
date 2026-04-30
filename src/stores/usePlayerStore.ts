@@ -18,7 +18,7 @@ interface PlayerStore {
 
   // Actions
   playAlbum: (songs: Song[], startIndex?: number) => void;
-  setCurrentSong: (song: Song) => void;
+  setCurrentSong: (song: Song | null) => void;
   togglePlay: () => void;
   playNext: () => void;
   playPrevious: () => void;
@@ -69,14 +69,14 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
 			currentIndex: get().currentIndex === -1 ? 0 : get().currentIndex,
 		});
 	},
-  setCurrentSong: (song: Song) => {
+  setCurrentSong: (song: Song | null) => {
     const { queue } = get();
-    const index = queue.findIndex((s) => s._id === song._id);
+    const index = queue.findIndex((s) => song && s._id === song._id);
 
     set({
       currentSong: song,
       currentIndex: index !== -1 ? index : 0,
-      isPlaying: true,
+      isPlaying: song ? true : false,
     });
   },
 
@@ -166,6 +166,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   toggleShuffle: () => {
     const { isShuffled,originalQueue, currentIndex, currentSong } = get();
 
+	
     if (!isShuffled) {
       // Enable shuffle
       let newQueue = [...originalQueue];
