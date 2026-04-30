@@ -4,7 +4,7 @@ import { Home,  Library,   X, ChevronLeft, ChevronRight, Volume2, } from "lucide
 import { useThemeStore } from "@/stores/useThemeStore";
 import { useMusicStore } from "@/stores/useMusicStore";
 import { usePlayerStore } from "@/stores/usePlayerStore";
-import { useAuthStore } from "@/stores/useAuthStore";
+
 
 
 interface LeftSidebarProps {
