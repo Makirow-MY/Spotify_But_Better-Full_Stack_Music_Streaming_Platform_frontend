@@ -77,7 +77,7 @@ const SectionGrid = ({
 								group relative 
 								${isDark ? 'bg-zinc-900/40' : 'bg-white'} 
 								rounded-lg p-4 
-								hover:bg-zinc-800/60 
+								hover:bg-secondary-foreground/10 
 								transition-all duration-300 
 								cursor-pointer
 								hover:shadow-xl

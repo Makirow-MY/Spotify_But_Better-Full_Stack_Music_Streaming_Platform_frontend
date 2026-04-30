@@ -16,7 +16,7 @@ import AudioPlayer from "@/layout/components/AudioPlayer";
 import UserDropdown from "@/layout/components/UserDropdown";
 import RightSidebar from "@/layout/components/RightSidebar";
 import AlbumBanner from "../album/albumBanner";
-import InfiniteScroll from "@/layout/components/InfiniteScroll";
+//import InfiniteScroll from "@/layout/components/InfiniteScroll";
 import SearchBar from "@/layout/components/SearchBar";
 
 
@@ -32,10 +32,10 @@ const HomePage = () => {
   const { fetchFeaturedSongs, fetchMadeForYouSongs, 
     allSongs,
     isLoading,
-    isLoadingMore,
-    hasMore,
+    // isLoadingMore,
+    // hasMore,
     
-    loadMoreSongs,
+    // loadMoreSongs,
     fetchAllSongs,
     fetchTrendingSongs, albums, currentAlbum } = useMusicStore();
   const { initializeQueue , currentSong} = usePlayerStore();
@@ -144,19 +144,14 @@ const HomePage = () => {
            <div className="mt-12">
               <h2 className="text-3xl font-bold tracking-tight mb-6 px-2">Discover All Songs</h2>
               
-              <InfiniteScroll
-                loadMore={loadMoreSongs}
-                hasMore={hasMore}
-                isLoadingMore={isLoadingMore}
-              >
-                <SectionGrid 
+               <SectionGrid 
                   title="" 
                   songs={allSongs} 
                   isLoading={isLoading} 
                   columns={4}
                   showAllLink={false}
                 />
-              </InfiniteScroll>
+           
             </div>
             </div>
           </div>
