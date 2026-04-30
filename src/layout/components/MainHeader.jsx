@@ -3,8 +3,8 @@
 import {Bell} from "lucide-react";
 
  const MainHeader = () => {
-    const [showAuthModal, setShowAuthModal] = useState(false);
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [setShowAuthModal] = useState(false);
+    const [setIsSidebarOpen] = useState(false);
   
     const { authUser, checkAuth } = useAuthStore();
     const { fetchFeaturedSongs, fetchMadeForYouSongs, fetchTrendingSongs, madeForYouSongs, featuredSongs, trendingSongs } = useMusicStore();
@@ -57,7 +57,7 @@ import {Bell} from "lucide-react";
                     onClick={toggleTheme}
                     className={`p-2 rounded-full hover:bg-white/10 transition ${isDark ? 'text-gray-300' : 'text-zinc-700'}`}
                   >
-                
+                    {isDark ? <Sun size={20} /> : <Moon size={20} />}
                   </button>
     
                   {/* Bell Icon */}
