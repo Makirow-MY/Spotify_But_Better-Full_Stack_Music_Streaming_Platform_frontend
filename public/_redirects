@@ -1,0 +1,5 @@
+# Handle all routes for SPA
+/*    /index.html   200
+
+# Redirect /admin to index.html as well
+/admin    /index.html   200
