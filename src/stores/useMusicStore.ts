@@ -115,7 +115,7 @@ fetchAllSongs: async (reset = false) => {
   } catch (error: any) {
     console.error(error);
     set({ error: "Failed to load songs" });
-    toast.error("Failed to load songs");
+   // toast.error("Failed to load songs");
   } finally {
     set({ isLoading: false });
   }
@@ -139,7 +139,7 @@ loadMoreSongs: async () => {
     }));
   } catch (error) {
     console.error("Error loading more songs:", error);
-    toast.error("Failed to load more songs");
+   // toast.error("Failed to load more songs");
   } finally {
     set({ isLoadingMore: false });
   }
