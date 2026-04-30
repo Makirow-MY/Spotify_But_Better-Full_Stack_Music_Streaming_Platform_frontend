@@ -5,7 +5,7 @@ import { useThemeStore } from "@/stores/useThemeStore";
 import { useMusicStore } from "@/stores/useMusicStore";
 import { usePlayerStore } from "@/stores/usePlayerStore";
 import { useAuthStore } from "@/stores/useAuthStore";
-import UserDropdown from "./UserDropdown";
+
 
 interface LeftSidebarProps {
   isOpen: boolean;           // For mobile drawer
@@ -15,10 +15,10 @@ interface LeftSidebarProps {
   setShowAuthModal:(modal: boolean) => void
 }
 
-const LeftSidebar = ({ isOpen, setShowAuthModal, onClose, isCollapsed, toggleCollapse }: LeftSidebarProps) => {
+const LeftSidebar = ({ isOpen, onClose, isCollapsed, toggleCollapse }: LeftSidebarProps) => {
   	const { albums,setCurrentAlbum, currentAlbum,  fetchAlbums } = useMusicStore();
 	const { currentSong, isPlaying, setCurrentSong, playAlbum } = usePlayerStore();
-  const {authUser} = useAuthStore();
+ 
 const { isDark } = useThemeStore();
 	useEffect(() => {
 		fetchAlbums();
