@@ -127,7 +127,7 @@ const { isDark } = useThemeStore();
           <div className="relative flex-shrink-0">
             <img 
               src={album.imageUrl} 
-              className="w-10 h-10 bg-neutral-700 border-l-4 border-secondary-foreground/10 object-cover rounded-lg" 
+              className="w-10 h-10 bg-neutral-700 border-l-4 border-secondary-foreground/5 shadow-black object-cover rounded-lg" 
               alt={album.title}
             />
 
