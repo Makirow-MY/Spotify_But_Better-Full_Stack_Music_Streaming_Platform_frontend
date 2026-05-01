@@ -4,6 +4,7 @@ import { Home,  Library,   X, ChevronLeft, ChevronRight} from "lucide-react";
 import { useThemeStore } from "@/stores/useThemeStore";
 import { useMusicStore } from "@/stores/useMusicStore";
 import { usePlayerStore } from "@/stores/usePlayerStore";
+import PlaylistSkeleton from "@/components/skeletons/PlaylistSkeleton";
 
 
 
@@ -16,7 +17,7 @@ interface LeftSidebarProps {
 }
 
 const LeftSidebar = ({ isOpen, onClose, isCollapsed, toggleCollapse }: LeftSidebarProps) => {
-  	const { albums,setCurrentAlbum, currentAlbum,  fetchAlbums } = useMusicStore();
+  	const { albums,setCurrentAlbum, currentAlbum,isLoading,  fetchAlbums } = useMusicStore();
 	const { isPlaying, setCurrentSong, playAlbum } = usePlayerStore();
  
 const { isDark } = useThemeStore();
@@ -98,10 +99,13 @@ const { isDark } = useThemeStore();
 
   <div className={`flex-1 ${isCollapsed ? "overflow-hidden" : "overflow-y-auto"} space-y-1 pr-2`}>
    {
-	albums.length === 0 && <div className="w-full flex items-center flex-col gap-3 text-center pt-5 h-[50vh]">
+	!isLoading && albums.length === 0 && <div className="w-full flex items-center flex-col gap-3 text-center pt-5 h-[50vh]">
   No album found yet. Visit studio to add one
 
 	</div>
+   }
+   {
+     isLoading && <PlaylistSkeleton />
    }
     {albums.map((album) => {
       const isThisAlbumPlaying = 
