@@ -63,13 +63,11 @@ const { isDark} = useThemeStore();
 		  > <ListMusicIcon size={22} /> </Button>
 			}
 
-			{!isCollapsed && <div className='flex items-center text-primary flex-1 shrink-0 gap-1'>
-				<Button
-			variant={"outline"}
-			size={"icon"} 
+			{!isCollapsed && <div className='flex items-start text-primary flex-1 shrink-0 gap-1'>
+				<button
 			className="pointer-events-none bg-transparent"
-		  > <ListMusicIcon size={22} /> </Button>
-				 <h1 className={`font-bold transition-all ${isCollapsed ? 'text-2xl' : 'text-xl'}`}>
+		  > <ListMusicIcon size={22} /> </button>
+				 <h1 className={`font-bold text-nowrap transition-all ${!isCollapsed && 'text-lg md:text-md'}`}>
 			{currentAlbum ? `${currentAlbum.title}` : "My Song Playlist"}
 		  </h1>
 
