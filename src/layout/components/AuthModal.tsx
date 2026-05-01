@@ -141,7 +141,7 @@ const AuthModal = ({ isOpen, onClose }: {
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col md:flex-row justify-between gap-3 mb-6 w-full">
               {!isLogin && (
-                <div className="w-full md:w-[50%] shrink-0 space-y-6 h-[90vh] overflow-y-auto">
+                <div className="w-full md:w-[50%] shrink-0 space-y-6 h-[50vh] overflow-y-auto">
                   <div>
                     <label className="block text-sm mb-2">Profile Picture (Optional)</label>
                     <label className="cursor-pointer flex flex-col items-center justify-center border-2 border-dashed border-neutral-700 rounded-xl h-40 hover:border-green-500 transition">
