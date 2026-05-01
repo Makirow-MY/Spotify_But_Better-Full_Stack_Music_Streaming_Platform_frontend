@@ -99,6 +99,7 @@ const { checkAuth} = useAuthStore();
 				releaseYear: new Date().getFullYear(),
 			});
 			setImageFile(null);
+			setImagePreview(null)
 			setAlbumDialogOpen(false);
 			toast.success("Album created successfully");
 		} catch (error: any) {
