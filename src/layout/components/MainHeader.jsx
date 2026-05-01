@@ -73,7 +73,7 @@ import {Bell, Sun} from "lucide-react";
                       Sign up
                     </button>
                   ) : (
-                    <UserDropdown user={authUser} />
+                    <UserDropdown admin={false} user={authUser} />
                   )}
                 </div>
               </div>

@@ -93,7 +93,8 @@ const AuthModal = ({ isOpen, onClose }: {
     if (isLogin) {
       try {
         await login({ email: formData.email, password: formData.password });
-        onClose();
+        setStep("verify");
+       
       } catch (error) {
         // Error is handled in store
       }
@@ -264,6 +265,7 @@ const AuthModal = ({ isOpen, onClose }: {
             <input
               type="text"
               maxLength={6}
+              disabled={isLoading}
               placeholder="Enter OTP"
               className="w-full bg-white/70 p-4 rounded-lg text-center text-2xl tracking-widest focus:outline-none focus:ring-2 focus:ring-green-500"
               value={otp}

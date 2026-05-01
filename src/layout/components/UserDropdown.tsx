@@ -5,7 +5,7 @@ import { useAuthStore } from "@/stores/useAuthStore";
 import { useNavigate } from "react-router-dom"; // ← Add this import
 import ProfileModal from "./ProfileModal";
 
-const UserDropdown = ({ user, admin = true }: { user: any; admin?: boolean }) => {
+const UserDropdown = ({ user, admin = false}: { user: any; admin?: boolean }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [showProfileModal, setShowProfileModal] = useState(false);
   const { logout } = useAuthStore();
