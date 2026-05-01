@@ -244,7 +244,7 @@ const SearchBar = () => {
             <button
               type="button"
               onClick={clearSearch}
-              className="text-gray-400 hover:text-white p-1 transition"
+              className="text-gray-400 hover:text-secondary-foreground p-1 transition"
             >
               <X size={18} />
             </button>

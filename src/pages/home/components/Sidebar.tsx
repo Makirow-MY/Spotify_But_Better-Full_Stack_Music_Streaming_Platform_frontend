@@ -40,7 +40,7 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, toggleCollapse }: SidebarProps)
           {/* Collapse Toggle Button - Only visible on large screens */}
           <button 
             onClick={toggleCollapse}
-            className="hidden lg:block text-gray-400 hover:text-white p-1 rounded-full hover:bg-white/10"
+            className="hidden lg:block text-gray-400 hover:text-secondary-foreground p-1 rounded-full hover:bg-white/10"
           >
             {isCollapsed ? <ChevronRight size={22} /> : <ChevronLeft size={22} />}
           </button>
@@ -48,7 +48,7 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, toggleCollapse }: SidebarProps)
           {/* Close button for mobile only */}
           <button 
             onClick={onClose} 
-            className="lg:hidden text-gray-400 hover:text-white"
+            className="lg:hidden text-gray-400 hover:text-secondary-foreground"
           >
             <X size={28} />
           </button>
@@ -82,7 +82,7 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, toggleCollapse }: SidebarProps)
                 Playlists
               </h3>
             )}
-            <PlusCircle size={20} className="text-gray-400 hover:text-white cursor-pointer" />
+            <PlusCircle size={20} className="text-gray-400 hover:text-secondary-foreground cursor-pointer" />
           </div>
 
           <div className="flex-1 overflow-y-auto space-y-1 pr-2">

@@ -146,7 +146,7 @@ console.log(featuredSongs)
 								<div className="p-4 space-y-2">
 									<div className="flex items-start justify-between gap-2">
 										<div className="flex-1 min-w-0">
-											<h3 className='font-semibold text-base truncate group-hover:text-white transition'>
+											<h3 className='font-semibold text-base truncate group-hover:text-secondary-foreground transition'>
 												{song.title}
 											</h3>
 											<p className='text-sm text-zinc-400 truncate hover:underline cursor-pointer'>
