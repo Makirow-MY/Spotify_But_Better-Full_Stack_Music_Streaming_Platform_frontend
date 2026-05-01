@@ -6,7 +6,7 @@ import { useMusicStore } from "@/stores/useMusicStore";
 
 import { usePlayerStore } from "@/stores/usePlayerStore";
 import { useThemeStore } from "@/stores/useThemeStore";
-import { ListMusicIcon, Music4Icon, X } from "lucide-react";
+import { ChevronLeft, Music4Icon, X } from "lucide-react";
 import { useEffect,  } from "react";
 
 
@@ -60,7 +60,7 @@ const { isDark} = useThemeStore();
 			size={"icon"} 
 			onClick={toggleCollapse}
 			className="hidden lg:block p-1 hover:bg-secondary/10"
-		  > <ListMusicIcon size={22} /> </Button>
+		  > <ChevronLeft size={22} /> </Button>
 			}
 
 			{!isCollapsed && <div className='flex items-center text-primary flex-1 shrink-0 gap-1'>
