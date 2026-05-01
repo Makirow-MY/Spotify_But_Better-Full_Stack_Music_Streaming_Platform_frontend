@@ -168,7 +168,7 @@ const AddSongDialog = () => {
               <div className="flex items-center gap-4">
                 <Music className="h-10 w-10 text-green-500" />
                 <div>
-                  <p className="font-medium">{files.audio ? files.audio.name : "Select Audio File"}</p>
+                  <p className="font-medium truncate line-clamp-1 break-words ">{files.audio ? files.audio.name : "Select Audio File"}</p>
                   <p className="text-xs text-zinc-500">MP3, WAV • Max 50MB recommended</p>
                 </div>
               </div>
@@ -233,7 +233,7 @@ const AddSongDialog = () => {
         </div>
 
         <div className="flex justify-end gap-3 pt-4 border-t border-zinc-800">
-          <Button variant="ghost" onClick={() => {setOpen(false)
+          <Button variant="outline" onClick={() => {setOpen(false)
             resetForm()
           }} disabled={isLoading}>
             Cancel
