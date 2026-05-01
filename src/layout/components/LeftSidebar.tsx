@@ -17,7 +17,7 @@ interface LeftSidebarProps {
 
 const LeftSidebar = ({ isOpen, onClose, isCollapsed, toggleCollapse }: LeftSidebarProps) => {
   	const { albums,setCurrentAlbum, currentAlbum,  fetchAlbums } = useMusicStore();
-	const { currentSong, isPlaying, setCurrentSong, playAlbum } = usePlayerStore();
+	const { isPlaying, setCurrentSong, playAlbum } = usePlayerStore();
  
 const { isDark } = useThemeStore();
 	useEffect(() => {
