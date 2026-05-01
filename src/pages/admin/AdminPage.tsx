@@ -11,7 +11,7 @@ import AdminHeader from "./components/Header";
 const AdminPage = () => {
 	const { authUser, checkAuth} = useAuthStore();
 
-	const { fetchAlbums, fetchSongs, fetchStats } = useMusicStore();
+	const { fetchAlbums,songs, fetchSongs, fetchStats } = useMusicStore();
 
 	useEffect(() => {
 		fetchAlbums();
@@ -19,7 +19,7 @@ const AdminPage = () => {
 		fetchStats();
 		checkAuth();
 
-	}, [fetchAlbums, fetchSongs,checkAuth, fetchStats, authUser]);
+	}, [authUser, songs.length]);
 
 	return (
 		<div
