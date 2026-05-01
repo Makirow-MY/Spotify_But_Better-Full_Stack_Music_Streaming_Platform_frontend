@@ -9,24 +9,7 @@ import { initializeTheme } from "./stores/useThemeStore";
 import { useAuthStore } from "./stores/useAuthStore";
 import { useMusicStore } from "./stores/useMusicStore";
 
-// Protected Route Component
-const ProtectedRoute = ({ children, adminOnly = false }: { children: React.ReactNode; adminOnly?: boolean }) => {
-  const { authUser, isLoading } = useAuthStore();
-  
-  if (isLoading) {
-    return <div className="flex items-center justify-center h-screen">Loading...</div>;
-  }
-  
-  if (!authUser) {
-    return <Navigate to="/" replace />;
-  }
-  
-  if (adminOnly && !authUser) {
-    return <Navigate to="/" replace />;
-  }
-  
-  return children;
-};
+
 
 function App() {
   const { checkAuth} = useAuthStore();
@@ -53,9 +36,8 @@ function App() {
         <Route 
           path='/admin' 
           element={
-            <ProtectedRoute adminOnly={true}>
               <AdminPage />
-            </ProtectedRoute>
+            
           } 
         />
         

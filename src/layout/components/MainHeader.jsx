@@ -65,7 +65,7 @@ import {Bell, Sun} from "lucide-react";
                     <Bell size={20} />
                   </button>
     
-                  {!authUser ? (
+                  {(!authUser || (authUser && !authUser.isVerified))? (
                     <button
                       onClick={() => setShowAuthModal(true)}
                       className="bg-green-500 hover:bg-green-600 text-black px-6 py-2 rounded-full font-bold text-sm transition"
