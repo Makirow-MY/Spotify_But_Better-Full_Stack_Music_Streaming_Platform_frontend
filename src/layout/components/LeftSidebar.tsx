@@ -159,7 +159,7 @@ const { isDark } = useThemeStore();
                   {album.artist}
                 </p>
                    <span className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground">
-                    • {album.songs?.length || 0}songs
+                    • {album.songs?.length || 0} songs
                   </span>
               
               </div>

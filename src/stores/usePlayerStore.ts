@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { Song } from "@/types"; // adjust path
+import toast from "react-hot-toast";
 
 interface PlayerStore {
   currentSong: Song | null;
@@ -164,20 +165,20 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   },
 
   toggleShuffle: () => {
-    const { isShuffled,originalQueue, currentIndex, currentSong } = get();
+    const { isShuffled, queue, currentIndex, currentSong } = get();
 
 	
     if (!isShuffled) {
       // Enable shuffle
-      let newQueue = [...originalQueue];
+      toast.success("Shuffle mode on")
+      let newQueue = [...queue];
 
       // Fisher-Yates shuffle
       for (let i = newQueue.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [newQueue[i], newQueue[j]] = [newQueue[j], newQueue[i]];
       }
-
-      // Keep current song at current position if possible
+ 
       if (currentSong) {
         const currentSongIndexInNew = newQueue.findIndex(s => s._id === currentSong._id);
         if (currentSongIndexInNew !== -1 && currentSongIndexInNew !== currentIndex) {
@@ -185,17 +186,17 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
           [newQueue[currentSongIndexInNew], newQueue[currentIndex]];
         }
       }
-
+   
       set({
         queue: newQueue,
         isShuffled: true,
       });
     } else {
       // Disable shuffle → restore original
-      const restoredIndex = originalQueue.findIndex(s => s._id === currentSong?._id) ?? currentIndex;
-
+      const restoredIndex = queue.findIndex(s => s._id === currentSong?._id) ?? currentIndex;
+  toast.success("Shuffle mode off")
       set({
-        queue: [...originalQueue],
+        queue: [...queue],
         currentIndex: restoredIndex,
         isShuffled: false,
       });

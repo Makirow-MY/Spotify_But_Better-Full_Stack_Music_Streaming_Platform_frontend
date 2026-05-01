@@ -4,10 +4,11 @@ import { Slider } from "@/components/ui/slider";
 import { useMusicStore } from "@/stores/useMusicStore";
 import { usePlayerStore } from "@/stores/usePlayerStore";
 import { useThemeStore } from "@/stores/useThemeStore";
-import { 
-  Play, Pause, SkipBack, SkipForward, Volume2, VolumeX, 
+import {
+  Play, Pause, SkipBack, SkipForward, Volume2, VolumeX,
   Repeat, Repeat1,
   PlusCircle, Music2, Trash2,
+  ShuffleIcon,
 
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -22,20 +23,20 @@ const formatTime = (seconds: number) => {
 
 // NEW: Playlist Drawer Component
 const PlaylistDrawer = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
-  const {albums, deleteAlbum  } = useMusicStore();
-   const {currentSong, isPlaying  } = usePlayerStore();
+  const { albums, deleteAlbum } = useMusicStore();
+  const { currentSong, isPlaying} = usePlayerStore();
   const [newPlaylistName, setNewPlaylistName] = useState("");
   const { isDark } = useThemeStore();
 
   const handleCreatePlaylist = () => {
     if (newPlaylistName.trim()) {
-    //  createPlaylist(newPlaylistName);
+      //  createPlaylist(newPlaylistName);
       setNewPlaylistName("");
       toast.success(`Playlist "${newPlaylistName}" created!`);
     }
   };
-  const isCurrentAlbumPlaying = 
-    currentSong &&  isPlaying && albums.find((album) => album?.songs?.some(song => song._id === currentSong._id))
+  const isCurrentAlbumPlaying =
+    currentSong && isPlaying && albums.find((album) => album?.songs?.some(song => song._id === currentSong._id))
 
   if (!isOpen) return null;
 
@@ -45,7 +46,7 @@ const PlaylistDrawer = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
       <div className={`fixed bottom-20 right-4 w-80 ${isDark ? 'bg-zinc-900' : 'bg-white'} rounded-xl shadow-2xl border ${isDark ? 'border-zinc-800' : 'border-gray-200'} z-50 max-h-96 overflow-y-auto`}>
         <div className="p-4">
           <h3 className="font-bold mb-3">Your Playlists</h3>
-          
+
           {/* Create new playlist */}
           <div className="flex gap-2 mb-4">
             <input
@@ -59,7 +60,7 @@ const PlaylistDrawer = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
               <PlusCircle className="h-4 w-4" />
             </Button>
           </div>
-          
+
           {/* Playlists list */}
           <div className="space-y-2">
             {albums.length === 0 ? (
@@ -68,9 +69,8 @@ const PlaylistDrawer = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
               albums.map((playlist) => (
                 <div
                   key={playlist._id}
-                  className={`flex items-center justify-between p-2 rounded-lg cursor-pointer transition ${
-                 isCurrentAlbumPlaying &&   isCurrentAlbumPlaying._id === playlist._id ? 'bg-green-500/20' : 'hover:bg-zinc-800/50'
-                  }`}
+                  className={`flex items-center justify-between p-2 rounded-lg cursor-pointer transition ${isCurrentAlbumPlaying && isCurrentAlbumPlaying._id === playlist._id ? 'bg-green-500/20' : 'hover:bg-zinc-800/50'
+                    }`}
                   onClick={() => {
                     //loadPlaylist(playlist.id);
                     onClose();
@@ -89,7 +89,7 @@ const PlaylistDrawer = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
                     size="sm"
                     onClick={(e) => {
                       e.stopPropagation();
-                     deleteAlbum(playlist._id);
+                      deleteAlbum(playlist._id);
                       toast.success("Playlist deleted");
                     }}
                   >
@@ -123,9 +123,8 @@ const QueueDrawer = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void
             {queue.map((song, idx) => (
               <div
                 key={song._id}
-                className={`flex items-center gap-3 p-2 rounded-lg cursor-pointer transition ${
-                  currentSong?._id === song._id ? 'bg-green-500/20' : 'hover:bg-zinc-800/50'
-                }`}
+                className={`flex items-center gap-3 p-2 rounded-lg cursor-pointer transition ${currentSong?._id === song._id ? 'bg-green-500/20' : 'hover:bg-zinc-800/50'
+                  }`}
                 onClick={() => {
                   setCurrentSong(song);
                   onClose();
@@ -148,17 +147,18 @@ const QueueDrawer = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void
 };
 
 const AudioPlayer = () => {
-  const { 
+  const {
     currentSong, isPlaying, togglePlay, playNext, playPrevious,
     isLooping, isLoopingOne, toggleLoop, toggleLoopOne,
-  	 playbackRate, setPlaybackRate,
+    playbackRate, setPlaybackRate,
     volume, setVolume, isMuted, toggleMute,
-   // saveCurrentQueueAsPlaylist
+    isShuffled, toggleShuffle 
+    // saveCurrentQueueAsPlaylist
   } = usePlayerStore();
-  
+
   const { isDark } = useThemeStore();
   const audioRef = useRef<HTMLAudioElement>(null);
-  
+
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [prevSongRef, setPrevSongRef] = useState<string | null>(null);
@@ -178,7 +178,7 @@ const AudioPlayer = () => {
 
     const audio = audioRef.current;
     const isSongChange = prevSongRef !== currentSong?.audioUrl;
-    
+
     if (isSongChange) {
       audio.src = currentSong?.audioUrl;
       audio.currentTime = 0;
@@ -194,34 +194,34 @@ const AudioPlayer = () => {
   }, [currentSong, isPlaying, playbackRate, prevSongRef]);
 
   // Setup audio event listeners
- useEffect(() => {
-  const audio = audioRef.current;
-  if (!audio) return;
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
 
-  const updateTime = () => setCurrentTime(audio.currentTime);
-  const updateDuration = () => setDuration(audio.duration || 0);
+    const updateTime = () => setCurrentTime(audio.currentTime);
+    const updateDuration = () => setDuration(audio.duration || 0);
 
-  const handleEnded = () => {
-    const { isLoopingOne } = usePlayerStore.getState();
+    const handleEnded = () => {
+      const { isLoopingOne } = usePlayerStore.getState();
 
-    if (isLoopingOne) {
-      audio.currentTime = 0;
-      audio.play();
-    } else {
-      playNext();   // This now handles Loop All + Shuffle correctly
-    }
-  };
+      if (isLoopingOne) {
+        audio.currentTime = 0;
+        audio.play();
+      } else {
+        playNext();   // This now handles Loop All + Shuffle correctly
+      }
+    };
 
-  audio.addEventListener("timeupdate", updateTime);
-  audio.addEventListener("loadedmetadata", updateDuration);
-  audio.addEventListener("ended", handleEnded);
+    audio.addEventListener("timeupdate", updateTime);
+    audio.addEventListener("loadedmetadata", updateDuration);
+    audio.addEventListener("ended", handleEnded);
 
-  return () => {
-    audio.removeEventListener("timeupdate", updateTime);
-    audio.removeEventListener("loadedmetadata", updateDuration);
-    audio.removeEventListener("ended", handleEnded);
-  };
-}, [playNext]); // playNext is stable now
+    return () => {
+      audio.removeEventListener("timeupdate", updateTime);
+      audio.removeEventListener("loadedmetadata", updateDuration);
+      audio.removeEventListener("ended", handleEnded);
+    };
+  }, [playNext]); // playNext is stable now
 
   // Sync volume with store
   useEffect(() => {
@@ -252,7 +252,7 @@ const AudioPlayer = () => {
     const currentIndex = rates.indexOf(playbackRate);
     const nextRate = rates[(currentIndex + 1) % rates.length];
     setPlaybackRate(nextRate);
-   
+
   };
 
 
@@ -267,127 +267,127 @@ const AudioPlayer = () => {
   return (
     <>
       <audio ref={audioRef} />
-      
-     
-      	<footer className={`py-3  space-x-3 flex flex-row-reverse items-center justify-between ${isDark ? 'bg-black' : "bg-white "} border-t border-neutral-800 flex px-4`}>
-	 
-	  {/* Controls Center */}
-	  <div className='flex flex-col items-center gap-2 flex-1 max-w-full '>
 
 
-<div className="flex items-center w-full justify-between">
+      <footer className={`py-3  space-x-3 flex flex-row-reverse items-center justify-between ${isDark ? 'bg-black' : "bg-white "} border-t border-neutral-800 flex px-4`}>
+
+        {/* Controls Center */}
+        <div className='flex flex-col items-center gap-2 flex-1 max-w-full '>
 
 
-	  <div className="flex items-center space-x-4 shrink-0 ">
-		<img
-		  src={currentSong?.imageUrl || "/placeholder.jpg"}
-		  alt={currentSong?.title}
-		  className="w-12 h-12 shadow-md rounded object-cover"
-		/>
-		<div className="min-w-0">
-		  <p className="text-sm font-medium max-w-[100px] text-primary line-clamp-1 truncate">{currentSong?.title}</p>
-		  <p className="text-xs text-muted-foreground line-clamp-1 truncate">{currentSong?.artist}</p>
-		</div>
-		{/* <Heart size={16} className="text-muted-foreground shrink-0 hover:text-primary cursor-pointer" /> */}
-    {/* <Button size='icon' variant='ghost' onClick={() => setIsPlaylistDrawerOpen(!isPlaylistDrawerOpen)}
+          <div className="flex items-center w-full justify-between">
+
+
+            <div className="flex items-center space-x-4 shrink-0 ">
+              <img
+                src={currentSong?.imageUrl || "/placeholder.jpg"}
+                alt={currentSong?.title}
+                className="w-12 h-12 shadow-md rounded object-cover"
+              />
+              <div className="min-w-0">
+                <p className="text-sm font-medium max-w-[100px] text-primary line-clamp-1 truncate">{currentSong?.title}</p>
+                <p className="text-xs text-muted-foreground line-clamp-1 truncate">{currentSong?.artist}</p>
+              </div>
+              {/* <Heart size={16} className="text-muted-foreground shrink-0 hover:text-primary cursor-pointer" /> */}
+              {/* <Button size='icon' variant='ghost' onClick={() => setIsPlaylistDrawerOpen(!isPlaylistDrawerOpen)}
                 >
     <Plus   size={16} className="text-muted-foreground shrink-0 hover:text-primary cursor-pointer" /> */}
-	  {/* </Button> */}
-    </div>
+              {/* </Button> */}
+            </div>
 
 
- <div className="flex items-center flex-1 gap-1 justify-center">
-      {/* <Button size='icon' variant='ghost'
-                  className={` ${isShuffled && 'text-green-500'}`}
-                   onClick={toggleShuffle}
-                 >
-                   <Shuffle className="h-4 w-4" />
-                 </Button> */}
-                 	<Button size='icon'
-            onClick={handlePlaybackRateChange}
-            variant='ghost' >
-							{playbackRate}x
-						</Button>
-		<Button 
-    size='icon' variant='ghost'
-		onClick={playPrevious}
-							disabled={!currentSong}
-	>
-		  <SkipBack size={20}/>
-		</Button>
+            <div className="flex items-center flex-1 gap-1 justify-center">
+              <Button size='icon' variant='ghost'
+                className={` ${isShuffled && 'text-green-500'}`}
+                onClick={toggleShuffle}
+              >
+                <ShuffleIcon className="h-4 w-4" />
+              </Button>
+              <Button size='icon'
+                onClick={handlePlaybackRateChange}
+                variant='ghost' >
+                {playbackRate}x
+              </Button>
+              <Button
+                size='icon' variant='ghost'
+                onClick={playPrevious}
+                disabled={!currentSong}
+              >
+                <SkipBack size={20} />
+              </Button>
 
-		<Button
-		  onClick={togglePlay}
-		  disabled={!currentSong}
-		  className="w-12 h-12 mr-1 ml-1 bg-primary rounded-full flex items-center justify-center text-black text-xl font-bold"
-		>
-		  {isPlaying ? <Pause size={20} /> : <Play size={20} />}
-		</Button>
-   <Button onClick={playNext}  size='icon' variant='ghost'
-							disabled={!currentSong}>
-		  <SkipForward size={20} />
-		</Button>
-		<Button  className={`${(isLooping || isLoopingOne) && 'text-green-500'}`}
-  onClick={() => {
-    if (!isLoopingOne && !isLooping) {
-      toast.dismiss()
-      toast.success("Repeat one")
-      toggleLoopOne();        // First click → Repeat One
-    } else if (isLoopingOne) {
-      toast.dismiss()
-      toast.success("Repeat all")
-      toggleLoop();           // Second click → Loop All (Repeat)
-    } else {
-      toast.dismiss()
-      toast.success("Repeat off")
-      toggleLoop();           // Third click → Off
-    }
-   }} size='icon' variant='ghost'>
-								  {isLoopingOne ? <Repeat1 className="h-4 w-4" /> : <Repeat className="h-4 w-4" />}
-								</Button>
-		{/* <div className="flex items-center space-x-2">
+              <Button
+                onClick={togglePlay}
+                disabled={!currentSong}
+                className="w-12 h-12 mr-1 ml-1 bg-primary rounded-full flex items-center justify-center text-black text-xl font-bold"
+              >
+                {isPlaying ? <Pause size={20} /> : <Play size={20} />}
+              </Button>
+              <Button onClick={playNext} size='icon' variant='ghost'
+                disabled={!currentSong}>
+                <SkipForward size={20} />
+              </Button>
+              <Button className={`${(isLooping || isLoopingOne) && 'text-green-500'}`}
+                onClick={() => {
+                  if (!isLoopingOne && !isLooping) {
+                    toast.dismiss()
+                    toast.success("Repeat one")
+                    toggleLoopOne();        // First click → Repeat One
+                  } else if (isLoopingOne) {
+                    toast.dismiss()
+                    toast.success("Repeat all")
+                    toggleLoop();           // Second click → Loop All (Repeat)
+                  } else {
+                    toast.dismiss()
+                    toast.success("Repeat off")
+                    toggleLoop();           // Third click → Off
+                  }
+                }} size='icon' variant='ghost'>
+                {isLoopingOne ? <Repeat1 className="h-4 w-4" /> : <Repeat className="h-4 w-4" />}
+              </Button>
+              {/* <div className="flex items-center space-x-2">
 		  <Square size={16} className="text-muted-foreground" />
 		  <span className="text-xs text-gray-400">Queue</span>
 		</div>
 		<ChevronDown size={16} className="text-muted-foreground rotate-180" /> */}
-	  </div>
+            </div>
 
- <div className="flex items-center gap-0.4">
-              
-                             <Button variant="ghost" size="icon" onClick={toggleMute} >
-                               {isMuted || volume === 0 ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
-                             </Button>
-                             <Slider
-                               value={[isMuted ? 0 : volume]}
-                               max={100}
-                               step={1}
-                               className="w-24"
-                               onValueChange={(value) => setVolume(value[0])}
-                             />
-                           </div>
-</div>
-	 
-	  <div className='hidden sm:flex items-center gap-2 w-full'>
-							<div className='text-xs text-zinc-400'>{formatTime(currentTime)}</div>
-							<Slider
-								value={[currentTime]}
-								max={duration || 100}
-								step={1}
-								className='w-full hover:cursor-grab active:cursor-grabbing'
-								onValueChange={handleSeek}
-							/>
-							<div className='text-xs text-zinc-400'>{formatTime(duration)}</div>
-						</div>
+            <div className="flex items-center gap-0.4">
 
-</div>
+              <Button variant="ghost" size="icon" onClick={toggleMute} >
+                {isMuted || volume === 0 ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+              </Button>
+              <Slider
+                value={[isMuted ? 0 : volume]}
+                max={100}
+                step={1}
+                className="w-24"
+                onValueChange={(value) => setVolume(value[0])}
+              />
+            </div>
+          </div>
+
+          <div className='hidden sm:flex items-center gap-2 w-full'>
+            <div className='text-xs text-zinc-400'>{formatTime(currentTime)}</div>
+            <Slider
+              value={[currentTime]}
+              max={duration || 100}
+              step={1}
+              className='w-full hover:cursor-grab active:cursor-grabbing'
+              onValueChange={handleSeek}
+            />
+            <div className='text-xs text-zinc-400'>{formatTime(duration)}</div>
+          </div>
+
+        </div>
 
 
 
-	  {/* <div className='hidden sm:flex flex-col items-center  min-w-[180px] w-[30%] justify-end'>
+        {/* <div className='hidden sm:flex flex-col items-center  min-w-[180px] w-[30%] justify-end'>
 						
 
 					</div> */}
-	</footer>
+      </footer>
 
       {/* Drawers */}
       <PlaylistDrawer isOpen={isPlaylistDrawerOpen} onClose={() => setIsPlaylistDrawerOpen(false)} />
