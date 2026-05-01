@@ -285,7 +285,7 @@ const AudioPlayer = () => {
 		  className="w-12 h-12 shadow-md rounded object-cover"
 		/>
 		<div className="min-w-0">
-		  <p className="text-sm font-medium text-primary line-clamp-1 truncate">{currentSong?.title}</p>
+		  <p className="text-sm font-medium max-w-xs text-primary line-clamp-1 truncate">{currentSong?.title}</p>
 		  <p className="text-xs text-muted-foreground line-clamp-1 truncate">{currentSong?.artist}</p>
 		</div>
 		{/* <Heart size={16} className="text-muted-foreground shrink-0 hover:text-primary cursor-pointer" /> */}
