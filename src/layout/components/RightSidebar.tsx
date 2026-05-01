@@ -51,7 +51,7 @@ const { isDark} = useThemeStore();
 			{
 			!isCollapsed &&  <Button size={"icon"} variant={"ghost"}
 			onClick={toggleCollapse}
-			className="hidden lg:block absolute top-1 right-2 hover:text-red-500 p-1 rounded-full hover:bg-secondary/10"
+			className="hidden lg:block absolute top-1 right-2 hover:text-red-500 p-1 hover:bg-secondary/10"
 		  > <X size={22} /> </Button>
 			}
 			{
@@ -63,7 +63,7 @@ const { isDark} = useThemeStore();
 		  > <ListMusicIcon size={22} /> </Button>
 			}
 
-			{!isCollapsed && <div className='flex items-start text-primary flex-1 shrink-0 gap-1'>
+			{!isCollapsed && <div className='flex items-center text-primary flex-1 shrink-0 gap-1'>
 				<button
 			className="pointer-events-none bg-transparent"
 		  > <ListMusicIcon size={22} /> </button>

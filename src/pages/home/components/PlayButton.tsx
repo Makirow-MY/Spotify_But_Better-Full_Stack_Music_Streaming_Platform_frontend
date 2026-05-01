@@ -1,5 +1,6 @@
 // components/PlayButton.tsx
 import { Button } from "@/components/ui/button";
+import { useMusicStore } from "@/stores/useMusicStore";
 import { usePlayerStore } from "@/stores/usePlayerStore";
 import { Song } from "@/types";
 import { Pause, Play } from "lucide-react";
@@ -7,7 +8,8 @@ import { Pause, Play } from "lucide-react";
 
 const PlayButton = ({ song, size = "default" }: { song: Song; size?: "small" | "default" | "large" }) => {
 	const { currentSong, isPlaying, setCurrentSong, togglePlay } = usePlayerStore();
-
+    
+	const {currentAlbum, setCurrentAlbum} = useMusicStore()
 	const isCurrentSong = currentSong?._id === song._id;
 	
 	const getButtonSize = () => {
@@ -28,6 +30,9 @@ const PlayButton = ({ song, size = "default" }: { song: Song; size?: "small" | "
 
 	const handlePlay = (e: React.MouseEvent) => {
 		e.stopPropagation();
+		if (currentAlbum) {
+			setCurrentAlbum(null)
+		}
 		if (isCurrentSong) {
 			togglePlay();
 		} else {

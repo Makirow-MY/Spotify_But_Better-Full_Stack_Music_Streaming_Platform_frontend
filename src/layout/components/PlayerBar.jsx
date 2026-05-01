@@ -55,12 +55,12 @@ const PlayerBar = () => {
                  </Button>
    
                  {/* Previous Button */}
-                 <Button variant="ghost" size="icon" onClick={playPrevious} className="text-zinc-400 hover:text-secondary-foreground">
+                 <Button variant="ghost" size="icon" onClick={playPrevious} className="text-zinc-400 hover:text-white">
                    <SkipBack className="h-5 w-5" />
                  </Button>
    
                  {/* 10s Backward */}
-                 <Button variant="ghost" size="icon" onClick={handleSkipBackward} className="text-zinc-400 hover:text-secondary-foreground">
+                 <Button variant="ghost" size="icon" onClick={handleSkipBackward} className="text-zinc-400 hover:text-white">
                    <SkipBack10 className="h-5 w-5" />
                  </Button>
    
@@ -73,12 +73,12 @@ const PlayerBar = () => {
                  </Button>
    
                  {/* 10s Forward */}
-                 <Button variant="ghost" size="icon" onClick={handleSkipForward} className="text-zinc-400 hover:text-secondary-foreground">
+                 <Button variant="ghost" size="icon" onClick={handleSkipForward} className="text-zinc-400 hover:text-white">
                    <SkipForward10 className="h-5 w-5" />
                  </Button>
    
                  {/* Next Button */}
-                 <Button variant="ghost" size="icon" onClick={playNext} className="text-zinc-400 hover:text-secondary-foreground">
+                 <Button variant="ghost" size="icon" onClick={playNext} className="text-zinc-400 hover:text-white">
                    <SkipForward className="h-5 w-5" />
                  </Button>
    
@@ -113,14 +113,14 @@ const PlayerBar = () => {
                <Button
                  variant="ghost"
                  size="icon"
-                 className="text-zinc-400 hover:text-secondary-foreground"
+                 className="text-zinc-400 hover:text-white"
                  onClick={handlePlaybackRateChange}
                >
                  <span className="text-xs font-mono">{playbackRate}x</span>
                </Button>
    
                {/* Mic / Lyrics */}
-               <Button variant="ghost" size="icon" className="text-zinc-400 hover:text-secondary-foreground">
+               <Button variant="ghost" size="icon" className="text-zinc-400 hover:text-white">
                  <Mic2 className="h-4 w-4" />
                </Button>
    
@@ -128,7 +128,7 @@ const PlayerBar = () => {
                <Button
                  variant="ghost"
                  size="icon"
-                 className="text-zinc-400 hover:text-secondary-foreground"
+                 className="text-zinc-400 hover:text-white"
                  onClick={() => setIsQueueDrawerOpen(!isQueueDrawerOpen)}
                >
                  <ListMusic className="h-4 w-4" />
@@ -138,7 +138,7 @@ const PlayerBar = () => {
                <Button
                  variant="ghost"
                  size="icon"
-                 className="text-zinc-400 hover:text-secondary-foreground"
+                 className="text-zinc-400 hover:text-white"
                  onClick={() => setIsPlaylistDrawerOpen(!isPlaylistDrawerOpen)}
                >
                  <Laptop2 className="h-4 w-4" />
@@ -146,7 +146,7 @@ const PlayerBar = () => {
    
                {/* Volume Control */}
                <div className="flex items-center gap-2">
-                 <Button variant="ghost" size="icon" onClick={toggleMute} className="text-zinc-400 hover:text-secondary-foreground">
+                 <Button variant="ghost" size="icon" onClick={toggleMute} className="text-zinc-400 hover:text-white">
                    {isMuted || volume === 0 ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
                  </Button>
                  <Slider

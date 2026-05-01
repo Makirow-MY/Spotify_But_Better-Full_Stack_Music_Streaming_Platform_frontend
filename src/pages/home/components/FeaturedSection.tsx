@@ -9,7 +9,7 @@ import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 
 const FeaturedSection = () => {
-	const { isLoading, featuredSongs, currentAlbum } = useMusicStore();
+	const { isLoading, featuredSongs, currentAlbum} = useMusicStore();
 	const { isDark } = useThemeStore();
 	const { currentSong, isPlaying } = usePlayerStore();
 	const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -146,7 +146,7 @@ console.log(featuredSongs)
 								<div className="p-4 space-y-2">
 									<div className="flex items-start justify-between gap-2">
 										<div className="flex-1 min-w-0">
-											<h3 className='font-semibold text-base truncate group-hover:text-secondary-foreground transition'>
+											<h3 className='font-semibold text-base truncate group-hover:text-white transition'>
 												{song.title}
 											</h3>
 											<p className='text-sm text-zinc-400 truncate hover:underline cursor-pointer'>
