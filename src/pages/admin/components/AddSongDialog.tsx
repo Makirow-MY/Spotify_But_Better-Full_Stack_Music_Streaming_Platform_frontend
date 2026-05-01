@@ -23,6 +23,8 @@ const AddSongDialog = () => {
     title: "",
     artist: "",
     albumId: "",           // Will be "" for no album
+    imageUrl: "",
+    audioUrl: "",
     description: "",
   });
 
@@ -34,16 +36,38 @@ const AddSongDialog = () => {
   const audioInputRef = useRef<HTMLInputElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
 
-  const handleAudioSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+ const uploadToCloudinary = async (file: any) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', 'chat_attachments_preset');
+    formData.append('cloud_name', 'dyf21ulbr');
+    
+    const response = await fetch(
+      `https://api.cloudinary.com/v1_1/dyf21ulbr/auto/upload`,
+      {
+        method: 'POST',
+        body: formData,
+      }
+    );
+    
+    const data = await response.json();
+    return data.secure_url;
+  };
+  const handleAudioSelect = async(e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) setFiles(prev => ({ ...prev, audio: file }));
+     const url = await uploadToCloudinary(file);
+      setFormData({ ...formData, audioUrl: url as string });
   };
 
-  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       setFiles(prev => ({ ...prev, image: file }));
+      const url = await uploadToCloudinary(file);
+      setFormData({ ...formData, imageUrl: url as string });
       setImagePreview(URL.createObjectURL(file));
+
     }
   };
 
@@ -60,8 +84,8 @@ const AddSongDialog = () => {
     data.append("artist", formData.artist);
     data.append("description", formData.description || "180");
     if (formData.albumId) data.append("albumId", formData.albumId);
-    data.append("audioFile", files.audio);
-    data.append("imageFile", files.image);
+    data.append("audioFile", formData.audioUrl);
+    data.append("imageFile", formData.imageUrl);
 
     try {
       await axiosInstance.post("/admin/songs", data, {
@@ -85,7 +109,9 @@ const AddSongDialog = () => {
   };
 
   const resetForm = () => {
-    setFormData({ title: "", artist: "", albumId: "", description: "" });
+    setFormData({ title: "",
+       artist: "", 
+      albumId: "", description: "", imageUrl: "", audioUrl: "" });
     setFiles({ audio: null, image: null });
     setImagePreview(null);
     setUploadProgress(0);
@@ -203,7 +229,9 @@ const AddSongDialog = () => {
         </div>
 
         <div className="flex justify-end gap-3 pt-4 border-t border-zinc-800">
-          <Button variant="ghost" onClick={() => setOpen(false)} disabled={isLoading}>
+          <Button variant="ghost" onClick={() => {setOpen(false)
+            resetForm()
+          }} disabled={isLoading}>
             Cancel
           </Button>
           <Button

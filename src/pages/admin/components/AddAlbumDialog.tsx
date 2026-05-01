@@ -28,16 +28,37 @@ const { checkAuth} = useAuthStore();
 		title: "",
 		artist: "",
 		description: "",
+		imageUrl: "",
 		releaseYear: new Date().getFullYear(),
 	});
 
 	const [imageFile, setImageFile] = useState<File | null>(null);
 
-	const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const uploadToCloudinary = async (file: any) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', 'chat_attachments_preset');
+    formData.append('cloud_name', 'dyf21ulbr');
+    
+    const response = await fetch(
+      `https://api.cloudinary.com/v1_1/dyf21ulbr/auto/upload`,
+      {
+        method: 'POST',
+        body: formData,
+      }
+    );
+    
+    const data = await response.json();
+    return data.secure_url;
+  };
+
+	const handleImageSelect = async(e: React.ChangeEvent<HTMLInputElement>) => {
 		const file = e.target.files?.[0];
 		if (file) {
 			setImageFile(file);
 			 setImagePreview(URL.createObjectURL(file));
+			 const url = await uploadToCloudinary(file);
+           setNewAlbum({ ...newAlbum, imageUrl: url as string });
 		}
 	};
 
@@ -61,7 +82,7 @@ const { checkAuth} = useAuthStore();
 			formData.append("artist", newAlbum.artist);
 			formData.append("description", newAlbum.description)
 			formData.append("releaseYear", newAlbum.releaseYear.toString());
-			formData.append("imageFile", imageFile);
+			formData.append("imageFile", newAlbum.imageUrl);
 
 			await axiosInstance.post("/admin/albums", formData, {
 				headers: {
@@ -73,6 +94,7 @@ const { checkAuth} = useAuthStore();
 				title: "",
 				artist: "",
 				description: "",
+				imageUrl: "",
 				releaseYear: new Date().getFullYear(),
 			});
 			setImageFile(null);
@@ -164,7 +186,7 @@ const { checkAuth} = useAuthStore();
 				</div>
 				<DialogFooter>
 					<Button variant='outline' onClick={() =>
-						{setNewAlbum({description: "", artist: "", releaseYear: newAlbum.releaseYear, title: ""})
+						{setNewAlbum({description: "", artist: "", imageUrl:"", releaseYear: newAlbum.releaseYear, title: ""})
 						setAlbumDialogOpen(false)}} disabled={isLoading} >
 					
 						Cancel
