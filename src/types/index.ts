@@ -45,7 +45,7 @@ export interface Message {
 
 export interface User {
 	_id: string;
-	isVerified: boolean;
+	isAdmin: boolean;
 	fullName: string;
 	imageUrl: string;
 	email: string;

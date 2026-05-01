@@ -53,7 +53,7 @@ const { isDark} = useThemeStore();
 		  > <X size={22} /> </button>
 			}
 			{
-			authUser && authUser.isVerified && isCollapsed &&  <button 
+			authUser && authUser.isAdmin && isCollapsed &&  <button 
 			onClick={toggleCollapse}
 			className="hidden lg:block bg-primary p-1 rounded-full hover:bg-secondary/10"
 		  > <ChevronLeft size={22} /> </button>

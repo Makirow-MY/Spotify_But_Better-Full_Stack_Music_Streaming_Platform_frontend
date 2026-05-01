@@ -24,7 +24,7 @@ const FriendsActivity = () => {
 				</div>
 			</div>
 
-			{(!authUser || (authUser && !authUser.isVerified)) && <LoginPrompt />}
+			{(!authUser || (authUser && !authUser.isAdmin)) && <LoginPrompt />}
 
 			<ScrollArea className='flex-1'>
 				<div className='p-4 space-y-4'>
@@ -45,7 +45,7 @@ const FriendsActivity = () => {
 										</Avatar>
 										<div
 											className={`absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-zinc-900 
-												${user.isVerified? "bg-green-500" : "bg-zinc-500"}
+												${user.isAdmin? "bg-green-500" : "bg-zinc-500"}
 												`}
 											aria-hidden='true'
 										/>
@@ -57,7 +57,7 @@ const FriendsActivity = () => {
 										<Music className='size-3.5 text-emerald-400 shrink-0' />
 										</div>
 
-										{user.isVerified ? (
+										{user.isAdmin ? (
 											<div className='mt-1'>
 												<div className='mt-1 text-sm text-white font-medium truncate'>
 													{//activity.replace("Playing ", "").split(" by ")[0]

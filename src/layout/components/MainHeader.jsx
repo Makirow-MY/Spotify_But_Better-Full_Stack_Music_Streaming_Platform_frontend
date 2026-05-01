@@ -1,6 +1,7 @@
 // New component: Header.tsx (Minimal top bar for profile/settings)
 //import { useAuthStore } from "../stores/useAuthStore";
 import {Bell, Sun} from "lucide-react";
+import UserDropdown from "@/layout/components/UserDropdown";
 
  const MainHeader = () => {
     const [setShowAuthModal] = useState(false);
@@ -65,7 +66,7 @@ import {Bell, Sun} from "lucide-react";
                     <Bell size={20} />
                   </button>
     
-                  {(!authUser || (authUser && !authUser.isVerified))? (
+                  {!authUser? (
                     <button
                       onClick={() => setShowAuthModal(true)}
                       className="bg-green-500 hover:bg-green-600 text-black px-6 py-2 rounded-full font-bold text-sm transition"

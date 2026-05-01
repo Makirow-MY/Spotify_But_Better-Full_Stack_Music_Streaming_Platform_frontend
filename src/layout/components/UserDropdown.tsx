@@ -1,11 +1,12 @@
 // components/UserDropdown.tsx
 import { useState } from "react";
-import { ChevronDown, User, LogOut, HomeIcon, VideoIcon } from "lucide-react";
+import { ChevronDown, LogOut, HomeIcon, VideoIcon, UserIcon } from "lucide-react";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { useNavigate } from "react-router-dom"; // ← Add this import
 import ProfileModal from "./ProfileModal";
+import { User } from "@/types";
 
-const UserDropdown = ({ user, admin = false}: { user: any; admin?: boolean }) => {
+const UserDropdown = ({ user, admin = false}: { user: User | null; admin?: boolean }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [showProfileModal, setShowProfileModal] = useState(false);
   const { logout } = useAuthStore();
@@ -51,11 +52,13 @@ const UserDropdown = ({ user, admin = false}: { user: any; admin?: boolean }) =>
               }}
               className="w-full flex items-center gap-3 px-4 py-3 hover:bg-white/10 text-left transition"
             >
-              <User size={18} />
+              <UserIcon size={18} />
               <span>Profile</span>
             </button>
 
             {/* Show Studio link for non-admin users */}
+        { 
+        user && user.isAdmin && <>
             {!admin && (
               <button
                 onClick={() => handleNavigate('/admin')}
@@ -76,6 +79,8 @@ const UserDropdown = ({ user, admin = false}: { user: any; admin?: boolean }) =>
                 <span>Home</span>
               </button>
             )}
+            </>
+            }
           </div>
 
           <div className="border-t border-neutral-700 py-1">

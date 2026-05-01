@@ -14,18 +14,13 @@ const AuthModal = ({ isOpen, onClose }: {
     password: "",
     imageUrl: "",
   });
-  const [otp, setOtp] = useState("");
-  const [step, setStep] = useState<"auth" | "verify">("auth");
   const [previewImage, setPreviewImage] = useState<string | null>(null);
-  const [resendCooldown, setResendCooldown] = useState(0);
   const [localError, setLocalError] = useState<string | null>(null);
   const [localSuccess, setLocalSuccess] = useState<string | null>(null);
 
   const { 
     signup, 
     login, 
-    verifyEmail, 
-    resendOTP, 
     isLoading, 
     error, 
     successMessage,
@@ -39,7 +34,7 @@ const AuthModal = ({ isOpen, onClose }: {
       setLocalError(null);
       setLocalSuccess(null);
     }
-  }, [isOpen, step, clearMessages]);
+  }, [isOpen,  clearMessages]);
 
   // Auto-clear messages after 5 seconds
   useEffect(() => {
@@ -93,58 +88,17 @@ const AuthModal = ({ isOpen, onClose }: {
     if (isLogin) {
       try {
         await login({ email: formData.email, password: formData.password });
-        setStep("verify");
-       
+        onClose();
       } catch (error) {
         // Error is handled in store
       }
     } else {
       try {
         await signup(formData);
-        setStep("verify");
+        onClose();
       } catch (error) {
         // Error is handled in store
       }
-    }
-  };
-
-  const handleVerify = async () => {
-    setLocalError(null);
-    setLocalSuccess(null);
-    clearMessages();
-    
-    try {
-      await verifyEmail(formData.email, otp);
-      onClose();
-    } catch (error) {
-      // Error is handled in store
-    }
-  };
-
-  const handleResendOTP = async () => {
-    if (resendCooldown > 0) return;
-    
-    setLocalError(null);
-    setLocalSuccess(null);
-    clearMessages();
-    
-    const result = await resendOTP(formData.email);
-    
-    if (result.success) {
-      setLocalSuccess(result.message);
-      // Start cooldown timer (60 seconds)
-      setResendCooldown(60);
-      const timer = setInterval(() => {
-        setResendCooldown((prev) => {
-          if (prev <= 1) {
-            clearInterval(timer);
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-    } else {
-      setLocalError(result.message);
     }
   };
 
@@ -165,7 +119,7 @@ const AuthModal = ({ isOpen, onClose }: {
         </button>
 
         <h2 className="text-3xl text-primary font-bold text-center mb-8">
-          {step === "auth" ? (isLogin ? "Log in" : "Sign up") : "Verify Email"}
+          {isLogin ? "Log in" : "Sign up"}
         </h2>
 
         {/* Success Message */}
@@ -184,7 +138,6 @@ const AuthModal = ({ isOpen, onClose }: {
           </div>
         )}
 
-        {step === "auth" ? (
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col md:flex-row justify-between gap-3 mb-6 w-full">
               {!isLogin && (
@@ -256,55 +209,7 @@ const AuthModal = ({ isOpen, onClose }: {
               </span>
             </p>
           </form>
-        ) : (
-          // OTP Verification Step
-          <div className="space-y-6">
-            <p className="text-center text-gray-300">
-              We've sent a 6-digit code to <strong className="text-green-500">{formData.email}</strong>
-            </p>
-            <input
-              type="text"
-              maxLength={6}
-              disabled={isLoading}
-              placeholder="Enter OTP"
-              className="w-full bg-white/70 p-4 rounded-lg text-center text-2xl tracking-widest focus:outline-none focus:ring-2 focus:ring-green-500"
-              value={otp}
-              onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
-              autoFocus
-            />
-            <button
-              onClick={handleVerify}
-              disabled={isLoading || otp.length !== 6}
-              className="w-full bg-green-500 hover:bg-green-600 text-black font-bold py-4 rounded-full transition disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isLoading ? "Verifying..." : "Verify Email"}
-            </button>
-            
-            <div className="text-center">
-              <button
-                onClick={handleResendOTP}
-                disabled={resendCooldown > 0 || isLoading}
-                className="text-green-500 text-sm hover:underline disabled:opacity-50 disabled:cursor-not-allowed transition"
-              >
-                {resendCooldown > 0 
-                  ? `Resend available in ${resendCooldown}s` 
-                  : "Resend OTP"}
-              </button>
-            </div>
-            
-            <button
-              onClick={() => {
-                setStep("auth");
-                clearMessages();
-                setLocalError(null);
-                setLocalSuccess(null);
-              }}
-              className="w-full text-gray-400 text-sm hover:text-red-500 transition"
-            >
-              ← Back to login
-            </button>
-          </div>
-        )}
+       
       </div>
     </div>
   );
