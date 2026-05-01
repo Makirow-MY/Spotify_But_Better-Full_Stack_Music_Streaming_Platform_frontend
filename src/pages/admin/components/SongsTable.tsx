@@ -3,12 +3,16 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { useMusicStore } from "@/stores/useMusicStore";
 import { Calendar, Pencil, Trash2 } from "lucide-react";
 import EditSongDialog from "./EditSongDialog";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const SongsTable = () => {
-	const { songs, isLoading, error, deleteSong } = useMusicStore();
-const [editingSong, setEditingSong] = useState<any>(null);
+	const { songs, fetchSongs, isLoading, error, deleteSong } = useMusicStore();
+  const [editingSong, setEditingSong] = useState<any>(null);
   const [editOpen, setEditOpen] = useState(false);
+
+	useEffect(() => {
+		fetchSongs();
+	}, [fetchSongs]);
 
    const handleEdit = (song: any) => {
     setEditingSong(song);

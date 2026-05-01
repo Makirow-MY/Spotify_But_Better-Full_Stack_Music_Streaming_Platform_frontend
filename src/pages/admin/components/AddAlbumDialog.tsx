@@ -149,7 +149,7 @@ const { checkAuth} = useAuthStore();
 						disabled={isLoading}
 							value={newAlbum.title}
 							onChange={(e) => setNewAlbum({ ...newAlbum, title: e.target.value })}
-							className='bg-secondary-foreground/20 border-zinc-700'
+							className='bg-secondary-foreground/10 border-zinc-700'
 							placeholder='Enter album title'
 						/>
 					</div>
@@ -159,18 +159,18 @@ const { checkAuth} = useAuthStore();
 						disabled={isLoading}
 							value={newAlbum.artist}
 							onChange={(e) => setNewAlbum({ ...newAlbum, artist: e.target.value })}
-							className='bg-secondary-foreground/20 border-zinc-700'
+							className='bg-secondary-foreground/10 border-zinc-700'
 							placeholder='Enter artist name'
 						/>
 					</div>
 					<div className='space-y-2'>
 						<Label className='text-sm font-medium'>Release Year</Label>
 						<Input
-						disabled={isLoading}
+						    disabled={isLoading}
 							type='number'
 							value={newAlbum.releaseYear}
 							onChange={(e) => setNewAlbum({ ...newAlbum, releaseYear: parseInt(e.target.value) })}
-							className='bg-secondary-foreground/20 border-zinc-700'
+							className='bg-secondary-foreground/10 border-zinc-700'
 							placeholder='Enter release year'
 							min={1900}
 							max={new Date().getFullYear()}
@@ -179,6 +179,7 @@ const { checkAuth} = useAuthStore();
 					 <div>
 										   <Label>Description</Label>
 										   <textarea
+										     disabled={isLoading}
 											 value={newAlbum.description}
 											 onChange={(e) => setNewAlbum({ ...newAlbum, description: e.target.value })}
 											 className="bg-secondary-foreground/10 outline-none resize-none py-2 px-3 w-full h-[30vh] border-zinc-700 mt-1.5"
