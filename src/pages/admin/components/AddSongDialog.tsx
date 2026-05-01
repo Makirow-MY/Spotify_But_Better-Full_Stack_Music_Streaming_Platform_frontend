@@ -91,7 +91,7 @@ const AddSongDialog = () => {
     if (formData.albumId) data.append("albumId", formData.albumId);
     data.append("audioFile", audioUrl ||  formData.audioUrl);
     data.append("imageFile",  imageUrl || formData.imageUrl);
-    
+
       await axiosInstance.post("/admin/songs", data, {
         headers: { "Content-Type": "multipart/form-data" },
         onUploadProgress: (progressEvent) => {
@@ -99,10 +99,10 @@ const AddSongDialog = () => {
           setUploadProgress(percent);
         },
       });
-
+      await resetForm();
       toast.success("Song uploaded successfully!");
       fetchSongs();
-      resetForm();
+    
       setOpen(false);
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Upload failed");
