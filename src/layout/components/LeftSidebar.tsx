@@ -127,7 +127,7 @@ const { isDark } = useThemeStore();
           <div className="relative flex-shrink-0">
             <img 
               src={album.imageUrl} 
-              className="w-10 h-10 bg-neutral-700 object-cover rounded-lg" 
+              className="w-10 h-10 bg-neutral-700 border-l-4 border-secondary-foreground/10 object-cover rounded-lg" 
               alt={album.title}
             />
 
@@ -152,7 +152,7 @@ const { isDark } = useThemeStore();
               
               <div className="flex items-center gap-2">
                 <p className="text-xs text-muted-foreground truncate line-clamp-1">
-                  {album.artist} • {album.songs?.length || 0}songs
+                  {album.artist}
                 </p>
                    <span className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground">
                     {album.songs?.length || 0}songs
