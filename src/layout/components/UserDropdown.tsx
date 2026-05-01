@@ -83,7 +83,7 @@ const UserDropdown = ({ user, admin = false}: { user: User | null; admin?: boole
             }
           </div>
 
-          <div className="border-t border-neutral-700 py-1">
+        {!admin && <div className="border-t border-neutral-700 py-1">
             <button
               onClick={() => {
                 logout();
@@ -95,7 +95,7 @@ const UserDropdown = ({ user, admin = false}: { user: User | null; admin?: boole
               <LogOut size={18} />
               <span>Sign Out</span>
             </button>
-          </div>
+          </div>}
         </div>
       )}
 

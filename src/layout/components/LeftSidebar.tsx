@@ -1,6 +1,6 @@
 // components/LeftSidebar.tsx
 import { useEffect} from "react";
-import { Home,  Library,   X, ChevronLeft, ChevronRight, Volume2, } from "lucide-react";
+import { Home,  Library,   X, ChevronLeft, ChevronRight} from "lucide-react";
 import { useThemeStore } from "@/stores/useThemeStore";
 import { useMusicStore } from "@/stores/useMusicStore";
 import { usePlayerStore } from "@/stores/usePlayerStore";
@@ -105,9 +105,7 @@ const { isDark } = useThemeStore();
    }
     {albums.map((album) => {
       const isThisAlbumPlaying = 
-        currentSong && 
-        album.songs?.some((song: any) => song._id === currentSong._id) && 
-        isPlaying;
+        currentAlbum && isPlaying && currentAlbum._id === album._id;
 
       return (
         <button
@@ -119,7 +117,7 @@ const { isDark } = useThemeStore();
 		  }}
           className={`group flex items-center gap-3 py-2.5 rounded-xl transition-all w-full relative overflow-hidden
             ${currentAlbum?._id === album._id 
-              ? "bg-primary/10 border-l-4 border-primary" 
+              ? "bg-primary/15 border-l-4 border-primary" 
               : "hover:bg-secondary-foreground/10"
             }
             ${isCollapsed ? 'justify-center px-2' : 'px-4'}
@@ -156,13 +154,10 @@ const { isDark } = useThemeStore();
                 <p className="text-xs text-muted-foreground truncate line-clamp-1">
                   {album.artist} • {album.songs?.length || 0}songs
                 </p>
-
-                {isThisAlbumPlaying && (
-                  <span className="inline-flex items-center gap-1 text-[10px] font-medium text-green-500">
-                    <Volume2 size={12} />
-                    Playing
+                   <span className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground">
+                    {album.songs?.length || 0}songs
                   </span>
-                )}
+              
               </div>
             </div>
           )}
