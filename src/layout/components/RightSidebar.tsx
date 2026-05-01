@@ -63,17 +63,17 @@ const { isDark} = useThemeStore();
 		  > <ListMusicIcon size={22} /> </Button>
 			}
 
-			<div className='flex items-center text-center text-primary flex-1 shrink-0 gap-2'>
+			{!isCollapsed && <div className='flex items-center text-primary flex-1 shrink-0 gap-1'>
 				<Button
 			variant={"outline"}
 			size={"icon"} 
-			className="hidden lg:block p-1 rounded-full hover:bg-transparent"
+			className="pointer-events-none"
 		  > <ListMusicIcon size={22} /> </Button>
 				 <h1 className={`font-bold transition-all ${isCollapsed ? 'text-2xl' : 'text-xl'}`}>
-			{isCollapsed ? "" : currentAlbum ? `${currentAlbum.title}` : "My Song Playlist"}
+			{currentAlbum ? `${currentAlbum.title}` : "My Song Playlist"}
 		  </h1>
 
-							</div>
+							</div>}
 		
 			</div>
 		<ScrollArea className='flex-1'>
