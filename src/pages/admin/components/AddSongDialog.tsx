@@ -72,15 +72,18 @@ const AddSongDialog = () => {
     if (!files.audio || !files.image || !formData.title || !formData.artist) {
       return toast.error("Please fill all required fields");
     }
+    
+    setIsLoading(true);
+    setUploadProgress(0);
+     
+
+    try {
       const audioUrl = await uploadToCloudinary(files.audio);
       setFormData({ ...formData, imageUrl: audioUrl as string });
 
       const imageUrl = await uploadToCloudinary(files.image);
       setFormData({ ...formData, imageUrl: imageUrl as string });
      
-    setIsLoading(true);
-    setUploadProgress(0);
-
     const data = new FormData();
     data.append("title", formData.title);
     data.append("artist", formData.artist);
@@ -88,8 +91,7 @@ const AddSongDialog = () => {
     if (formData.albumId) data.append("albumId", formData.albumId);
     data.append("audioFile", audioUrl ||  formData.audioUrl);
     data.append("imageFile",  imageUrl || formData.imageUrl);
-
-    try {
+    
       await axiosInstance.post("/admin/songs", data, {
         headers: { "Content-Type": "multipart/form-data" },
         onUploadProgress: (progressEvent) => {
