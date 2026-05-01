@@ -57,8 +57,7 @@ const { checkAuth} = useAuthStore();
 		if (file) {
 			setImageFile(file);
 			 setImagePreview(URL.createObjectURL(file));
-			 const url = await uploadToCloudinary(file);
-           setNewAlbum({ ...newAlbum, imageUrl: url as string });
+			
 		}
 	};
 
@@ -76,13 +75,15 @@ const { checkAuth} = useAuthStore();
 			if (!imageFile) {
 				return toast.error("Please upload an image");
 			}
+      const imageUrl = await uploadToCloudinary(imageFile);
+      setNewAlbum({ ...newAlbum, imageUrl: imageUrl as string });
 
 			const formData = new FormData();
 			formData.append("title", newAlbum.title);
 			formData.append("artist", newAlbum.artist);
 			formData.append("description", newAlbum.description)
 			formData.append("releaseYear", newAlbum.releaseYear.toString());
-			formData.append("imageFile", newAlbum.imageUrl);
+			formData.append("imageFile", imageUrl || newAlbum.imageUrl);
 
 			await axiosInstance.post("/admin/albums", formData, {
 				headers: {

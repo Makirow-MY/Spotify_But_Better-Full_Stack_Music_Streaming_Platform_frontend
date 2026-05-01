@@ -56,16 +56,13 @@ const AddSongDialog = () => {
   const handleAudioSelect = async(e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) setFiles(prev => ({ ...prev, audio: file }));
-     const url = await uploadToCloudinary(file);
-      setFormData({ ...formData, audioUrl: url as string });
+    
   };
 
   const handleImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       setFiles(prev => ({ ...prev, image: file }));
-      const url = await uploadToCloudinary(file);
-      setFormData({ ...formData, imageUrl: url as string });
       setImagePreview(URL.createObjectURL(file));
 
     }
@@ -75,7 +72,12 @@ const AddSongDialog = () => {
     if (!files.audio || !files.image || !formData.title || !formData.artist) {
       return toast.error("Please fill all required fields");
     }
+      const audioUrl = await uploadToCloudinary(files.audio);
+      setFormData({ ...formData, imageUrl: audioUrl as string });
 
+      const imageUrl = await uploadToCloudinary(files.image);
+      setFormData({ ...formData, imageUrl: imageUrl as string });
+     
     setIsLoading(true);
     setUploadProgress(0);
 
@@ -84,8 +86,8 @@ const AddSongDialog = () => {
     data.append("artist", formData.artist);
     data.append("description", formData.description || "180");
     if (formData.albumId) data.append("albumId", formData.albumId);
-    data.append("audioFile", formData.audioUrl);
-    data.append("imageFile", formData.imageUrl);
+    data.append("audioFile", audioUrl ||  formData.audioUrl);
+    data.append("imageFile",  imageUrl || formData.imageUrl);
 
     try {
       await axiosInstance.post("/admin/songs", data, {
