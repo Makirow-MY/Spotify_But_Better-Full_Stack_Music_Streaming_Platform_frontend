@@ -154,7 +154,7 @@ const { isDark } = useThemeStore();
               
               <div className="flex items-center gap-2">
                 <p className="text-xs text-muted-foreground truncate line-clamp-1">
-                  {album.artist}
+                  {album.artist} • {album.songs?.length || 0}songs
                 </p>
 
                 {isThisAlbumPlaying && (

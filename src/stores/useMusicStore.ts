@@ -120,9 +120,9 @@ fetchAllSongs: async (reset = false) => {
   set({ isLoading: true, error: null });
 
   try {
-    const response = await axiosInstance.get(`/songs?page=1&limit=20`);
+    const response = await axiosInstance.get(`/songs?page=1&limit=12`);
     const songs = response.data.songs || response.data;
-    const hasMore = response.data.hasMore ?? (songs.length === 20);
+    const hasMore = response.data.hasMore ?? (songs.length === 12);
 
     set({
       allSongs: songs,
@@ -145,9 +145,9 @@ loadMoreSongs: async () => {
   set({ isLoadingMore: true });
 
   try {
-    const response = await axiosInstance.get(`/songs?page=${page}&limit=20`);
+    const response = await axiosInstance.get(`/songs?page=${page}&limit=12`);
     const newSongs = response.data.songs || response.data;
-    const hasMoreNew = response.data.hasMore ?? (newSongs.length === 20);
+    const hasMoreNew = response.data.hasMore ?? (newSongs.length === 12);
 
     set((state) => ({
       allSongs: [...state.allSongs, ...newSongs],

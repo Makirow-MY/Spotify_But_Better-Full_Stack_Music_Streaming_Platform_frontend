@@ -42,7 +42,7 @@ const SongsTable = () => {
 
 			<TableBody>
 				{songs.map((song) => (
-					<TableRow key={song._id} className='hover:bg-primary'>
+					<TableRow key={song._id} className='hover:bg-primary/30'>
 						<TableCell>
 							<img src={song.imageUrl} alt={song.title} className='size-10 rounded object-cover' />
 						</TableCell>

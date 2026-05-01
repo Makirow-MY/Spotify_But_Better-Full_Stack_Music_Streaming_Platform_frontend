@@ -115,7 +115,7 @@ const { isDark} = useThemeStore();
                   <p className="text-sm font-medium truncate">
                     {idx === currentIndex && "▶ "}{song.title}
                   </p>
-                  <p className="text-xs text-zinc-500 truncate">{song.artist}</p>
+                  <p className="text-xs text-zinc-500 truncate">{song.artist} </p>
                 </div>
               </div>
             )})}
