@@ -1,10 +1,12 @@
 
+import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useAuthStore } from "@/stores/useAuthStore";
+import { useMusicStore } from "@/stores/useMusicStore";
 
 import { usePlayerStore } from "@/stores/usePlayerStore";
 import { useThemeStore } from "@/stores/useThemeStore";
-import { ChevronLeft, X } from "lucide-react";
+import { ListMusicIcon, X } from "lucide-react";
 import { useEffect,  } from "react";
 
 
@@ -18,8 +20,8 @@ interface RightSidebarProps {
 const RightSidebar = ({ isOpen, onClose, isCollapsed, toggleCollapse }: RightSidebarProps) => {
 const { isDark} = useThemeStore();
 		const { fetchUsers, authUser } = useAuthStore();
-	
-   const {currentSong, currentIndex, isPlaying, queue, setCurrentSong  } = usePlayerStore();
+		const { currentAlbum } = useMusicStore();
+   const {currentSong, currentIndex, isPlaying, queue, setCurrentSong , } = usePlayerStore();
   		useEffect(() => {
 			if (authUser) fetchUsers();
 		}, [fetchUsers, authUser]);
@@ -47,31 +49,33 @@ const { isDark} = useThemeStore();
 		{/* Header */}
 		<div className="flex items-center  gap-2 justify-between  p-6 pb-0">
 			{
-			!isCollapsed &&  <button 
+			!isCollapsed &&  <Button size={"icon"} variant={"ghost"}
 			onClick={toggleCollapse}
-			className="hidden lg:block absolute top-3 right-2 hover:text-red-500 p-1 rounded-full hover:bg-secondary/10"
-		  > <X size={22} /> </button>
+			className="hidden lg:block absolute top-1 right-2 hover:text-red-500 p-1 rounded-full hover:bg-secondary/10"
+		  > <X size={22} /> </Button>
 			}
 			{
-			authUser && authUser.isAdmin && isCollapsed &&  <button 
+			authUser && authUser.isAdmin && isCollapsed &&  <Button
+			variant={"outline"}
+			size={"icon"} 
 			onClick={toggleCollapse}
-			className="hidden lg:block bg-primary p-1 rounded-full hover:bg-secondary/10"
-		  > <ChevronLeft size={22} /> </button>
+			className="hidden lg:block p-1 rounded-full hover:bg-secondary/10"
+		  > <ListMusicIcon size={22} /> </Button>
 			}
 
-			<div className='flex items-center flex-1 shrink-0 gap-2'>
-				 <h1 className={`font-bold text-center text-primary  transition-all ${isCollapsed ? 'text-2xl' : 'text-xl'}`}>
-			{isCollapsed ? "" : "My Playlist"}
+			<div className='flex items-center text-center text-primary flex-1 shrink-0 gap-2'>
+				<Button
+			variant={"outline"}
+			size={"icon"} 
+			className="hidden lg:block p-1 rounded-full hover:bg-transparent"
+		  > <ListMusicIcon size={22} /> </Button>
+				 <h1 className={`font-bold transition-all ${isCollapsed ? 'text-2xl' : 'text-xl'}`}>
+			{isCollapsed ? "" : currentAlbum ? `${currentAlbum.title}` : "My Song Playlist"}
 		  </h1>
 
 							</div>
-		 
-		  {/* Collapse Toggle Button - Only visible on large screens */}
-		 
-			
-
-		 
-		</div>
+		
+			</div>
 		<ScrollArea className='flex-1'>
 						<div className='p-4 space-y-4'>
 						 <div className="space-y-2">

@@ -146,7 +146,7 @@ const { isDark } = useThemeStore();
           {/* Album Info - Only show when not collapsed */}
           {!isCollapsed && (
             <div className="flex-1 min-w-0 text-left">
-              <p className="text-sm font-medium truncate line-clamp-1">
+              <p className={`text-sm font-medium truncate line-clamp-1 ${currentAlbum?._id === album._id && "text-primary" }`}>
                 {album.title}
               </p>
               
@@ -155,7 +155,7 @@ const { isDark } = useThemeStore();
                   {album.artist}
                 </p>
                    <span className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground">
-                    {album.songs?.length || 0}songs
+                    • {album.songs?.length || 0}songs
                   </span>
               
               </div>
