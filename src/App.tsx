@@ -1,5 +1,5 @@
 // App.tsx
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes} from "react-router-dom";
 import HomePage from "./pages/home/HomePage";
 import AdminPage from "./pages/admin/AdminPage";
 import { Toaster } from "react-hot-toast";
