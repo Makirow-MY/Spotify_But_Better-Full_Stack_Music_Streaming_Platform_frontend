@@ -6,7 +6,7 @@ import { useMusicStore } from "@/stores/useMusicStore";
 
 import { usePlayerStore } from "@/stores/usePlayerStore";
 import { useThemeStore } from "@/stores/useThemeStore";
-import { ListMusicIcon, X } from "lucide-react";
+import { ListMusicIcon, Music4Icon, X } from "lucide-react";
 import { useEffect,  } from "react";
 
 
@@ -59,16 +59,16 @@ const { isDark} = useThemeStore();
 			variant={"outline"}
 			size={"icon"} 
 			onClick={toggleCollapse}
-			className="hidden lg:block p-1 rounded-full hover:bg-secondary/10"
+			className="hidden lg:block p-1 hover:bg-secondary/10"
 		  > <ListMusicIcon size={22} /> </Button>
 			}
 
 			{!isCollapsed && <div className='flex items-center text-primary flex-1 shrink-0 gap-1'>
 				<button
 			className="pointer-events-none bg-transparent"
-		  > <ListMusicIcon size={22} /> </button>
+		  > <Music4Icon size={22} /> </button>
 				 <h1 className={`font-bold text-nowrap transition-all ${!isCollapsed && 'text-lg md:text-md'}`}>
-			{currentAlbum ? `${currentAlbum.title}` : "My Song Playlist"}
+			{currentAlbum ? `${currentAlbum.title} (Playing...)` : "My Song Playlist"}
 		  </h1>
 
 							</div>}

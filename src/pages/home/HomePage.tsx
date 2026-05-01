@@ -145,7 +145,7 @@ const HomePage = () => {
             {(albums.length > 0 && !currentAlbum) && <AlbumBanner album={albums[0]} />}
             {currentAlbum && <AlbumBanner album={currentAlbum} />}
             {(albums.length > 0 && !currentAlbum) && <FeaturedSection />}
-            {currentAlbum && albums.length === 0 && <FeaturedSection />}
+            {currentAlbum && albums.length > 0 && <FeaturedSection />}
             
             <div>
               <div className="mt-2">
