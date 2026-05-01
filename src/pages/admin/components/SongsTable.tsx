@@ -6,7 +6,7 @@ import EditSongDialog from "./EditSongDialog";
 import { useEffect, useState } from "react";
 
 const SongsTable = () => {
-	const { songs, fetchSongs, isLoading, error, deleteSong } = useMusicStore();
+	const { songs, fetchSongs, error, deleteSong } = useMusicStore();
   const [editingSong, setEditingSong] = useState<any>(null);
   const [editOpen, setEditOpen] = useState(false);
 
@@ -19,15 +19,7 @@ const SongsTable = () => {
     setEditOpen(true);
   };
 
-	if (isLoading) {
-		return (
-			<div className='flex items-center justify-center py-8'>
-				<div className='text-muted-foreground'>Loading songs...</div>
-			</div>
-		);
-	}
-
-	if (error) {
+		if (error) {
 		return (
 			<div className='flex items-center justify-center py-8'>
 				<div className='text-red-400'>{error}</div>
