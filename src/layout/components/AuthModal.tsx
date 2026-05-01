@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { X, Upload, CheckCircle, AlertCircle } from "lucide-react";
 
+
 const AuthModal = ({ isOpen, onClose }: {
     isOpen: boolean;
     onClose: () => void;
@@ -84,8 +85,15 @@ const AuthModal = ({ isOpen, onClose }: {
     setLocalError(null);
     setLocalSuccess(null);
     clearMessages();
-    
+
     if (isLogin) {
+
+       if (!formData.email.trim()) {
+      return setLocalError("Email address is required")
+    }
+     if (!formData.password.trim()) {
+      return setLocalError("Password is required")
+    }
       try {
         await login({ email: formData.email, password: formData.password });
         onClose();
@@ -93,6 +101,16 @@ const AuthModal = ({ isOpen, onClose }: {
         // Error is handled in store
       }
     } else {
+      if (!formData.fullName.trim()) {
+      return setLocalError("Full name is required")
+    }
+      if (!formData.email.trim()) {
+      return setLocalError("Email address is required")
+    }
+     if (!formData.password.trim()) {
+      return setLocalError("Password is required")
+    }
+    
       try {
         await signup(formData);
         onClose();
@@ -141,7 +159,7 @@ const AuthModal = ({ isOpen, onClose }: {
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col md:flex-row justify-between gap-3 mb-6 w-full">
               {!isLogin && (
-                <div className="w-full md:w-[50%] shrink-0 space-y-6 h-[50vh] overflow-y-auto">
+                <div className="w-full md:w-[50%] shrink-0 space-y-6 h-[40vh] overflow-y-auto">
                   <div>
                     <label className="block text-sm mb-2">Profile Picture (Optional)</label>
                     <label className="cursor-pointer flex flex-col items-center justify-center border-2 border-dashed border-neutral-700 rounded-xl h-40 hover:border-green-500 transition">
@@ -161,7 +179,7 @@ const AuthModal = ({ isOpen, onClose }: {
                   <input
                     type="text"
                     placeholder="Full Name"
-                    className="w-full bg-white/70 p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                    className="w-full bg-secondary-foreground/10 p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                     value={formData.fullName}
                     onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                     required={!isLogin}
@@ -170,7 +188,7 @@ const AuthModal = ({ isOpen, onClose }: {
                 <input
                   type="email"
                   placeholder="Email"
-                  className="w-full bg-white/70 p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                  className="w-full bg-secondary-foreground/10 p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   required
@@ -178,7 +196,7 @@ const AuthModal = ({ isOpen, onClose }: {
                 <input
                   type="password"
                   placeholder="Password"
-                  className="w-full bg-white/70 p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                  className="w-full bg-secondary-foreground/10 p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                   required
