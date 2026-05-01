@@ -67,7 +67,7 @@ const { isDark} = useThemeStore();
 				<Button
 			variant={"outline"}
 			size={"icon"} 
-			className="pointer-events-none"
+			className="pointer-events-none bg-transparent"
 		  > <ListMusicIcon size={22} /> </Button>
 				 <h1 className={`font-bold transition-all ${isCollapsed ? 'text-2xl' : 'text-xl'}`}>
 			{currentAlbum ? `${currentAlbum.title}` : "My Song Playlist"}
