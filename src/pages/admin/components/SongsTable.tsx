@@ -6,12 +6,13 @@ import EditSongDialog from "./EditSongDialog";
 import { useEffect, useState } from "react";
 
 const SongsTable = () => {
-	const { songs, fetchSongs, error, deleteSong } = useMusicStore();
+	const { songs, fetchSongs,fetchAllSongs, error, deleteSong } = useMusicStore();
   const [editingSong, setEditingSong] = useState<any>(null);
   const [editOpen, setEditOpen] = useState(false);
 
 	useEffect(() => {
 		fetchSongs();
+		fetchAllSongs();
 	}, [fetchSongs]);
 
    const handleEdit = (song: any) => {
