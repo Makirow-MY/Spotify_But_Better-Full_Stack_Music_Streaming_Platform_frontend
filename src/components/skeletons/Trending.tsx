@@ -2,6 +2,7 @@ import { useThemeStore } from "@/stores/useThemeStore";
 //import PlayButton from "@/pages/home/components/PlayButton";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { useEffect } from "react";
+import PlayButton from "@/pages/home/components/PlayButton";
 
 
 const FeaturedUserSection = () => {
@@ -48,9 +49,9 @@ const { isDark} = useThemeStore();
 					/>
 					<div className='flex-1 p-4'>
 						<p className='font-medium w-full truncate line-clamp-1'>{user?.fullName}</p>
-						<p className='text-sm text-muted-foreground line-clamp-1 truncate'>{user?.songs?.length} Songs</p>
+						<p className='text-sm text-muted-foreground line-clamp-1 truncate'>{user?.songs?.length} Songs • {user.albums?.length || 0} Albums</p>
 					</div>
-					
+					{user.songs && user.songs?.length > 0 && <PlayButton song={user?.songs[0]} />}
 				</div>
 			))}
 			</div>
