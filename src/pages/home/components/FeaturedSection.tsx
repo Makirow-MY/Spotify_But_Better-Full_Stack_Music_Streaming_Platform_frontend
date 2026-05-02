@@ -9,7 +9,7 @@ import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 
 const FeaturedSection = () => {
-	const { isLoading, featuredSongs, currentAlbum} = useMusicStore();
+	const { isLoading, trendingSongs} = useMusicStore();
 	const { isDark } = useThemeStore();
 	const { currentSong, isPlaying } = usePlayerStore();
 	const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -18,8 +18,8 @@ const FeaturedSection = () => {
 	const [showRightArrow, setShowRightArrow] = useState(true);
 
 	if (isLoading) return <FeaturedGridSkeleton />;
-    console.log(featuredSongs)
-	const songsToShow = currentAlbum?.songs || featuredSongs || [];
+    console.log(trendingSongs)
+	const songsToShow = trendingSongs || [];
 
 	const scroll = (direction: 'left' | 'right') => {
 		if (scrollContainerRef.current) {

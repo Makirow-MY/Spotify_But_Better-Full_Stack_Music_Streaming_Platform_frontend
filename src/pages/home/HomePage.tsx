@@ -22,6 +22,8 @@ import SectionGridSkeleton from "./components/SectionGridSkeleton";
 
 import AlbumBannerSkeleton from "@/components/skeletons/BannerSkeleton";
 import FeaturedSectionSkeleton from "./components/FeaturedSectionSkeleton";
+import FeaturedUserSection from "@/components/skeletons/Trending";
+import FeaturedGridSkeleton from "@/components/skeletons/FeaturedGridSkeleton";
 
 
 const HomePage = () => {
@@ -146,7 +148,7 @@ const HomePage = () => {
             {currentAlbum && <AlbumBanner album={currentAlbum} />}
             {(albums.length > 0 && !currentAlbum) && <FeaturedSection />}
             {currentAlbum && albums.length > 0 && <FeaturedSection />}
-            
+            <FeaturedUserSection />
             <div>
               <div className="mt-2">
                 <h2 className="text-3xl font-bold tracking-tight px-2">Discover All Songs</h2>
@@ -169,8 +171,9 @@ const HomePage = () => {
         {(isLoading || allSongs.length === 0) &&
           <ScrollArea className="flex-1">
             <div className="p-4 md:p-6 lg:p-8 max-w-screen-2xl mx-auto">
-              <AlbumBannerSkeleton />
+               <AlbumBannerSkeleton />
                <FeaturedSectionSkeleton />
+               <FeaturedGridSkeleton />
                <SectionGridSkeleton />
              </div>
           </ScrollArea>

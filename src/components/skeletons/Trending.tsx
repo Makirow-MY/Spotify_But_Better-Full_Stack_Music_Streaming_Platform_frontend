@@ -1,0 +1,55 @@
+
+import { useMusicStore } from "@/stores/useMusicStore";
+
+import { useThemeStore } from "@/stores/useThemeStore";
+import PlayButton from "@/pages/home/components/PlayButton";
+
+
+const FeaturedUserSection = () => {
+	const {featuredSongs,  error} = useMusicStore();
+const { isDark} = useThemeStore();
+
+	if (error) return <p className='text-red-500 mb-4 text-lg'>{error}</p>;
+
+	return (
+		<div className="mb-12">
+			<div className="flex items-center justify-between mb-5 px-2">
+							<div className="flex items-center gap-3">
+								<div>
+									<h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
+										Latest
+									</h2>
+									<p className={`text-sm ${isDark ? 'text-zinc-400' : 'text-zinc-600'} mt-1 hidden sm:block`}>
+										Recently released songs
+									</p>
+								</div>
+							</div>
+							
+						
+						</div>
+			<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8'>
+			{featuredSongs.map((song) => (
+				<div
+					key={song._id}
+					className={`flex items-center ${isDark ? 'bg-secondary' : "bg-white"}  rounded-md overflow-hidden
+         hover:bg-primary/50 transition-colors group cursor-pointer relative`}
+				>
+					<img
+						src={song?.imageUrl}
+						alt={song?.title}
+						className='w-16 sm:w-20 h-16 sm:h-20 object-cover flex-shrink-0'
+					/>
+					<div className='flex-1 p-4'>
+						<p className='font-medium truncate'>{song.title}</p>
+						<p className='text-sm text-muted-foreground truncate'>{song.artist}</p>
+					</div>
+					<PlayButton song={song} />
+				</div>
+			))}
+		</div>
+
+		</div>
+		
+	);
+};
+export default FeaturedUserSection;
