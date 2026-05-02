@@ -34,7 +34,7 @@ const HomePage = () => {
   const [isRSidebarOpen, setIsRSidebarOpen] = useState(false);
   const [isRCollapsed, setIsRCollapsed] = useState(true);
 
-  const { authUser, checkAuth } = useAuthStore();
+  const { authUser, fetchUsers, checkAuth } = useAuthStore();
   const { fetchFeaturedSongs, fetchMadeForYouSongs,
     allSongs,
     isLoading,
@@ -53,6 +53,7 @@ const HomePage = () => {
   useEffect(() => {
     checkAuth();
     fetchFeaturedSongs();
+    fetchUsers();
     fetchMadeForYouSongs();
     fetchTrendingSongs();
     fetchAllSongs(true);

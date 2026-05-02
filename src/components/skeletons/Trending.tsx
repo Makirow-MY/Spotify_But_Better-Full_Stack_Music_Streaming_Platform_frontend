@@ -3,10 +3,15 @@ import { useMusicStore } from "@/stores/useMusicStore";
 
 import { useThemeStore } from "@/stores/useThemeStore";
 import PlayButton from "@/pages/home/components/PlayButton";
+import { useAuthStore } from "@/stores/useAuthStore";
+import { Star } from "lucide-react";
 
 
 const FeaturedUserSection = () => {
-	const {featuredSongs,  error} = useMusicStore();
+	const {
+		//featuredSongs,
+		  error} = useMusicStore();
+	const {users} = useAuthStore();
 const { isDark} = useThemeStore();
 
 	if (error) return <p className='text-red-500 mb-4 text-lg'>{error}</p>;
@@ -28,24 +33,26 @@ const { isDark} = useThemeStore();
 						
 						</div>
 			<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8'>
-			{featuredSongs.map((song) => (
+			{users.map((user) => (
 				<div
-					key={song._id}
+					key={user._id}
 					className={`flex items-center ${isDark ? 'bg-gradient-to-b from-zinc-900 to-zinc-900/50' : 'bg-white'} 
 								hover:bg-secondary-foreground/10 
 								 rounded-md overflow-hidden
                       transition-colors group cursor-pointer relative`}
 				>
 					<img
-						src={song?.imageUrl}
-						alt={song?.title}
+						src={user?.imageUrl}
+						alt={user?.fullName}
 						className='w-16 sm:w-20 h-16 sm:h-20 object-cover flex-shrink-0'
 					/>
 					<div className='flex-1 p-4'>
-						<p className='font-medium truncate w-[50px] line-clamp-1'>{song.title}</p>
-						<p className='text-sm text-muted-foreground line-clamp-1 truncate'>{song.artist}</p>
+						<p className='font-medium truncate w-[50px] line-clamp-1'>{user.fullName}</p>
+						<p className='text-sm text-muted-foreground line-clamp-1 truncate'>{user.songs.length} Songs {
+							user.isAdmin && <Star className="bg-primary" />
+							}</p>
 					</div>
-					<PlayButton song={song} />
+					<PlayButton song={user.songs[0]} />
 				</div>
 			))}
 		</div>
