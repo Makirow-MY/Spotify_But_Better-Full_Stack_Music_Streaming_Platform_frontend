@@ -128,7 +128,7 @@ export const useMusicStore = create<MusicStore>((set, get) => ({
 
 		try {
 			const response = await axiosInstance.get(`/songs?page=1&limit=12`);
-			const songs = response.data.songs || response.data;
+			const songs = response.data.songs || response.data || [];
 			const hasMore = response.data.hasMore ?? (songs.length === 12);
 
 			set({
