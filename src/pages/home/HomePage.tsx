@@ -41,7 +41,7 @@ const HomePage = () => {
 
     // loadMoreSongs,
     fetchAllSongs,
-    fetchTrendingSongs, albums, currentAlbum } = useMusicStore();
+    fetchTrendingSongs, albums, madeForYouSongs, currentAlbum } = useMusicStore();
   const { initializeQueue, currentSong } = usePlayerStore();
   const { isDark, toggleTheme } = useThemeStore();
 
@@ -155,7 +155,7 @@ const HomePage = () => {
                 </p>
                 <SectionGrid
                   title=""
-                  songs={allSongs}
+                  songs={madeForYouSongs}
                   isLoading={isLoading}
                   columns={4}
                   showAllLink={false}
