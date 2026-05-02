@@ -26,7 +26,7 @@ interface AuthStore {
   clearMessages: () => void;  // Add clear messages function
 }
 
-export const useAuthStore = create<AuthStore>((set, get) => ({
+export const useAuthStore = create<AuthStore>((set) => ({
   authUser: null,
   isCheckingAuth: true,
   isLoading: false,
@@ -46,7 +46,6 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
 	  const res = await axiosInstance.get(`/auth/me`);
 	  ////console.log('mmmmmmmm', res.data.user)
       set({ authUser: res.data.user,  
-        users: res.data.allUsers || [],    // Other users for Featured section
       isCheckingAuth: false,});
     } catch (error: any) {
 		////console.error("error: error.response?.data?.message",error)
@@ -121,8 +120,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   	fetchUsers: async () => {
 		set({ isLoading: true, error: null });
 		try {
-     get().checkAuth()
-			const response = await axiosInstance.get("/users");
+    	const response = await axiosInstance.get("/users");
       console.log(response.data)
 			set({ users: response.data });
 		} catch (error: any) {
