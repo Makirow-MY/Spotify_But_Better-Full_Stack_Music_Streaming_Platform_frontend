@@ -17,7 +17,7 @@ const AddSongDialog = () => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
-  const { userAlbum, fetchSongs } = useMusicStore();
+  const { userAlbum, fetchUserSongs } = useMusicStore();
 
   const [formData, setFormData] = useState({
     title: "",
@@ -99,10 +99,9 @@ const AddSongDialog = () => {
           setUploadProgress(percent);
         },
       });
+      fetchUserSongs() 
       await resetForm();
       toast.success("Song uploaded successfully!");
-      fetchSongs();
-    
       setOpen(false);
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Upload failed");

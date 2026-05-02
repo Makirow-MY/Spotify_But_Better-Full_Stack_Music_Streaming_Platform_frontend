@@ -23,7 +23,7 @@ const AddAlbumDialog = () => {
 	const fileInputRef = useRef<HTMLInputElement>(null);
 const { checkAuth} = useAuthStore();
  const [imagePreview, setImagePreview] = useState<string | null>(null);
-	const { fetchAlbums, fetchSongs, fetchStats } = useMusicStore();
+	const {fetchUserAlbums, fetchSongs, fetchStats } = useMusicStore();
 	const [newAlbum, setNewAlbum] = useState({
 		title: "",
 		artist: "",
@@ -62,10 +62,10 @@ const { checkAuth} = useAuthStore();
 	};
 
 		useEffect(() => {
-			fetchAlbums();
+			fetchUserAlbums();
 			fetchSongs();
 			fetchStats();
-		}, [fetchAlbums, fetchSongs,checkAuth, fetchStats,  newAlbum, albumDialogOpen]);
+		}, [fetchUserAlbums, fetchSongs,checkAuth, fetchStats,  newAlbum, albumDialogOpen]);
 	
 
 	const handleSubmit = async () => {
@@ -99,6 +99,7 @@ const { checkAuth} = useAuthStore();
 				releaseYear: new Date().getFullYear(),
 			});
 			setImageFile(null);
+			fetchUserAlbums()
 			setImagePreview(null)
 			setAlbumDialogOpen(false);
 			toast.success("Album created successfully");
