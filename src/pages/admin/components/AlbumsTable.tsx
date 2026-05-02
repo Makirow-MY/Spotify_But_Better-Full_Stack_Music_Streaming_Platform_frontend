@@ -5,12 +5,13 @@ import { Calendar, Music, Trash2 } from "lucide-react";
 import { useEffect } from "react";
 
 const AlbumsTable = () => {
-	const {userAlbum, fetchUserAlbums, deleteAlbum, fetchAlbums } = useMusicStore();
+	const {userAlbum,fetchStats, fetchUserAlbums, deleteAlbum, fetchAlbums } = useMusicStore();
 
 	useEffect(() => {
 		fetchAlbums();
       fetchUserAlbums();
-	}, [fetchAlbums]);
+	  fetchStats()
+	}, [fetchAlbums,fetchStats, fetchUserAlbums]);
 
 	return (
 		<Table>

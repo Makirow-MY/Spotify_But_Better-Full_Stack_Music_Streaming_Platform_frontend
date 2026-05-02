@@ -14,7 +14,7 @@ const SongsTable = () => {
 		fetchSongs();
 		fetchAllSongs();
 		fetchUserSongs();
-	}, [fetchSongs]);
+	}, [fetchSongs, fetchAllSongs, fetchUserSongs ]);
 
    const handleEdit = (song: any) => {
     setEditingSong(song);
