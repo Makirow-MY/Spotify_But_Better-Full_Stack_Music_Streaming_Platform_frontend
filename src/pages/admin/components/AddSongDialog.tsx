@@ -17,7 +17,7 @@ const AddSongDialog = () => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
-  const { albums, fetchSongs } = useMusicStore();
+  const { userAlbum, fetchSongs } = useMusicStore();
 
   const [formData, setFormData] = useState({
     title: "",
@@ -209,7 +209,7 @@ const AddSongDialog = () => {
                 </SelectTrigger>
                 <SelectContent className="bg-secondary-foreground/10 border-zinc-800">
                   <SelectItem value={"null"}>No Album (Single)</SelectItem>
-                  {albums.map((album) => (
+                  {userAlbum.map((album) => (
                     <SelectItem key={album._id} value={album._id}>
                       {album.title}
                     </SelectItem>
