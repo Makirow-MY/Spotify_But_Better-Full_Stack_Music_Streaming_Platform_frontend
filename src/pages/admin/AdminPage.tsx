@@ -9,7 +9,7 @@ import { useMusicStore } from "@/stores/useMusicStore";
 import AdminHeader from "./components/Header";
 
 const AdminPage = () => {
-	const {  checkAuth} = useAuthStore();
+	const { fetchUsers, checkAuth} = useAuthStore();
 
 	const { fetchAlbums, fetchSongs, fetchStats } = useMusicStore();
 
@@ -17,6 +17,7 @@ const AdminPage = () => {
 		fetchAlbums();
 		fetchSongs();
 		fetchStats();
+		fetchUsers()
 		checkAuth();
 
 	}, []);
