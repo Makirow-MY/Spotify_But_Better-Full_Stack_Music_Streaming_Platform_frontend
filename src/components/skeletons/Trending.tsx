@@ -1,5 +1,5 @@
 import { useThemeStore } from "@/stores/useThemeStore";
-import PlayButton from "@/pages/home/components/PlayButton";
+//import PlayButton from "@/pages/home/components/PlayButton";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { useEffect } from "react";
 
@@ -35,7 +35,7 @@ const { isDark} = useThemeStore();
 			<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8'>
 			{users && users.length > 0 && !isLoading && users.map((user) => (
 				<div
-					key={user?.fullName}
+					key={user?._id}
 					className={`flex items-center ${isDark ? 'bg-gradient-to-b from-zinc-900 to-zinc-900/50' : 'bg-white'} 
 								hover:bg-secondary-foreground/10 
 								 rounded-md overflow-hidden
@@ -50,7 +50,7 @@ const { isDark} = useThemeStore();
 						<p className='font-medium w-full truncate line-clamp-1'>{user?.fullName}</p>
 						<p className='text-sm text-muted-foreground line-clamp-1 truncate'>{user?.songs?.length} Songs</p>
 					</div>
-					<PlayButton song={user?.songs[0]} />
+					
 				</div>
 			))}
 			</div>
