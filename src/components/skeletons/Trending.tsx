@@ -9,12 +9,12 @@ import { useEffect } from "react";
 
 const FeaturedUserSection = () => {
 	const {featuredSongs,  error} = useMusicStore();
-	const { users, fetchUsers} = useAuthStore();
+	const { users, fetchUsers,  authUser} = useAuthStore();
 	
 		useEffect(() => {
 		fetchUsers();
 		console.log("user", users)
-		}, [fetchUsers]);
+		}, [fetchUsers, authUser]);
 
 const { isDark} = useThemeStore();
 
