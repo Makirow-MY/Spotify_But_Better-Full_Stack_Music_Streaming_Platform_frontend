@@ -11,7 +11,7 @@ const AlbumsTable = () => {
 		fetchAlbums();
       fetchUserAlbums();
 	  fetchStats()
-	}, [fetchAlbums,fetchStats, fetchUserAlbums]);
+	}, [fetchAlbums,fetchStats, fetchUserAlbums, userAlbum.length]);
 
 	return (
 		<Table>
