@@ -120,7 +120,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
   	fetchUsers: async () => {
 		set({ isLoading: true, error: null });
 		try {
-    	const response = await axiosInstance.get("/users");
+    	const response = await axiosInstance.get("/auth/all");
       console.log(response.data)
 			set({ users: response.data });
 		} catch (error: any) {
