@@ -34,22 +34,22 @@ const { isDark} = useThemeStore();
 			<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8'>
 			{users.map((user) => (
 				<div
-					key={user._id}
+					key={user?._id}
 					className={`flex items-center ${isDark ? 'bg-gradient-to-b from-zinc-900 to-zinc-900/50' : 'bg-white'} 
 								hover:bg-secondary-foreground/10 
 								 rounded-md overflow-hidden
                       transition-colors group cursor-pointer relative`}
 				>
 					<img
-						src={user.imageUrl}
+						src={user?.imageUrl}
 						alt={user?.fullName}
 						className='w-16 sm:w-20 h-16 sm:h-20 object-cover flex-shrink-0'
 					/>
 					<div className='flex-1 p-4'>
-						<p className='font-medium truncate line-clamp-1 w-full'>{user.fullName}</p>
+						<p className='font-medium truncate line-clamp-1 w-full'>{user?.fullName}</p>
 						<p className='text-sm text-muted-foreground line-clamp-1 truncate'>{user.songs?.length} songs • {user.albums?.length || 0} albums</p>
 					</div>
-					<PlayButton song={user.songs[0]} />
+					<PlayButton song={user?.songs[0]} />
 				</div>
 			))}
 		</div>
