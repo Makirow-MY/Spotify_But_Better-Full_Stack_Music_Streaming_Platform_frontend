@@ -31,8 +31,10 @@ const { isDark} = useThemeStore();
 			{featuredSongs.map((song) => (
 				<div
 					key={song._id}
-					className={`flex items-center ${isDark ? 'bg-secondary' : "bg-white"}  rounded-md overflow-hidden
-         hover:bg-primary/50 transition-colors group cursor-pointer relative`}
+					className={`flex items-center ${isDark ? 'bg-gradient-to-b from-zinc-900 to-zinc-900/50' : 'bg-white'} 
+								hover:bg-secondary-foreground/10 
+								 rounded-md overflow-hidden
+                      transition-colors group cursor-pointer relative`}
 				>
 					<img
 						src={song?.imageUrl}
