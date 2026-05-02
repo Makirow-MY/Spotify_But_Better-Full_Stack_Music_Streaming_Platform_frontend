@@ -278,10 +278,11 @@ loadMoreSongs: async () => {
 
 	fetchMadeForYouSongs: async () => {
 		set({ isLoading: true, error: null });
+		const data = get().madeForYouSongs
 		try {
 			const response = await axiosInstance.get(`/songs/made-for-you`);
 		//console.log("Made for you songs:", response.data);
-			set({ madeForYouSongs: response.data });
+			set({ madeForYouSongs: [...data, ...response.data] });
 		} catch (error: any) {
 			//console.error(error)
 			//set({ error: error?.response?.data?.message });
