@@ -17,10 +17,10 @@ const { isDark} = useThemeStore();
 							<div className="flex items-center gap-3">
 								<div>
 									<h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
-										Latest
+										Recently Released
 									</h2>
 									<p className={`text-sm ${isDark ? 'text-zinc-400' : 'text-zinc-600'} mt-1 hidden sm:block`}>
-										Recently released songs
+										Check out the latest songs ever
 									</p>
 								</div>
 							</div>

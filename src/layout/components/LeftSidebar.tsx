@@ -105,7 +105,7 @@ const { isDark } = useThemeStore();
 	</div>
    }
    {
-     isLoading && <PlaylistSkeleton />
+     isLoading && albums.length === 0 && <PlaylistSkeleton />
    }
     {albums.map((album) => {
       const isThisAlbumPlaying = 
