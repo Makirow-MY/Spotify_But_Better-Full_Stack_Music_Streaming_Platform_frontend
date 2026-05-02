@@ -26,7 +26,7 @@ interface AuthStore {
   clearMessages: () => void;  // Add clear messages function
 }
 
-export const useAuthStore = create<AuthStore>((set, get) => ({
+export const useAuthStore = create<AuthStore>((set) => ({
   authUser: null,
   isCheckingAuth: true,
   isLoading: false,
@@ -116,7 +116,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   	fetchUsers: async () => {
 		set({ isLoading: true, error: null });
 		try {
-      get().checkAuth()
+     
 			const response = await axiosInstance.get("/users");
       console.log(response.data)
 			set({ users: response.data });
