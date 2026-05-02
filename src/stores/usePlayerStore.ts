@@ -81,7 +81,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
     });
   },
 
-  togglePlay: () => set((state) => ({ isPlaying: !state.isPlaying })),
+  togglePlay: () => {set((state) => ({ isPlaying: !state.isPlaying }))},
 
   playNext: () => {
     const state = get();

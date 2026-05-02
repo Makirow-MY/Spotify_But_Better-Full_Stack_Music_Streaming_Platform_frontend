@@ -1,6 +1,7 @@
 // components/AudioPlayer.tsx - FULLY MODIFIED WITH ALL SPOTIFY FEATURES
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
+import { axiosInstance } from "@/lib/axios";
 import { useMusicStore } from "@/stores/useMusicStore";
 import { usePlayerStore } from "@/stores/usePlayerStore";
 import { useThemeStore } from "@/stores/useThemeStore";
@@ -246,6 +247,7 @@ const AudioPlayer = () => {
   };
 
 
+ 
 
   const handlePlaybackRateChange = () => {
     const rates = [0.5, 0.75, 1, 1.25, 1.5, 2];
@@ -266,7 +268,12 @@ const AudioPlayer = () => {
 
   return (
     <>
-      <audio ref={audioRef} />
+      <audio ref={audioRef} onPlaying={async() => {
+        await axiosInstance.put(`/admin/songs/${currentSong?._id}`, {
+          title: currentSong.title, artist: currentSong.artist, albumId: currentSong.albumId, duration:duration || 100
+        });
+      
+      }} />
 
 
       <footer className={`py-3  space-x-3 flex flex-row-reverse items-center justify-between ${isDark ? 'bg-black' : "bg-white "} border-t border-neutral-800 flex px-4`}>
@@ -317,7 +324,10 @@ const AudioPlayer = () => {
               </Button>
 
               <Button
-                onClick={togglePlay}
+                onClick={async() => {
+                  togglePlay()
+      
+                }}
                 disabled={!currentSong}
                 className="w-12 h-12 mr-1 ml-1 bg-primary rounded-full flex items-center justify-center text-black text-xl font-bold"
               >
