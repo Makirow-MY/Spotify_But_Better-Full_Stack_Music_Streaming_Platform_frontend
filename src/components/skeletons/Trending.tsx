@@ -3,10 +3,19 @@ import { useMusicStore } from "@/stores/useMusicStore";
 
 import { useThemeStore } from "@/stores/useThemeStore";
 import PlayButton from "@/pages/home/components/PlayButton";
+import { useChatStore } from "@/stores/useChatStore";
+import { useEffect } from "react";
 
 
 const FeaturedUserSection = () => {
 	const {featuredSongs,  error} = useMusicStore();
+	const { users, fetchUsers} = useChatStore();
+	
+		useEffect(() => {
+		fetchUsers();
+		console.log("user", users)
+		}, [fetchUsers]);
+
 const { isDark} = useThemeStore();
 
 	if (error) return <p className='text-red-500 mb-4 text-lg'>{error}</p>;
@@ -17,7 +26,7 @@ const { isDark} = useThemeStore();
 							<div className="flex items-center gap-3">
 								<div>
 									<h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
-										Recently Released
+										Today's Artists
 									</h2>
 									<p className={`text-sm ${isDark ? 'text-zinc-400' : 'text-zinc-600'} mt-1 hidden sm:block`}>
 										Check out the latest songs ever
