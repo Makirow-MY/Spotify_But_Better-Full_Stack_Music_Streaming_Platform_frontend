@@ -6,13 +6,14 @@ import EditSongDialog from "./EditSongDialog";
 import { useEffect, useState } from "react";
 
 const SongsTable = () => {
-	const { songs, fetchSongs,fetchAllSongs, error, deleteSong } = useMusicStore();
+	const {fetchSongs,fetchAllSongs, userSongs, fetchUserSongs, error, deleteSong } = useMusicStore();
   const [editingSong, setEditingSong] = useState<any>(null);
   const [editOpen, setEditOpen] = useState(false);
 
 	useEffect(() => {
 		fetchSongs();
 		fetchAllSongs();
+		fetchUserSongs();
 	}, [fetchSongs]);
 
    const handleEdit = (song: any) => {
@@ -42,7 +43,7 @@ const SongsTable = () => {
 			</TableHeader>
 
 			<TableBody>
-				{songs.map((song) => (
+				{userSongs.map((song) => (
 					<TableRow key={song._id} className='hover:bg-primary/30'>
 						<TableCell>
 							<img src={song.imageUrl} alt={song.title} className='size-10 rounded object-cover' />

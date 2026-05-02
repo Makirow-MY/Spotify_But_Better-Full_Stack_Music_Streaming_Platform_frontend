@@ -18,7 +18,7 @@ const FeaturedSection = () => {
 	const [showRightArrow, setShowRightArrow] = useState(true);
 
 	if (isLoading) return <FeaturedGridSkeleton />;
-console.log(featuredSongs)
+    console.log(featuredSongs)
 	const songsToShow = currentAlbum?.songs || featuredSongs || [];
 
 	const scroll = (direction: 'left' | 'right') => {

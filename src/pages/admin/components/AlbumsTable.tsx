@@ -5,10 +5,11 @@ import { Calendar, Music, Trash2 } from "lucide-react";
 import { useEffect } from "react";
 
 const AlbumsTable = () => {
-	const { albums, deleteAlbum, fetchAlbums } = useMusicStore();
+	const {userAlbum, fetchUserAlbums, deleteAlbum, fetchAlbums } = useMusicStore();
 
 	useEffect(() => {
 		fetchAlbums();
+      fetchUserAlbums();
 	}, [fetchAlbums]);
 
 	return (
@@ -24,7 +25,7 @@ const AlbumsTable = () => {
 				</TableRow>
 			</TableHeader>
 			<TableBody>
-				{albums.map((album) => (
+				{userAlbum.map((album) => (
 					<TableRow key={album._id} className='hover:bg-primary/50'>
 						<TableCell className=" w-12 h-12 shrink-0">
 			                  <img src={album.imageUrl} alt={album.title} className="w-full h-full shrink-0 rounded object-cover" />

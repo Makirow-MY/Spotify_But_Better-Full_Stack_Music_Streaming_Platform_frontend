@@ -8,6 +8,8 @@ import { useChatStore } from "./useChatStore";
 
 interface MusicStore {
 	songs: Song[];
+	userSongs: Song[];
+	userAlbum:Album[];
 	albums: Album[];
 	isLoading: boolean;
 	error: string | null;
@@ -30,7 +32,9 @@ interface MusicStore {
 	fetchFeaturedSongs: () => Promise<void>;
 	fetchMadeForYouSongs: () => Promise<void>;
 	fetchTrendingSongs: () => Promise<void>;
+	fetchUserSongs: () => Promise<void>;
 	fetchStats: () => Promise<void>;
+	fetchUserAlbums: () => Promise<void>;
 	fetchSongs: () => Promise<void>;
 	deleteSong: (id: string) => Promise<void>;
 	editSong: (id: string) => Promise<void>;
@@ -44,6 +48,8 @@ interface MusicStore {
 export const useMusicStore = create<MusicStore>((set, get) => ({
 	albums: [],
 	songs: [],
+	userSongs: [],
+	userAlbum:[],
 	isLoading: false,
 	error: null,
 	currentAlbum: null,
@@ -192,6 +198,30 @@ loadMoreSongs: async () => {
 		}
 	},
 
+	fetchUserSongs: async () => {
+		set({ isLoading: true, error: null });
+		try {
+			const response = await axiosInstance.get(`/songs/usersong`);
+			set({ userSongs: response.data });
+		} catch (error: any) {
+				//console.error(error)
+			//set({ error: error.message });
+		} finally {
+			set({ isLoading: false });
+		}
+	},
+	fetchUserAlbums: async () => {
+		set({ isLoading: true, error: null });
+		try {
+			const response = await axiosInstance.get(`/songs/useralbum`);
+			set({ userAlbum: response.data });
+		} catch (error: any) {
+				//console.error(error)
+			//set({ error: error.message });
+		} finally {
+			set({ isLoading: false });
+		}
+	},
 	fetchStats: async () => {
 		set({ isLoading: true, error: null });
 		try {
