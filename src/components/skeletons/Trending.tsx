@@ -7,7 +7,9 @@ import { useAuthStore } from "@/stores/useAuthStore";
 
 
 const FeaturedUserSection = () => {
-	const {featuredSongs,  error} = useMusicStore();
+	const {
+		//featuredSongs, 
+		 error} = useMusicStore();
 	const {users} = useAuthStore()
 const { isDark} = useThemeStore();
 
