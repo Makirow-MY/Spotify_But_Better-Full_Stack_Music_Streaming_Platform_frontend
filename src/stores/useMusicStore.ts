@@ -97,7 +97,7 @@ export const useMusicStore = create<MusicStore>((set, get) => ({
 			}));
 			toast.success("Song deleted successfully");
 		} catch (error: any) {
-			//console.log("Error in deleteSong", error);
+			////console.log("Error in deleteSong", error);
 			toast.error("Error deleting song");
 		} finally {
 			set({ isLoading: false });
@@ -113,7 +113,7 @@ export const useMusicStore = create<MusicStore>((set, get) => ({
 			});
 			toast.success("Song deleted successfully");
 		} catch (error: any) {
-			//console.log("Error in deleteSong", error);
+			////console.log("Error in deleteSong", error);
 			toast.error("Error deleting song");
 		} finally {
 			set({ isLoading: false });

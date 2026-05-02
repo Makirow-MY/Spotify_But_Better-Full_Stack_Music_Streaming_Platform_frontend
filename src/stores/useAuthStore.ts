@@ -44,7 +44,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
     try {
       set({ isCheckingAuth: true });
 	  const res = await axiosInstance.get(`/auth/me`);
-	  //console.log('mmmmmmmm', res.data.user)
+	  ////console.log('mmmmmmmm', res.data.user)
       set({ authUser: res.data.user, isCheckingAuth: false });
     } catch (error: any) {
 		////console.error("error: error.response?.data?.message",error)
@@ -56,7 +56,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
 
   signup: async (data) => {
     set({ isLoading: true, error: null, successMessage: null });
-    //console.log({data})
+    ////console.log({data})
     try {
       const res = await axiosInstance.post(`/auth/signup`, data);
       set({ authUser: res.data.user, successMessage: res.data.message });

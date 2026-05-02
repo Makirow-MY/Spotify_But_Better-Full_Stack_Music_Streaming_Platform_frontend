@@ -28,7 +28,7 @@ const ChatPage = () => {
 		if (selectedUser) fetchMessages(selectedUser._id);
 	}, [selectedUser, fetchMessages]);
 
-	//console.log({ messages });
+	////console.log({ messages });
 
 	return (
 		<main className='h-full rounded-lg  overflow-hidden'>
