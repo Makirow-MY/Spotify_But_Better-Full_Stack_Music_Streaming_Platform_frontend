@@ -33,7 +33,7 @@ const { isDark} = useThemeStore();
 						
 						</div>
 			<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8'>
-			{authUser && users.length > 0 && !isLoading && users.map((user) => (
+			{users && users.length > 0 && !isLoading && users.map((user) => (
 				<div
 					key={user?._id}
 					className={`flex items-center ${isDark ? 'bg-gradient-to-b from-zinc-900 to-zinc-900/50' : 'bg-white'} 

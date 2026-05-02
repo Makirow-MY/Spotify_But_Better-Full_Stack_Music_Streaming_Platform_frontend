@@ -11,7 +11,7 @@ interface AuthStore {
   error: string | null;
   successMessage: string | null;  // Add success message state
   isAdmin: boolean;
-  users: any[];
+  users: User[];
   selectedUser: User | null;
 
 
