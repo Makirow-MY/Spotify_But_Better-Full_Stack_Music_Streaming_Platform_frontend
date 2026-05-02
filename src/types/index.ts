@@ -50,5 +50,7 @@ export interface User {
 	imageUrl: string;
 	email: string;
 	albumId: Album;
+	songs: Song[];
+	albums: Album[];
 	
 }
