@@ -8,6 +8,12 @@ import { ChevronLeft, ChevronRight,  Clock, Heart } from "lucide-react";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 
+const formatTime = (seconds: number) => {
+  if (isNaN(seconds)) return "0:00";
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = Math.floor(seconds % 60);
+  return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
+};
 const FeaturedSection = () => {
 	const { isLoading, trendingSongs} = useMusicStore();
 	const { isDark } = useThemeStore();
@@ -160,9 +166,8 @@ const FeaturedSection = () => {
 										<div className="flex items-center gap-1 text-xs text-zinc-500">
 											<Clock className="h-3 w-3" />
 											<span>
-												{song.duration 
-													? `${Math.floor(song.duration / 60)}:${Math.floor(song.duration % 60).toString().padStart(2, '0')}`
-													: '3:45'
+												{ 
+												formatTime(song.duration)
 												}
 											</span>
 										</div>

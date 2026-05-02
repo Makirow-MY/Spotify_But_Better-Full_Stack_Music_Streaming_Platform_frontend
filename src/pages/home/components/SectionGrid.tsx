@@ -10,7 +10,12 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 //import { useAuthStore } from "@/stores/useAuthStore";
 //import UserDropdown from "@/layout/components/UserDropdown";
-
+const formatTime = (seconds: number) => {
+  if (isNaN(seconds)) return "0:00";
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = Math.floor(seconds % 60);
+  return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
+};
 type SectionGridProps = {
 	title: string;
 	songs: Song[];
@@ -106,7 +111,9 @@ const SectionGrid = ({
 								{song.duration && (
 									<div className="absolute bottom-2 right-2 bg-black/60 backdrop-blur-sm rounded-md px-1.5 py-0.5">
 										<span className="text-xs text-white">
-											{Math.floor(song.duration / 60)}:{Math.floor(song.duration % 60).toString().padStart(2, '0')}
+											{ 
+												formatTime(song.duration)
+												}
 										</span>
 									</div>
 								)}
