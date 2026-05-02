@@ -138,7 +138,7 @@ export const useMusicStore = create<MusicStore>((set, get) => ({
 			});
 		} catch (error: any) {
 			//console.error(error);
-			set({ error: "Failed to load songs" });
+			//set({ error: "Failed to load songs" });
 			// toast.error("Failed to load songs");
 		} finally {
 			set({ isLoading: false });
@@ -193,7 +193,7 @@ export const useMusicStore = create<MusicStore>((set, get) => ({
 			set({ songs: response.data });
 		} catch (error: any) {
 			//console.error(error)
-			//set({ error: error.message });
+			////set({ error: error.message });
 		} finally {
 			set({ isLoading: false });
 		}
@@ -206,7 +206,7 @@ export const useMusicStore = create<MusicStore>((set, get) => ({
 			set({ userSongs: response.data });
 		} catch (error: any) {
 			//console.error(error)
-			//set({ error: error.message });
+			////set({ error: error.message });
 		} finally {
 			set({ isLoading: false });
 		}
@@ -218,7 +218,7 @@ export const useMusicStore = create<MusicStore>((set, get) => ({
 			set({ userAlbum: response.data });
 		} catch (error: any) {
 			//console.error(error)
-			//set({ error: error.message });
+			////set({ error: error.message });
 		} finally {
 			set({ isLoading: false });
 		}
@@ -229,7 +229,7 @@ export const useMusicStore = create<MusicStore>((set, get) => ({
 			const response = await axiosInstance.get(`/stats`);
 			set({ stats: response.data });
 		} catch (error: any) {
-			set({ error: error.message });
+			//set({ error: error.message });
 		} finally {
 			set({ isLoading: false });
 		}
@@ -243,7 +243,7 @@ export const useMusicStore = create<MusicStore>((set, get) => ({
 			//set({ currentAlbum: response.data[Math.floor(Math.random() * response.data?.length)] });
 			set({ albums: response.data });
 		} catch (error: any) {
-			set({ error: error.response.data.message });
+			//set({ error: error.response.data.message });
 		} finally {
 			set({ isLoading: false });
 		}
@@ -256,7 +256,7 @@ export const useMusicStore = create<MusicStore>((set, get) => ({
 			set({ currentAlbum: response.data });
 		} catch (error: any) {
 			//console.error(error)
-			//set({ error: error.response.data.message });
+			////set({ error: error.response.data.message });
 		} finally {
 			set({ isLoading: false });
 		}
@@ -281,7 +281,7 @@ export const useMusicStore = create<MusicStore>((set, get) => ({
 				set({ featuredSongs: fallbackFeatured });
 				toast.error("Using cached songs for featured section");
 			} else {
-				set({ error: error.response?.data?.message || "Failed to fetch featured songs" });
+				//set({ error: error.response?.data?.message || "Failed to fetch featured songs" });
 			}
 		} finally {
 			set({ isLoading: false });
@@ -321,7 +321,7 @@ export const useMusicStore = create<MusicStore>((set, get) => ({
         set({ madeForYouSongs: fallbackMadeForYou });
         toast.error("Using cached songs for made for you section");
       } else {
-        set({ error: error.response?.data?.message || "Failed to fetch made for you songs" });
+        //set({ error: error.response?.data?.message || "Failed to fetch made for you songs" });
       }
 		} finally {
 			set({ isLoading: false });
@@ -355,7 +355,7 @@ export const useMusicStore = create<MusicStore>((set, get) => ({
 				set({ trendingSongs: fallbackTrending });
 				toast.error("Using cached songs for trending section");
 			} else {
-				set({ error: error.response?.data?.message || "Failed to fetch trending songs" });
+				//set({ error: error.response?.data?.message || "Failed to fetch trending songs" });
 			}
 		} finally {
 			set({ isLoading: false });

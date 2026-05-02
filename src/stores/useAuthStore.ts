@@ -37,7 +37,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
   selectedUser: null,
 
   clearMessages: () => {
-    set({ error: null, successMessage: null });
+    //set({ error: null, successMessage: null });
   },
 
   checkAuth: async () => {
@@ -65,7 +65,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
       set({ authUser: res.data.user, successMessage: res.data.message });
       return res.data;
     } catch (error: any) {
-      set({ error: error.response?.data?.message || "Signup failed" });
+     set({ error: error.response?.data?.message || "Signup failed" });
       throw error;
     } finally {
       set({ isLoading: false });
@@ -80,7 +80,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
       set({ authUser: res.data.user, successMessage: "Login successful!" });
       return res.data;
     } catch (error: any) {
-      set({ error: error.response?.data?.message || "Login failed" });
+  set({ error: error.response?.data?.message || "Login failed" });
       throw error;
     } finally {
       set({ isLoading: false });
@@ -95,7 +95,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
       const res = await axiosInstance.get(`/auth/me`);
       set({ authUser: res.data.user, successMessage: "Email verified successfully!" });
     } catch (error: any) {
-      set({ error: error.response?.data?.message || "Verification failed" });
+      //set({ error: error.response?.data?.message || "Verification failed" });
       throw error;
     } finally {
       set({ isLoading: false });
@@ -110,7 +110,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
       return { success: true, message: response.data.message };
     } catch (error: any) {
       const errorMessage = error.response?.data?.message || "Failed to resend OTP";
-      set({ error: errorMessage });
+      //set({ error: errorMessage });
       return { success: false, message: errorMessage };
     } finally {
       set({ isLoading: false });
@@ -124,7 +124,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
       console.log(response.data)
 			set({ users: response.data });
 		} catch (error: any) {
-			set({ error: error.response.data.message });
+			////set({ error: error.response.data.message });
 		} finally {
 			set({ isLoading: false });
 		}
@@ -136,7 +136,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
       await axiosInstance.post(`/auth/logout`);
       set({ authUser: null, successMessage: "Logged out successfully" });
     } catch (error: any) {
-      set({ error: error.response?.data?.message || "Logout failed" });
+    set({ error: error.response?.data?.message || "Logout failed" });
     } finally {
       set({ isLoading: false });
     }
