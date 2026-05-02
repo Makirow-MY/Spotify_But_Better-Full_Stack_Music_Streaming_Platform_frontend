@@ -67,7 +67,7 @@ const { isDark} = useThemeStore();
 				<button
 			className="pointer-events-none bg-transparent"
 		  > <Music4Icon size={22} /> </button>
-				 <h1 className={`font-bold text-nowrap transition-all ${!isCollapsed && 'text-lg md:text-md'}`}>
+				 <h1 className={`font-bold text-wrap text-left transition-all ${!isCollapsed && 'text-lg md:text-md'}`}>
 			{currentAlbum ? `${currentAlbum.title} (Playing...)` : "My Song Playlist"}
 		  </h1>
 

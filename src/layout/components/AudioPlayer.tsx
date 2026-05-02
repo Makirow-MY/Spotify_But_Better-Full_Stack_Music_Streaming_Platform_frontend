@@ -268,12 +268,7 @@ const AudioPlayer = () => {
 
   return (
     <>
-      <audio ref={audioRef} onPlaying={async() => {
-        await axiosInstance.put(`/admin/songs/${currentSong?._id}`, {
-          title: currentSong.title, artist: currentSong.artist, albumId: currentSong.albumId, duration:duration || 100
-        });
-      
-      }} />
+      <audio ref={audioRef}/>
 
 
       <footer className={`py-3  space-x-3 flex flex-row-reverse items-center justify-between ${isDark ? 'bg-black' : "bg-white "} border-t border-neutral-800 flex px-4`}>
@@ -326,6 +321,9 @@ const AudioPlayer = () => {
               <Button
                 onClick={async() => {
                   togglePlay()
+         await axiosInstance.put(`/admin/songs/${currentSong?._id}`, {
+          title: currentSong.title, artist: currentSong.artist, albumId: currentSong.albumId, duration:duration || 100
+        });
       
                 }}
                 disabled={!currentSong}
