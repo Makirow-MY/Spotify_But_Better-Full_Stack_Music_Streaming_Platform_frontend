@@ -3,13 +3,13 @@ import { useMusicStore } from "@/stores/useMusicStore";
 
 import { useThemeStore } from "@/stores/useThemeStore";
 import PlayButton from "@/pages/home/components/PlayButton";
-import { useChatStore } from "@/stores/useChatStore";
+import { useAuthStore } from "@/stores/useAuthStore";
 import { useEffect } from "react";
 
 
 const FeaturedUserSection = () => {
 	const {featuredSongs,  error} = useMusicStore();
-	const { users, fetchUsers} = useChatStore();
+	const { users, fetchUsers} = useAuthStore();
 	
 		useEffect(() => {
 		fetchUsers();
