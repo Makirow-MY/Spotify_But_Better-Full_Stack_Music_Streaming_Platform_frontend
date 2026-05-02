@@ -44,10 +44,10 @@ const { isDark} = useThemeStore();
 						className='w-16 sm:w-20 h-16 sm:h-20 object-cover flex-shrink-0'
 					/>
 					<div className='flex-1 p-4'>
-						<p className='font-medium truncate line-clamp-1'>{user.fullName}</p>
-						<p className='text-sm text-muted-foreground line-clamp-1 truncate'>{user.artist}</p>
+						<p className='font-medium truncate line-clamp-1 w-full'>{user.fullName}</p>
+						<p className='text-sm text-muted-foreground line-clamp-1 truncate'>{user.songs?.length} songs • {user.albums?.length || 0} albums</p>
 					</div>
-					<PlayButton song={song} />
+					<PlayButton song={user.songs[0]} />
 				</div>
 			))}
 		</div>
