@@ -20,7 +20,7 @@ const AdminPage = () => {
 		fetchUsers()
 		checkAuth();
 
-	}, []);
+	}, [checkAuth, fetchSongs, fetchAlbums ]);
 
 	return (
 		<div
