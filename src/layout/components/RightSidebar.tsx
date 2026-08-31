@@ -32,7 +32,7 @@ const { isDark} = useThemeStore();
 	  {/* Mobile Overlay */}
 	  {isOpen && (
 		<div 
-		  className="fixed inset-0  bg-black/70 z-50 lg:hidden"
+		  className="fixed inset-0  bg-black/70 z-50 lg:hidden sm:hidden"
 		  onClick={onClose}
 		/>
 	  )}
